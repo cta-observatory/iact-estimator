@@ -1,0 +1,8 @@
+*.log
+*.egg-info
+
+**/__pycache__
+.ipynb_checkpoints
+
+docs/build
+docs/source/api/iact_estimator
