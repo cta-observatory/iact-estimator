@@ -6,6 +6,12 @@
 Documentation of ``iact-estimator``
 ===================================
 
+|ci|
+
+.. |ci| image:: https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml/badge.svg?branch=main
+    :alt: CI
+    :target: https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml
+
 ``iact-estimator`` is a Python3 package which allows
 to evaluate the ability of an IACT telescope system
 to detect a gamma-ray source.
