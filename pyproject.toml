@@ -50,6 +50,7 @@ iact-estimator = "iact_estimator.scripts.estimator:main"
 iact-estimator-cfg = "iact_estimator.scripts.get_config:main"
 
 [tool.setuptools_scm]
+write_to = "src/iact_estimator/_version.py"
 
 [tool.setuptools.packages.find]
 where = ["src"]
