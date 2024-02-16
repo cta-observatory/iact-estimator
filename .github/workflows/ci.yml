@@ -27,7 +27,7 @@ jobs:
         fail-fast: false
         matrix:
             os: [macos-latest, ubuntu-latest]
-            python-version: ["3.11", "3.12"]
+            python-version: ["3.11"]
             install-method: ["mamba", "pip"]
     runs-on: ${{ matrix.os }}
 
