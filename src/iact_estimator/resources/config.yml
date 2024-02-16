@@ -1,0 +1,56 @@
+assumed_model:
+  # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
+  name: gammapy.modeling.models.LogParabolaSpectralModel
+  parameters:
+    amplitude: 3.39e-11 TeV^-1 cm^-2 s^-1
+    reference: 1 TeV
+    alpha: 2.51
+    beta: 0.21
+  from_log10: True # relevant for e.g. LogParabolaSpectralModel
+
+observation_time: 50 h
+observation_datetime: "2024-06-15 18:00"
+extension: 0.0 deg
+redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
+sum_trigger: False
+zenith_performance: "low" # "low"=0-30deg, "mid"=30-45deg
+# you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
+
+ebl_file_path:
+
+n_off_regions: 3 # number of background estimation regions
+min_number_events: 10.0 # minimum number of events
+min_ratio_signal_background: 0.05 # minimum ratio of excess to background
+
+PSF: "0.1 deg" # PSF for worsening the performance for extended sources
+offset_degradation_factor: 1.0 # degradation factor if observations are taken at higher offset then 0.4 deg from camera center
+
+pulsar_mode:
+  enable: False # if true the background is reduced to on phase (see below) and SBR cut is ignored
+  pulsar_on_range: 0.092 # range of ON phases used for pulsar mode
+  pulsar_off_range: 0.25 # range of OFF phases used for pulsar mode# global variables (DO NOT MODIFY)
+
+plotting_options:
+  figure_size: [20, 10]
+  bbox_inches: "tight"
+  min_energy: "40 GeV"
+  max_energy: "20 TeV"
+  energy_unit: "TeV"
+  energy_flux_unit: "TeV cm^-2 s^-1"
+  min_error: 2 # showing only points with value > minerror * error
+  draw_sigma: True # whether to draw also sigmas on the plot# pulsar mode settings
+  n_points: 15
+  file_format: "pdf"
+  merge_horizon_profiles: True
+
+use_seaborn: True
+seaborn_options:
+  context: talk
+  style: whitegrid
+  palette: viridis
+  font: sans-serif
+  font_scale: 1
+  color_codes: True
+  rc:
+    "xtick.bottom": True
+    "ytick.left": True
