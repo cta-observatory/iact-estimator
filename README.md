@@ -28,6 +28,11 @@ For more details use the `-h` option to show the help menu.
 The package is also a library, so you can use it to make your
 scripts or in a notebook (see example notebook in the documentation).
 
+The packaged data can be extended to other IACT systems,
+provided the data has been published.
+
+The support to load your own data files will be provided.
+
 ## Documentation
 
 Documentation can be compiled locally after a
