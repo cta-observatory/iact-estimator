@@ -6,3 +6,7 @@
 
 docs/build
 docs/source/api/iact_estimator
+
+# ignore version cache file (generated automatically when setup.py is run)
+iact_estimator/_version_cache.py
+src/iact_estimator/_version.py
