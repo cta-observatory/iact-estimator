@@ -1,0 +1,68 @@
+[build-system]
+requires = ["setuptools>=45", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "iact_estimator"
+authors = [
+    { name = "Michele Peresano", email = "peresano.michele@gmail.com" },
+    { name = "Julian Sitarek", email = "jsitarek@uni.lodz.pl" },
+]
+description = "Estimate the performance of an IACT telescope system to an observation."
+readme = "README.md"
+requires-python = ">=3.11"
+keywords = ["iact", "cherenkov", "astronomy"]
+license = { text = "BSD-3-Clause" }
+classifiers = [
+    "Intended Audience :: Science/Research",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Astronomy",
+]
+dependencies = [
+    "astroplan",
+    "astropy<6",  # see https://github.com/gammapy/gammapy/issues/4972
+    "gammapy",
+    "seaborn",
+    "scipy<1.12", # see https://github.com/gammapy/gammapy/pull/4997
+]
+dynamic = ["version"]
+
+[project.optional-dependencies]
+docs = [
+    "furo",
+    "ipywidgets",
+    "myst-nb",
+    "numpydoc",
+    "rstcheck[sphinx]",
+    "sphinx-argparse",
+    "sphinx-autoapi",
+    "sphinx-copybutton",
+    "sphinxcontrib-towncrier",
+]
+dev = ["pre-commit", "ruff", "iact_estimator[docs]", "iact_estimator[tests]"]
+tests = ["pytest", "pytest-console-scripts"]
+
+[project.scripts]
+iact-estimator = "iact_estimator.scripts.estimator:main"
+iact-estimator-cfg = "iact_estimator.scripts.get_config:main"
+
+[tool.setuptools_scm]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+"*" = ["*.yml", "*.txt", "*.ecsv"]
+
+[tool.numpydoc_validation]
+# https://numpydoc.readthedocs.io/en/latest/validation.html#built-in-validation-checks
+checks = [
+    "all",  # report on all checks, except the below
+    "EX01",
+    "SA01",
+    "ES01",
+    "RT02",
+]
