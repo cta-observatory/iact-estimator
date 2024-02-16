@@ -6,11 +6,15 @@
 Documentation of ``iact-estimator``
 ===================================
 
-|ci|
+|ci| |docs|
 
 .. |ci| image:: https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml/badge.svg?branch=main
     :alt: CI
     :target: https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml
+
+.. |docs| image:: https://readthedocs.org/projects/iact-estimator/badge/?version=latest
+    :target: https://iact-estimator.readthedocs.io/latest/?badge=latest
+    :alt: Documentation Status
 
 ``iact-estimator`` is a Python3 package which allows
 to evaluate the ability of an IACT telescope system
