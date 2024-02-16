@@ -1,7 +1,7 @@
 # IACT Telescopes estimator
 
 ``iact-estimator`` is a Python3-based package that allows
-the estimation of the performance of an IACT telescope system>`_
+the estimation of the performance of an IACT telescope system
 to detect a gamma-ray source.
 
 It started from legacy scripts which were developed
