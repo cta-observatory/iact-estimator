@@ -1,0 +1,30 @@
+# To create this environment:
+# conda env create -f environment.yml
+# or mamba env create -f environment.yml
+name: iact-estimator
+channels:
+  - conda-forge
+dependencies:
+  - python
+  - pip
+  - astroplan
+  - astropy<6 # see https://github.com/gammapy/gammapy/issues/4972
+  - gammapy
+  - seaborn
+  - scipy=1.11* # see https://github.com/gammapy/gammapy/pull/4997
+  # Documentation
+  - furo
+  - ipywidgets
+  - myst-nb
+  - numpydoc
+  - rstcheck
+  - sphinx-argparse
+  - sphinx-autoapi
+  - sphinx-copybutton
+  - sphinxcontrib-towncrier
+  # Testing
+  - pytest
+  - pytest-console-scripts
+  # Development
+  - pre-commit
+  - ruff
