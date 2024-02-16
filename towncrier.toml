@@ -1,0 +1,33 @@
+[tool.towncrier]
+package = "iact_estimator"
+package_dir = "src"
+directory = "docs/changes"
+filename = "docs/source/changelog.rst"
+title_format = "v{version} ({project_date})"
+underlines = ["=", "-", "^", "~"]
+issue_format = "`#{issue} <https:///{issue}>`__"
+
+[[tool.towncrier.type]]
+directory = "removed"
+name = "Removed"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "deprecated"
+name = "Deprecated"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "added"
+name = "Added"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "changed"
+name = "Changed"
+showcontent = true
+
+[[tool.towncrier.type]]
+directory = "fixed"
+name = "Fixed"
+showcontent = true
