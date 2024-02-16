@@ -1,0 +1,41 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - {name: min_energy, unit: GeV, datatype: float64}
+# - {name: max_energy, unit: GeV, datatype: float64}
+# - {name: gamma_rate, unit: 1 / min, datatype: float64}
+# - {name: background_rate, unit: 1 / min, datatype: float64}
+# meta:
+#   __serialized_columns__:
+#     background_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: background_rate}
+#     gamma_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: gamma_rate}
+#     max_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: &id001 !astropy.units.Unit {unit: GeV}
+#       value: !astropy.table.SerializedColumn {name: max_energy}
+#     min_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: min_energy}
+#   name: Low zenith angle performance
+# schema: astropy-2.0
+min_energy max_energy gamma_rate background_rate
+39.8 63.1 0.818446 3.66424
+63.0 100.0 3.01 4.06
+100.0 158.0 4.29 2.41
+158.0 251.0 3.37 0.54
+251.0 398.0 1.36 0.066
+398.0 631.0 1.22 0.027
+631.0 1000.0 0.88 0.0133
+1000.0 1585.0 0.58 0.0059
+1585.0 2512.0 0.3 0.0027
+2512.0 3981.0 0.166 0.002
+3981.0 6310.0 0.093 0.0014
+6310.0 10000.0 0.06 0.0046
+10000.0 15848.9 0.017854 0.0016686
