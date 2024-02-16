@@ -25,6 +25,11 @@ repos:
       - id: rstcheck
         additional_dependencies: [sphinx]
         args: ["--config=.rstcheck.cfg"]
+  - repo: https://github.com/twisted/towncrier
+    rev: 23.11.0
+    hooks:
+      - id: towncrier-check
+
   # - repo: https://github.com/numpy/numpydoc
   #   rev: v1.6.0
   #   hooks:
