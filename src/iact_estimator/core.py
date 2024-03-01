@@ -4,7 +4,6 @@ import logging
 import importlib
 
 import astropy.units as u
-from gammapy.stats import WStatCountsStatistic
 import numpy as np
 from scipy import interpolate
 from scipy.integrate import quad
@@ -133,7 +132,7 @@ def get_horizon_stereo_profile(M1_data, M2_data):
     return az * u.deg, zd * u.deg
 
 
-def check_input_configuration(config):
+def check_input_configuration(config, performance_data):
     """
     Import and initialize a spectral model.
 
@@ -151,6 +150,10 @@ def check_input_configuration(config):
     # Assume a valid configuration
     is_valid = True
 
+    if performance_data:
+
+        performance_metadata = performance_data.meta
+
     extension = u.Quantity(config["extension"]).to_value("deg")
 
     if extension > 1:
@@ -167,9 +170,11 @@ def check_input_configuration(config):
             " region (n_off_regions) should be used."
         )
         is_valid = False
-    if config["sum_trigger"] and (config["zenith_performance"] == "mid"):
-        logger.warning("This functionality has not been yet implemented.")
-        # raise NotImplementedError("This functionality has not been yet implemented.")
+    if config["sum_trigger"] and (config["zenith_range"] == "mid"):
+        is_valid = False
+        raise NotImplementedError("MAGIC SUM trigger at mid zenith range has not been yet implemented.")
+    if ("LST" in performance_metadata) and config["sum_trigger"]:
+        logger.warning("LST mode is not compatible with SUMT")
         is_valid = False
     if config["offset_degradation_factor"] > 1.00001:
         logger.warning(
@@ -231,7 +236,7 @@ def initialize_model(config):
 
 
 @u.quantity_input(energy=u.TeV)
-def observed_flux(energy, redshift, flux_int):
+def observed_flux(energy, redshift, flux_int, ebl_file_path):
     """
     Get the attenuated flux of the source.
 
@@ -249,7 +254,7 @@ def observed_flux(energy, redshift, flux_int):
     valid : `bool`
         Initialized instance of a spectral model.
     """
-    ebl_redshift, ebl_energy, ebl_taus = load_ebl()
+    ebl_redshift, ebl_energy, ebl_taus = load_ebl(ebl_file_path)
     ftau = interpolate.interp2d(
         ebl_redshift, ebl_energy.to_value(energy.unit), ebl_taus, kind="cubic"
     )
@@ -299,22 +304,30 @@ def prepare_data(config, performance_data=None):
         Rate of background events from performance data.
     """
 
-    performance_data = {
-        "low": LOW_ZENITH_PERFORMANCE,
-        "mid": MID_ZENITH_PERFORMANCE,
-    }
 
-    if config["sum_trigger"] and config["zenith_performance"] == "low":
-        message = "Low zenith performance with the SUM trigger"
-        " is not currently available."
-        logger.critical(message)
-        raise NotImplementedError(message)
+    if not performance_data:
 
-    min_energy = performance_data[config["zenith_performance"]]["min_energy"]
-    max_energy = performance_data[config["zenith_performance"]]["max_energy"]
+        if config["sum_trigger"] and config["zenith_range"] == "mid":
+            message = "MAGIC Mid zenith performance with the SUM trigger is not currently available."
+            logger.critical(message)
+            raise NotImplementedError(message)
+
+        # use packaged (public) datasets
+        available_datasets = {
+            "low": LOW_ZENITH_PERFORMANCE,
+            "mid": MID_ZENITH_PERFORMANCE,
+        }
+
+        performance_data = available_datasets[config["zenith_range"]]
+
+    min_energy = performance_data["min_energy"]
+    max_energy = performance_data["max_energy"]
     energy_bins = np.append(min_energy.value, max_energy[-1].value) * min_energy.unit
-    gamma_rate = performance_data[config["zenith_performance"]]["gamma_rate"]
-    background_rate = performance_data[config["zenith_performance"]]["background_rate"]
+    gamma_rate = performance_data["gamma_rate"]
+    background_rate = performance_data["background_rate"]
+
+    gamma_rate *= config["offset_degradation_factor"]
+    background_rate *= config["offset_degradation_factor"]
 
     return energy_bins, gamma_rate, background_rate
 
@@ -339,12 +352,19 @@ def source_detection(sigmas, observation_time):
 
     time = observation_time.to("h")
 
-    if len(sigmas) > 0:
-        combined_significance = sum(sigmas) / np.sqrt(len(sigmas))
+    combined_probability = 1
+    combined_significance_text = ''
+    if len(sigmas)>0: 
+        combined_probability = np.prod(sigma_to_probability(sigmas))
+        combined_significance = probability_to_sigma(combined_probability)
+        combined_significance_text = "{0:.2f}".format(combined_significance)
+        if (combined_probability<1.e-307): # numerical accuracy problem, but significance will be either way large
+            combined_significance=38  # or more ...
+            combined_significance_text=">38"
 
         print(
             f"Combined significance (using the {len(sigmas):d} data points"
-            f" shown in the SED) = {combined_significance:.1f}"
+            f" shown in the SED) = {combined_significance_text}"
         )
     else:
         print(f"The source will not be detected in {time}.")

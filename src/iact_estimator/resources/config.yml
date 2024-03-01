@@ -13,7 +13,13 @@ observation_datetime: "2024-06-15 18:00"
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
-zenith_performance: "low" # "low"=0-30deg, "mid"=30-45deg
+
+# see documentation for a table of publicly available
+# values
+# For private data, these values should come with the
+# metadata of your file
+instrument: "MAGIC"
+zenith_range: "low"
 # you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
 
 ebl_file_path:
