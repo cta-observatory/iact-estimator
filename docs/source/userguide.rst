@@ -32,6 +32,59 @@ for a source named "my_source",
 
     iact-estimator --config config.yml --source-name my_source
 
+Using custom performance data
+=============================
+
+If you want to use your own performance data,
+either for testing or because it is still not published,
+you can load it from an ECSV with the format shown below.
+
+Producing such a table is very easy with astropy
+starting from the array quantities containing the data,
+for example,
+
+.. code-block:: python
+
+    from astropy.table import QTable
+    import astropy.units as u
+    import numpy as np
+
+    table = QTable([min_energy, max_energy, gamma_rate, bkg_rate],
+                    names=("min_energy", "max_energy", "gamma_rate", "background_rate"),
+                    meta={"name":"some_descriptive_title"})
+    table.write("my_performance.ecsv")
+
+this will result in a data file similar to this,
+
+.. code-block:: 
+
+    # %ECSV 1.0
+    # ---
+    # datatype:
+    # - {name: min_energy, unit: GeV, datatype: float64}
+    # - {name: max_energy, unit: GeV, datatype: float64}
+    # - {name: gamma_rate, datatype: float64}
+    # - {name: background_rate, datatype: float64}
+    # meta:
+    #   __serialized_columns__:
+    #     max_energy:
+    #       __class__: astropy.units.quantity.Quantity
+    #       unit: &id001 !astropy.units.Unit {unit: GeV}
+    #       value: !astropy.table.SerializedColumn {name: max_energy}
+    #     min_energy:
+    #       __class__: astropy.units.quantity.Quantity
+    #       unit: *id001
+    #       value: !astropy.table.SerializedColumn {name: min_energy}
+    #   name: some_descriptive_title
+    #   offset_degradation: false
+    # schema: astropy-2.0
+    min_energy max_energy gamma_rate background_rate
+    20 40 7.2 359.0
+    ...etc
+
+You can then load it using the `--performance` flag of :ref:`iact-estimator`
+to tell the command-line tool where to find the data file.
+
 Output
 ======
 
