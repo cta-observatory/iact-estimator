@@ -5,7 +5,7 @@ directory = "docs/source/changes"
 filename = "docs/source/changelog.rst"
 title_format = "v{version} ({project_date})"
 underlines = ["=", "-", "^", "~"]
-issue_format = "`#{issue} <https:///{issue}>`__"
+issue_format = "`#{issue} <https://github.com/cta-observatory/iact-estimator/issues/{issue}>`__"
 
 [[tool.towncrier.type]]
 directory = "removed"
