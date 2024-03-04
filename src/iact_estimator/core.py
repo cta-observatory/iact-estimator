@@ -231,7 +231,7 @@ def initialize_model(config):
 
 
 @u.quantity_input(energy=u.TeV)
-def observed_flux(energy, redshift, flux_int):
+def observed_flux(energy, redshift, flux_int, ebl_file_path):
     """
     Get the attenuated flux of the source.
 
@@ -249,7 +249,7 @@ def observed_flux(energy, redshift, flux_int):
     valid : `bool`
         Initialized instance of a spectral model.
     """
-    ebl_redshift, ebl_energy, ebl_taus = load_ebl()
+    ebl_redshift, ebl_energy, ebl_taus = load_ebl(ebl_file_path)
     ftau = interpolate.interp2d(
         ebl_redshift, ebl_energy.to_value(energy.unit), ebl_taus, kind="cubic"
     )
