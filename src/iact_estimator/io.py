@@ -56,7 +56,7 @@ def load_ebl(ebl_file_path):
         Energy values.
     taus : `np.array`
         TBD.
-    
+
     Notes
     -----
     This is a legacy function which works
