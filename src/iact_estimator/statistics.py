@@ -2,42 +2,45 @@
 
 from gammapy.stats import WStatCountsStatistic
 import numpy as np
-from scipy.special import erfc,erfcinv
+from scipy.special import erfc, erfcinv
 
 __all__ = ["sigma_to_probability", "probability_to_sigma", "significance_li_ma"]
 
+
 def sigma_to_probability(sigma):
     """Convert significance to one side of the two-sided probability.
-    
+
     Parameters
     ----------
     sigma : float
         Significance value.
-    
+
     Returns
     -------
     probability : float
         Probability value."""
-    probability = erfc(sigma/np.sqrt(2.))/2
+    probability = erfc(sigma / np.sqrt(2.0)) / 2
     return probability
 
-# 
+
+#
 def probability_to_sigma(probability):
     """Inversion function of `.sigma_to_probability()`.
-    
+
     Parameters
     ----------
     probability : float
         Probability value.
-    
-    
+
+
     Returns
     -------
     sigma : float
         Significance value.
     """
-    sigma = erfcinv(probability*2)*np.sqrt(2)
+    sigma = erfcinv(probability * 2) * np.sqrt(2)
     return sigma
+
 
 def significance_li_ma(n_on, n_off, alpha, mu_sig=None):
     """

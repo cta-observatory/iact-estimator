@@ -75,7 +75,7 @@ def main():
 
     performance_data = None
     if args.performance:
-        performance_data_file=Path(args.performance).resolve()
+        performance_data_file = Path(args.performance).resolve()
         logger.info("Loading performance data from %s", performance_data_file)
         performance_data = load_performance_ecsv(performance_data_file)
 

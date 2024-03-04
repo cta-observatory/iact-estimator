@@ -56,7 +56,7 @@ for example,
 
 this will result in a data file similar to this,
 
-.. code-block:: 
+.. code-block::
 
     # %ECSV 1.0
     # ---

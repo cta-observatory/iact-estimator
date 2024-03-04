@@ -71,6 +71,7 @@ def load_ebl(ebl_file_path):
     if len(taus > 0):
         return zz, energies, taus
 
+
 def load_performance_ecsv(input_file_path):
     """
     Load performance data from an ECSV file as a dictionary.
@@ -88,7 +89,9 @@ def load_performance_ecsv(input_file_path):
     """
     input_file_path = Path(input_file_path).resolve()
     try:
-       table = QTable.read(input_file_path)
+        table = QTable.read(input_file_path)
     except FileNotFoundError:
-        logger.exception("Performance file not found at %s", input_file_path, exc_info=True)
+        logger.exception(
+            "Performance file not found at %s", input_file_path, exc_info=True
+        )
     return table

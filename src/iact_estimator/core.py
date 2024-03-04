@@ -151,7 +151,6 @@ def check_input_configuration(config, performance_data):
     is_valid = True
 
     if performance_data:
-
         performance_metadata = performance_data.meta
 
     extension = u.Quantity(config["extension"]).to_value("deg")
@@ -172,7 +171,9 @@ def check_input_configuration(config, performance_data):
         is_valid = False
     if config["sum_trigger"] and (config["zenith_range"] == "mid"):
         is_valid = False
-        raise NotImplementedError("MAGIC SUM trigger at mid zenith range has not been yet implemented.")
+        raise NotImplementedError(
+            "MAGIC SUM trigger at mid zenith range has not been yet implemented."
+        )
     if ("LST" in performance_metadata) and config["sum_trigger"]:
         logger.warning("LST mode is not compatible with SUMT")
         is_valid = False
@@ -304,9 +305,7 @@ def prepare_data(config, performance_data=None):
         Rate of background events from performance data.
     """
 
-
     if not performance_data:
-
         if config["sum_trigger"] and config["zenith_range"] == "mid":
             message = "MAGIC Mid zenith performance with the SUM trigger is not currently available."
             logger.critical(message)
@@ -353,14 +352,16 @@ def source_detection(sigmas, observation_time):
     time = observation_time.to("h")
 
     combined_probability = 1
-    combined_significance_text = ''
-    if len(sigmas)>0: 
+    combined_significance_text = ""
+    if len(sigmas) > 0:
         combined_probability = np.prod(sigma_to_probability(sigmas))
         combined_significance = probability_to_sigma(combined_probability)
         combined_significance_text = "{0:.2f}".format(combined_significance)
-        if (combined_probability<1.e-307): # numerical accuracy problem, but significance will be either way large
-            combined_significance=38  # or more ...
-            combined_significance_text=">38"
+        if (
+            combined_probability < 1.0e-307
+        ):  # numerical accuracy problem, but significance will be either way large
+            combined_significance = 38  # or more ...
+            combined_significance_text = ">38"
 
         print(
             f"Combined significance (using the {len(sigmas):d} data points"
