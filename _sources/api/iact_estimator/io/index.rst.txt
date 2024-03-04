@@ -1,0 +1,96 @@
+:py:mod:`iact_estimator.io`
+===========================
+
+.. py:module:: iact_estimator.io
+
+.. autoapi-nested-parse::
+
+   Functions for input / output operations.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Module Contents
+---------------
+
+
+Functions
+~~~~~~~~~
+
+.. autoapisummary::
+
+   iact_estimator.io.read_yaml
+   iact_estimator.io.load_ebl
+
+
+
+.. py:function:: read_yaml(input_file_path)
+
+   
+   Load data from a YAML file as a dictionary.
+
+
+   :Parameters:
+
+       **input_file_path** : `str`
+           Path to the input YAML file.
+
+   :Returns:
+
+       **data** : `dict`
+           Contents of the YAML file in form
+           of a Python dictionary.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: load_ebl(ebl_file_path)
+
+   
+   Load Extragalactic Background Light (EBL) data.
+
+
+   :Parameters:
+
+       **ebl_file_path** : `str` or `~pathlib.Path`
+           Path to an EBL data file.
+
+   :Returns:
+
+       **zz** : `np.array`
+           TBD.
+
+       **energies** : `~astopy.units.Quantity`
+           Energy values.
+
+       **taus** : `np.array`
+           TBD.
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

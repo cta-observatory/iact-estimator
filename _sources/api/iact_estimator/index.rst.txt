@@ -1,0 +1,115 @@
+:py:mod:`iact_estimator`
+========================
+
+.. py:module:: iact_estimator
+
+.. autoapi-nested-parse::
+
+   
+   Estimate the performance of an IACT telescopes system to an observation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+Submodules
+----------
+.. toctree::
+   :titlesonly:
+   :maxdepth: 1
+
+   core/index.rst
+   io/index.rst
+   plots/index.rst
+   spectral/index.rst
+
+
+Package Contents
+----------------
+
+.. py:data:: RESOURCES_PATH
+
+   
+   Installation path of package resource files.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: LOW_ZENITH_PERFORMANCE
+
+   
+   `~astropy.table.QTable` with energy bins, rate of gammas and background for
+   low zenith performance (0 to 30 degrees).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:data:: MID_ZENITH_PERFORMANCE
+
+   
+   `~astropy.table.QTable` with energy bins, rate of gammas and background for
+   mid zenith performance (30 to 45 degrees).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
