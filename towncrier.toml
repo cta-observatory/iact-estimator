@@ -1,7 +1,7 @@
 [tool.towncrier]
 package = "iact_estimator"
 package_dir = "src"
-directory = "docs/changes"
+directory = "docs/source/changes"
 filename = "docs/source/changelog.rst"
 title_format = "v{version} ({project_date})"
 underlines = ["=", "-", "^", "~"]
