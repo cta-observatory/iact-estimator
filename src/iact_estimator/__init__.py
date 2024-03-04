@@ -18,6 +18,8 @@ __all__ = [
 RESOURCES_PATH = files("iact_estimator") / "resources"
 """Installation path of package resource files."""
 
+EBL_DOMINGUEZ_11 = RESOURCES_PATH / "ebl_dominguez_11.txt"
+
 HORIZON_PROFILE_M1 = QTable.read(RESOURCES_PATH / Path("horizon_profile_M1.ecsv"))
 """`~astropy.table.QTable` with energy zenith azimuth for
 the horizon profile has seeen from M1."""
