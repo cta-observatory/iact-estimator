@@ -16,7 +16,7 @@ def test_crab_nebula_spectrum():
     assert np.allclose(
         [
             spectrum.alpha.value,
-            spectrum.alpha.value,
+            spectrum.beta.value,
             spectrum.amplitude.value,
             spectrum.reference.value,
         ],
