@@ -10,9 +10,15 @@ def test_crab_nebula_spectrum():
 
     spectrum = crab_nebula_spectrum()
 
-    assert spectrum.alpha.value == 2.51
-    assert spectrum.beta.value == 0.21 / np.log(10)
-    assert spectrum.amplitude.value == 3.39e-11
     assert spectrum.amplitude.unit == u.Unit("TeV^-1 s^-1 cm^-2")
-    assert spectrum.reference.value == 1.0
     assert spectrum.reference.unit == u.TeV
+
+    assert np.allclose(
+        [
+            spectrum.alpha.value,
+            spectrum.alpha.value,
+            spectrum.amplitude.value,
+            spectrum.reference.value,
+        ],
+        [2.51, 0.21 / np.log(10), 3.39e-11, 1.0],
+    )

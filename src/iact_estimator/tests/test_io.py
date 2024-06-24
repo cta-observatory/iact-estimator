@@ -1,6 +1,4 @@
 def test_read_yaml(tmp_path):
-    from yaml import dump
-
     from ..io import read_yaml
 
     test_file = tmp_path / "test_file.yml"
