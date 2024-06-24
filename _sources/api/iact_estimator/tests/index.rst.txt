@@ -1,0 +1,39 @@
+iact_estimator.tests
+====================
+
+.. py:module:: iact_estimator.tests
+
+.. autoapi-nested-parse::
+
+   
+   Testing suite for iact-estimator.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/iact_estimator/tests/test_io/index
+   /api/iact_estimator/tests/test_spectral/index
+
+
