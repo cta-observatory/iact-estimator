@@ -10,7 +10,7 @@ authors = [
 ]
 description = "Estimate the performance of an IACT telescope system to an observation."
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.9"
 keywords = ["iact", "cherenkov", "astronomy"]
 license = { text = "BSD-3-Clause" }
 classifiers = [
@@ -46,8 +46,7 @@ dev = ["pre-commit", "ruff", "iact_estimator[docs]", "iact_estimator[tests]"]
 tests = ["pytest", "pytest-console-scripts"]
 
 [project.scripts]
-iact-estimator = "iact_estimator.scripts.estimator:main"
-iact-estimator-cfg = "iact_estimator.scripts.get_config:main"
+iact-estimator = "iact_estimator.scripts.main:main"
 
 [tool.setuptools_scm]
 write_to = "src/iact_estimator/_version.py"
