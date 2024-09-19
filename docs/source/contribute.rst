@@ -89,6 +89,35 @@ A simple template for a function is the following,
 
 Please, see the `numpydoc style guide <https://numpydoc.readthedocs.io/en/latest/format.html>`_ for more details.
 
+Changelog
+---------
+
+This project is supported by a changelog to let users know what has been fixed
+or improved.
+
+Whenever you add a new contribution, you should always open first a new issue to track it,
+then a Pull Request (PR) that closes that issue.
+
+Every PR needs to add at least one *news fragment*, a small *.rst* file under ``docs/source/changes``
+containing a description of what was changed in a way that is usefull for the user.
+
+The name of the file has to follow the template ``PULL_REQUEST_ID.CONTRIBUTION_TYPE.rst``,
+where ``CONTRIBUTION_TYPE`` has to be one of the following:
+
+- removed
+- deprecated
+- added
+- changed
+- fixed
+
+For example: a bug fix was found and an issue was opened.
+A PR with ID #5 was opened to fix the bug and it introduced the file ``5.fixed.rst``
+which reads,
+
+.. code-block::
+
+    Fixed a terrible bug which caused this function to output this nonsense result.
+
 .. _contribute_auth:
 
 Authorship

@@ -37,6 +37,7 @@ pulsar_mode:
   pulsar_off_range: 0.25 # range of OFF phases used for pulsar mode# global variables (DO NOT MODIFY)
 
 plotting_options:
+  show: False
   figure_size: [20, 10]
   bbox_inches: "tight"
   min_energy: "40 GeV"

@@ -1,0 +1,2 @@
+Grouped all CLI into a single executable with subcommands.
+Also added an new configuration option to disable the plotting figures windows.
