@@ -207,7 +207,8 @@ def main():
                 output_path=output_path,
             )
 
-        plt.show()
+        if config["plotting_options"]["show"]:
+            plt.show()
 
 
 if __name__ == "__main__":
