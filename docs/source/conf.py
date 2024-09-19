@@ -9,6 +9,8 @@
 from pathlib import Path
 import tomllib
 
+import gammapy
+
 from iact_estimator.version import __version__
 
 PROJECT_ROOT_DIR = Path(__file__).parent.parent.parent.resolve()
@@ -83,7 +85,7 @@ autoapi_ignore = ["*scripts*", "*version*"]
 intersphinx_mapping = {
     "python": ("https://docs.python.org/3", None),
     "astropy": ("https://docs.astropy.org/en/latest/", None),
-    "gammapy": ("https://docs.python.org/3", None),
+    "gammapy": (f"https://docs.gammapy.org/{gammapy.__version__}/", None),
     "matplotlib": ("https://matplotlib.org/", None),
     "numpy": ("https://numpy.org/doc/stable/", None),
     "scipy": ("https://docs.scipy.org/doc/scipy/", None),
