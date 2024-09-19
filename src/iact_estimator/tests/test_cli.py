@@ -1,5 +1,9 @@
 """Tests for the Command-line interface."""
 
+import matplotlib
+
+matplotlib.set_loglevel("critical")
+
 
 def test_cli_version(script_runner):
     from .. import __version__
