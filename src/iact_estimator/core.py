@@ -150,8 +150,7 @@ def check_input_configuration(config, performance_data):
     # Assume a valid configuration
     is_valid = True
 
-    if performance_data:
-        performance_metadata = performance_data.meta
+    performance_metadata = performance_data.meta if performance_data else None
 
     extension = u.Quantity(config["extension"]).to_value("deg")
 
@@ -174,7 +173,11 @@ def check_input_configuration(config, performance_data):
         raise NotImplementedError(
             "MAGIC SUM trigger at mid zenith range has not been yet implemented."
         )
-    if ("LST" in performance_metadata) and config["sum_trigger"]:
+    if (
+        performance_metadata
+        and ("LST" in performance_metadata)
+        and config["sum_trigger"]
+    ):
         logger.warning("LST mode is not compatible with SUMT")
         is_valid = False
     if config["offset_degradation_factor"] > 1.00001:
