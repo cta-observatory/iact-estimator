@@ -22,6 +22,7 @@ dependencies:
   - sphinx-autoapi
   - sphinx-copybutton
   - sphinxcontrib-towncrier
+  - towncrier<24.7
   # Testing
   - pytest
   - pytest-console-scripts
