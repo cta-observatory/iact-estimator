@@ -116,7 +116,9 @@ def main():
     if not performance_data:
         energy_bins, gamma_rate, background_rate = prepare_data(config)
     else:
-        energy_bins, gamma_rate, background_rate = prepare_data(performance_data)
+        energy_bins, gamma_rate, background_rate = prepare_data(
+            config, performance_data
+        )
 
     en, sed, dsed, sigmas, detected = calculate(
         energy_bins, gamma_rate, background_rate, config, assumed_spectrum
