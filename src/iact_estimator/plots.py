@@ -7,6 +7,7 @@ import astropy.units as u
 from astropy.visualization import quantity_support
 from astroplan import FixedTarget
 from astroplan.plots import plot_sky_24hr, plot_altitude
+from astroplan.utils import time_grid_from_range
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -374,4 +375,46 @@ def plot_rates(performance_data, title=None, ax=None):
         ax.legend()
         ax.set_xscale("log")
         ax.set_yscale("log")
+    return ax
+
+
+def plot_observability_constraints_grid(
+    observer, target, start_time, end_time, time_resolution, constraints, ax=None
+):
+    # Create grid of times from ``start_time`` to ``end_time``
+    # with resolution ``time_resolution``
+    time_grid = time_grid_from_range(
+        [start_time, end_time], time_resolution=time_resolution
+    )
+
+    observability_grid = np.zeros((len(constraints), len(time_grid)))
+
+    for i, constraint in enumerate(constraints):
+        # Evaluate each constraint
+        observability_grid[i, :] = constraint(observer, target, times=time_grid)
+
+    # Create plot showing observability of the target
+
+    extent = [-0.5, -0.5 + len(time_grid), -0.5, 2.5]
+
+    ax = plt.cga() if ax is None else ax
+
+    ax.imshow(observability_grid, extent=extent)
+
+    ax.set_yticks(range(0, 3))
+    ax.set_yticklabels([c.__class__.__name__ for c in constraints])
+
+    ax.set_xticks(range(len(time_grid)))
+    ax.set_xticklabels([t.datetime.strftime("%H:%M") for t in time_grid])
+
+    ax.set_xticks(np.arange(extent[0], extent[1]), minor=True)
+    ax.set_yticks(np.arange(extent[2], extent[3]), minor=True)
+
+    ax.grid(which="minor", color="w", linestyle="-", linewidth=2)
+    ax.tick_params(axis="x", which="minor", bottom="off")
+    plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
+
+    ax.tick_params(axis="y", which="minor", left="off")
+    ax.set_xlabel("Time on {0} UTC".format(time_grid[0].datetime.date()))
+
     return ax
