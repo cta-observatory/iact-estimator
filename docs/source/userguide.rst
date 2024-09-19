@@ -63,10 +63,18 @@ this will result in a data file similar to this,
     # datatype:
     # - {name: min_energy, unit: GeV, datatype: float64}
     # - {name: max_energy, unit: GeV, datatype: float64}
-    # - {name: gamma_rate, datatype: float64}
-    # - {name: background_rate, datatype: float64}
+    # - {name: gamma_rate, unit: 1 / min, datatype: float64}
+    # - {name: background_rate, unit: 1 / min, datatype: float64}
     # meta:
     #   __serialized_columns__:
+    #     background_rate:
+    #       __class__: astropy.units.quantity.Quantity
+    #       unit: !astropy.units.Unit {unit: 1 / min}
+    #       value: !astropy.table.SerializedColumn {name: background_rate}
+    #     gamma_rate:
+    #       __class__: astropy.units.quantity.Quantity
+    #       unit: !astropy.units.Unit {unit: 1 / min}
+    #       value: !astropy.table.SerializedColumn {name: gamma_rate}
     #     max_energy:
     #       __class__: astropy.units.quantity.Quantity
     #       unit: &id001 !astropy.units.Unit {unit: GeV}
@@ -76,11 +84,9 @@ this will result in a data file similar to this,
     #       unit: *id001
     #       value: !astropy.table.SerializedColumn {name: min_energy}
     #   name: some_descriptive_title
-    #   offset_degradation: false
     # schema: astropy-2.0
     min_energy max_energy gamma_rate background_rate
-    20 40 7.2 359.0
-    ...etc
+    39.8 63.1 0.818446 3.66424
 
 You can then load it using the `--performance` flag of :ref:`iact-estimator`
 to tell the command-line tool where to find the data file.
