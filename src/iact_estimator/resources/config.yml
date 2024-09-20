@@ -8,8 +8,21 @@ assumed_model:
     beta: 0.21
   from_log10: True # relevant for e.g. LogParabolaSpectralModel
 
-observation_time: 50 h
-observation_datetime: "2024-06-15 18:00"
+observation:
+  constraints:
+    moon_separation:
+    # https://astroplan.readthedocs.io/en/latest/api/astroplan.MoonSeparationConstraint.html#astroplan.MoonSeparationConstraint
+      min: "45 deg"
+      max: "90 deg"
+      ephemeris:
+    zenith:
+      min: "5 deg"
+      max: "50 deg"
+    # https://astroplan.readthedocs.io/en/latest/api/astroplan.AtNightConstraint.html#atnightconstraint
+    twilight: "astronomical" # "astronomical", "civil" or "nautical"
+  time: "50 h"
+  datetime: "2024-06-15 18:00"
+
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
