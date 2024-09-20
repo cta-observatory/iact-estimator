@@ -429,7 +429,7 @@ def calculate(energy_bins, gamma_rate, background_rate, config, assumed_spectrum
 
     n_off_regions = config["n_off_regions"]
     redshift = config["redshift"]
-    observation_time_min = u.Quantity(config["observation_time"]).to("min")
+    observation_time_min = u.Quantity(config["observation"]["time"]).to("min")
     pulsar_mode_config = config["pulsar_mode"]
     pulsar_mode = pulsar_mode_config["enable"]
     pulsar_on_range = pulsar_mode_config["pulsar_on_range"]
