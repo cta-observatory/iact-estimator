@@ -7,25 +7,33 @@ Reference API
 Command-line tools
 ==================
 
+.. argparse::
+   :module: iact_estimator.scripts.main
+   :func: parser
+   :prog: iact-estimator
+   :nosubcommands:
+
 .. _iact-estimator-cfg:
 
-iact-estimator-cfg
--------------------
+Get the default config file
+---------------------------
 
 .. argparse::
-   :module: iact_estimator.scripts.get_config
+   :module: iact_estimator.scripts.main
    :func: parser
-   :prog: iact-estimator-cfg
+   :prog: iact-estimator
+   :path: config
 
 .. _iact-estimator:
 
-iact-estimator
----------------
+Run the estimation process
+--------------------------
 
 .. argparse::
-   :module: iact_estimator.scripts.estimator
+   :module: iact_estimator.scripts.main
    :func: parser
    :prog: iact-estimator
+   :path: run
 
 Package resources
 =================
