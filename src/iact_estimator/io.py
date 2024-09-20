@@ -60,7 +60,7 @@ def load_ebl(ebl_file_path):
     Notes
     -----
     This is a legacy function which works
-    only wuth the default data file packages with
+    only with the default data file packages with
     *iact-estimator*.
     """
     if not Path(ebl_file_path).exists():
