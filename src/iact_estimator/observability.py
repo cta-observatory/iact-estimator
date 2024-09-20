@@ -16,14 +16,15 @@ def define_constraints(config):
     zenith = constraints_config["zenith"]
 
     constraints = [
-        getattr(AtNightConstraint, f"twilight_{constraints_config['twilight']}")(),
+        AtNightConstraint(u.Quantity(constraints_config["max_solar_altitude"])),
         MoonSeparationConstraint(
             min=u.Quantity(moon["min"]),
             max=u.Quantity(moon["max"]),
             ephemeris=moon["ephemeris"],
         ),
         AltitudeConstraint(
-            **{key: 90 * u.deg - u.Quantity(zenith[key]) for key in zenith}
+            min=90 * u.deg - u.Quantity(zenith["max"]),
+            max=90 * u.deg - u.Quantity(zenith["min"]),
         ),
     ]
 
