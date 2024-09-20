@@ -21,7 +21,13 @@ from ..core import (
     source_detection,
     calculate,
 )
-from ..plots import plot_spectrum, plot_sed, plot_transit, plot_altitude_airmass
+from ..plots import (
+    plot_spectrum,
+    plot_sed,
+    plot_transit,
+    plot_altitude_airmass,
+    plot_observability_constraints_grid,
+)
 from ..observability import define_constraints, check_observability
 from .. import RESOURCES_PATH
 
@@ -131,18 +137,49 @@ def main():
         # Basic observability checks
         target_source = FixedTarget.from_name(source_name)
         observer = Observer.at_site("Roque de los Muchachos")
-        time = Time(config["observation"]["datetime"])
 
         crab = FixedTarget.from_name("Crab")
 
         constraints = define_constraints(config)
 
-        t0 = Time(config["observation"]["datetime"])
-        time_range = [t0, t0 + 1 * u.year]
-        time_grid_resolution = 30 * u.day
+        from datetime import datetime
+
+        start_datetime = (
+            Time(config["observation"]["start_datetime"])
+            if config["observation"]["start_datetime"] is not None
+            else Time(datetime.now(tz=observer.timezone))
+        )
+        end_datetime = (
+            Time(config["observation"]["end_datetime"])
+            if config["observation"]["end_datetime"] is not None
+            else start_datetime + 1 * u.day
+        )
+        logger.info("Observation starts at %s", start_datetime)
+        logger.info("Observation ends at %s", end_datetime)
+
+        time_range = [start_datetime, end_datetime]
+        time_grid_resolution = (
+            u.Quantity(config["observation"]["time_resolution"])
+            if config["observation"]["time_resolution"]
+            else 1 * u.h
+        )
 
         ever_observable, best_months = check_observability(
             constraints, observer, [target_source], time_range, time_grid_resolution
+        )
+
+        _ = plot_observability_constraints_grid(
+            source_name,
+            config,
+            observer,
+            target_source,
+            start_datetime,
+            end_datetime,
+            time_grid_resolution,
+            constraints,
+            ax=None,
+            savefig=True,
+            output_path=output_path,
         )
 
         if not ever_observable:
@@ -157,7 +194,7 @@ def main():
                 source_name,
                 target_source,
                 observer,
-                time,
+                start_datetime,
                 merge_profiles=config["plotting_options"]["merge_horizon_profiles"],
                 plot_crab=True if (crab.coord == target_source.coord) else False,
                 style_kwargs=None,
@@ -170,7 +207,7 @@ def main():
                 source_name,
                 target_source,
                 observer,
-                time,
+                start_datetime,
                 brightness_shading=True,
                 airmass_yaxis=True,
                 savefig=True,
