@@ -18,10 +18,11 @@ observation:
     zenith:
       min: "5 deg"
       max: "50 deg"
-    # https://astroplan.readthedocs.io/en/latest/api/astroplan.AtNightConstraint.html#atnightconstraint
-    twilight: "astronomical" # "astronomical", "civil" or "nautical"
+    max_solar_altitude: "-18 deg"
   time: "50 h"
-  datetime: "2024-06-15 18:00"
+  start_datetime: # default to today
+  end_datetime:  # default to 1 year from today
+  time_resolution: "1 h"
 
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
