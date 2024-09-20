@@ -157,7 +157,7 @@ def plot_sed(
         np.log10(max_energy.to_value(energy_unit)),
         50,
     ) * u.Unit(energy_unit)
-    labeltext = rf"Expected SED ($T_{{obs}}$ = {config['observation_time']})"
+    labeltext = rf"Expected SED ($T_{{obs}}$ = {config['observation']['time']})"
     plt.plot(
         energy,
         energy * energy * crab_nebula_spectrum()(energy),
@@ -379,8 +379,21 @@ def plot_rates(performance_data, title=None, ax=None):
 
 
 def plot_observability_constraints_grid(
-    observer, target, start_time, end_time, time_resolution, constraints, ax=None
+    source_name,
+    config,
+    observer,
+    target,
+    start_time,
+    end_time,
+    time_resolution,
+    constraints,
+    ax=None,
+    savefig=True,
+    output_path=None,
 ):
+    fig, ax = plt.subplots()
+    ax = plt.cga() if ax is None else ax
+
     # Create grid of times from ``start_time`` to ``end_time``
     # with resolution ``time_resolution``
     time_grid = time_grid_from_range(
@@ -389,23 +402,23 @@ def plot_observability_constraints_grid(
 
     observability_grid = np.zeros((len(constraints), len(time_grid)))
 
+    constraint_labels = {}
     for i, constraint in enumerate(constraints):
         # Evaluate each constraint
         observability_grid[i, :] = constraint(observer, target, times=time_grid)
+        constraint_labels[i] = constraint.__class__.__name__
 
     # Create plot showing observability of the target
 
     extent = [-0.5, -0.5 + len(time_grid), -0.5, 2.5]
 
-    ax = plt.cga() if ax is None else ax
-
     ax.imshow(observability_grid, extent=extent)
 
     ax.set_yticks(range(0, 3))
-    ax.set_yticklabels([c.__class__.__name__ for c in constraints])
+    ax.set_yticks(list(constraint_labels.keys()), constraint_labels.values())
 
     ax.set_xticks(range(len(time_grid)))
-    ax.set_xticklabels([t.datetime.strftime("%H:%M") for t in time_grid])
+    ax.set_xticklabels([t.datetime.strftime("%d/%m/%y %H:%M") for t in time_grid])
 
     ax.set_xticks(np.arange(extent[0], extent[1]), minor=True)
     ax.set_yticks(np.arange(extent[2], extent[3]), minor=True)
@@ -416,5 +429,12 @@ def plot_observability_constraints_grid(
 
     ax.tick_params(axis="y", which="minor", left="off")
     ax.set_xlabel("Time on {0} UTC".format(time_grid[0].datetime.date()))
+
+    if savefig:
+        output_path = output_path if output_path is not None else Path.cwd()
+        fig.savefig(
+            output_path
+            / f"observability_grid_{source_name}.{config['plotting_options']['file_format']}",
+        )
 
     return ax
