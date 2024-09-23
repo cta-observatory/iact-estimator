@@ -75,3 +75,23 @@ def load_ebl(ebl_file_path):
     taus = ebl_body[:, 1:]
     if len(taus > 0):
         return zz, energies, taus
+
+
+def save_fits_hdu(hdu, output_path, **kwargs):
+    """Save and HDU to a new FITS file.
+
+    Parameters
+    ----------
+    hdu : HDU-like class from `astropy.io.fits`
+        Primary, Image or Table-HDU.
+    output_path : str or `~pathlib.Path`
+        Complete path to the saved file.
+    **kwargs : dict
+        Options for the `~astropy.io.fits.PrimaryHDU.writeto()` method.
+    """
+
+    if not Path(output_path).parent.is_dir():
+        raise ValueError("Output directory for %s does not exist.", output_path)
+
+    logger.info("Saving HDU to %s", output_path)
+    hdu.writeto(output_path, **kwargs)
