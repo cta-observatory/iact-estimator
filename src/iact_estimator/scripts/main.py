@@ -12,7 +12,7 @@ from astropy.visualization import quantity_support
 import matplotlib.pyplot as plt
 
 from .. import __version__
-from ..io import read_yaml
+from ..io import read_yaml, save_fits_hdu
 from ..core import (
     setup_logging,
     initialize_model,
@@ -21,7 +21,13 @@ from ..core import (
     source_detection,
     calculate,
 )
-from ..plots import plot_spectrum, plot_sed, plot_transit, plot_altitude_airmass
+from ..plots import (
+    plot_spectrum,
+    plot_sed,
+    plot_transit,
+    plot_altitude_airmass,
+    plot_from_skyview_survey,
+)
 from .. import RESOURCES_PATH
 
 parser = argparse.ArgumentParser()
@@ -126,6 +132,36 @@ def main():
 
             seaborn_options = config["seaborn_options"]
             sns.set_theme(**seaborn_options)
+
+        target_source = FixedTarget.from_name(source_name)
+
+        for survey in config["skyview"]["surveys"]:
+            survey_name = survey["name"]
+            fig, ax = plt.subplots()
+            _, hdu = plot_from_skyview_survey(
+                target_source,
+                survey_name=survey_name,
+                fov_radius=u.Quantity(survey["fov_radius"]),
+                log=survey["log"],
+                ax=ax,
+                grid=survey["grid"],
+                reticle=survey["reticle"],
+                style_kwargs=survey["style_kwargs"],
+                reticle_style_kwargs=survey["reticle_style_kwargs"],
+            )
+            ax.set_title(f"{source_name} - {survey_name}")
+            output_path = output_path if output_path is not None else Path.cwd()
+            fig.savefig(
+                output_path
+                / f"{source_name}_altitude_airmass.{config['plotting_options']['file_format']}",
+                bbox_inches=config["plotting_options"]["bbox_inches"],
+            )
+            if config["skyview"]["save_hdus"]:
+                save_fits_hdu(
+                    hdu,
+                    output_path
+                    / f"{source_name}_skyview_image_from_{survey_name.replace(' ','')}.fits",
+                )
 
         logger.info("Initializing assumed model")
         assumed_spectrum = initialize_model(config)
