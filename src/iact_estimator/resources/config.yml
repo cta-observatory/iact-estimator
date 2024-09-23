@@ -44,6 +44,24 @@ plotting_options:
   file_format: "pdf"
   merge_horizon_profiles: True
 
+skyview:
+  save_hdus: True
+  surveys:
+    - name: "DSS"
+      fov_radius: "10 arcmin"
+      log: False
+      grid: False
+      reticle: False
+      style_kwargs: {"cmap": "viridis"}
+      reticle_style_kwargs: {"color": "white", "lw":2}
+    - name: "GB6 (4850MHz)"
+      fov_radius: "10 arcmin"
+      log: False
+      grid: False
+      reticle: False
+      style_kwargs: {"cmap": "viridis"}
+      reticle_style_kwargs: {"color": "white", "lw":2}
+
 use_seaborn: True
 seaborn_options:
   context: talk
