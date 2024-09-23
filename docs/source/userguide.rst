@@ -11,7 +11,7 @@ You can use the :ref:`iact-estimator-cfg` command-line tool
 
 .. code-block::
 
-    iact-estimator-cfg --output-path /where/to/save/config/file
+    iact-estimator config --to /where/to/save/config/file
 
 to get the following example configuration file,
 
@@ -30,7 +30,7 @@ for a source named "my_source",
 
 .. code-block::
 
-    iact-estimator --config config.yml --source-name my_source
+    iact-estimator run --config config.yml --source-name my_source
 
 Output
 ======
