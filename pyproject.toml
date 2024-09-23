@@ -24,6 +24,7 @@ classifiers = [
 dependencies = [
     "astroplan",
     "astropy<6",  # see https://github.com/gammapy/gammapy/issues/4972
+    "astroquery",
     "gammapy",
     "seaborn",
     "scipy<1.12", # see https://github.com/gammapy/gammapy/pull/4997
