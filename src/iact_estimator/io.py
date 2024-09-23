@@ -57,6 +57,12 @@ def load_ebl(ebl_file_path):
         Energy values.
     taus : `np.array`
         TBD.
+
+    Notes
+    -----
+    This is a legacy function which works
+    only with the default data file packages with
+    *iact-estimator*.
     """
     if not Path(ebl_file_path).exists():
         raise ValueError("EBL file not found at", Path(ebl_file_path).absolute())
