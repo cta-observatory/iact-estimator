@@ -12,7 +12,7 @@ from astropy.visualization import quantity_support
 import matplotlib.pyplot as plt
 
 from .. import __version__
-from ..io import read_yaml
+from ..io import read_yaml, load_performance_ecsv
 from ..core import (
     setup_logging,
     initialize_model,
@@ -55,6 +55,12 @@ parser_run.add_argument(
     default="test_source",
     type=str,
     help="Name of the source to estimate.",
+)
+parser.add_argument(
+    "--performance",
+    default="",
+    type=str,
+    help="Custom performance data.",
 )
 parser_run.add_argument(
     "--output-path",
@@ -112,8 +118,14 @@ def main():
         logger.info("Loading configuration file")
         config = read_yaml(args.config)
 
+        performance_data = None
+        if args.performance:
+            performance_data_file = Path(args.performance).resolve()
+            logger.info("Loading performance data from %s", performance_data_file)
+            performance_data = load_performance_ecsv(performance_data_file)
+
         logging.info("Validating input configuration")
-        if not check_input_configuration(config):
+        if not check_input_configuration(config, performance_data):
             logging.critical(
                 "One or more invalid configuration settings have been found."
             )
@@ -149,6 +161,13 @@ def main():
             )
 
         energy_bins, gamma_rate, background_rate = prepare_data(config)
+
+        if not performance_data:
+            energy_bins, gamma_rate, background_rate = prepare_data(config)
+        else:
+            energy_bins, gamma_rate, background_rate = prepare_data(
+                config, performance_data
+            )
 
         en, sed, dsed, sigmas, detected = calculate(
             energy_bins, gamma_rate, background_rate, config, assumed_spectrum
