@@ -22,7 +22,7 @@ def read_yaml(input_file_path):
 
     Parameters
     ----------
-    input_file_path : `str`
+    input_file_path : `str` or `pathlib.Path`
         Path to the input YAML file.
 
     Returns
@@ -31,11 +31,14 @@ def read_yaml(input_file_path):
         Contents of the YAML file in form
         of a Python dictionary.
     """
-    try:
-        with open(input_file_path, "r") as input_file:
-            data = load(input_file, Loader=Loader)
-    except FileNotFoundError:
-        logger.exception("Configuration file not found at %s", input_file_path)
+
+    input_file_path = Path(input_file_path).resolve()
+    if not input_file_path.is_file():
+        raise ValueError(f"Configuration file not found at {input_file_path}")
+
+    with open(input_file_path, "r") as input_file:
+        data = load(input_file, Loader=Loader)
+
     return data
 
 
