@@ -12,6 +12,8 @@ from scipy.integrate import quad
 from . import (
     LOW_ZENITH_PERFORMANCE,
     MID_ZENITH_PERFORMANCE,
+    MAGIC_LST1_LOW_ZENITH_PERFORMANCE,
+    MAGIC_LST1_MID_ZENITH_PERFORMANCE,
 )
 from .io import load_ebl
 from .spectral import crab_nebula_spectrum
@@ -338,7 +340,15 @@ def prepare_data(config):
     performance_data = {
         "low": LOW_ZENITH_PERFORMANCE,
         "mid": MID_ZENITH_PERFORMANCE,
+        "magic_lst1_low": MAGIC_LST1_LOW_ZENITH_PERFORMANCE,
+        "magic_lst1_mid": MAGIC_LST1_MID_ZENITH_PERFORMANCE,
     }
+
+    if config["sum_trigger"] and config["magic_lst1"]:
+        message = "LST-1 is not compatible with the MAGIC SUM trigger."
+        " is not currently available."
+        logger.critical(message)
+        raise NotImplementedError(message)
 
     if config["sum_trigger"] and config["zenith_performance"] == "low":
         message = "Low zenith performance with the SUM trigger"
@@ -346,11 +356,14 @@ def prepare_data(config):
         logger.critical(message)
         raise NotImplementedError(message)
 
-    min_energy = performance_data[config["zenith_performance"]]["min_energy"]
-    max_energy = performance_data[config["zenith_performance"]]["max_energy"]
+    magic_lst1 = "magic_lst1_" if config["magic_lst1"] else ""
+    dataset = f"{magic_lst1}{config['zenith_performance']}"
+
+    min_energy = performance_data[dataset]["min_energy"]
+    max_energy = performance_data[dataset]["max_energy"]
     energy_bins = np.append(min_energy.value, max_energy[-1].value) * min_energy.unit
-    gamma_rate = performance_data[config["zenith_performance"]]["gamma_rate"]
-    background_rate = performance_data[config["zenith_performance"]]["background_rate"]
+    gamma_rate = performance_data[dataset]["gamma_rate"]
+    background_rate = performance_data[dataset]["background_rate"]
 
     return energy_bins, gamma_rate, background_rate
 
