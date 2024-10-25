@@ -14,6 +14,7 @@ extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
 zenith_performance: "low" # "low"=0-30deg, "mid"=30-45deg
+magic_lst1: True
 # you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
 
 ebl_file_path:
