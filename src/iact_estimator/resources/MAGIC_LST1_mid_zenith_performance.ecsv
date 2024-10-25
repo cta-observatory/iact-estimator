@@ -1,0 +1,41 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - {name: min_energy, unit: GeV, datatype: float64}
+# - {name: max_energy, unit: GeV, datatype: float64}
+# - {name: gamma_rate, unit: 1 / min, datatype: float64}
+# - {name: background_rate, unit: 1 / min, datatype: float64}
+# meta:
+#   __serialized_columns__:
+#     background_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: background_rate}
+#     gamma_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: gamma_rate}
+#     max_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: &id001 !astropy.units.Unit {unit: GeV}
+#       value: !astropy.table.SerializedColumn {name: max_energy}
+#     min_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: min_energy}
+#   name: MAGIC_LST1_mid_zenith
+# schema: astropy-2.0
+min_energy max_energy gamma_rate background_rate
+39.81071705534972 63.09573444801933 0.0 0.0
+63.09573444801933 100.0 0.59 0.715
+100.0 158.48931924611136 2.43 1.42
+158.48931924611136 251.188643150958 2.65 0.307
+251.188643150958 398.1071705534973 2.03 0.093
+398.1071705534973 630.9573444801933 1.171 0.0229
+630.9573444801933 1000.0 0.899 0.0093
+1000.0 1584.8931924611143 0.806 0.0096
+1584.8931924611143 2511.886431509581 0.319 0.00264
+2511.886431509581 3981.0717055349733 0.185 0.0007
+3981.0717055349733 6309.573444801933 0.113 0.00138
+6309.573444801933 10000.0 0.084 0.00148
+10000.0 15848.931924611143 0.0 0.0
