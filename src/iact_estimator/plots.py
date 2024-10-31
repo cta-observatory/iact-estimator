@@ -425,7 +425,7 @@ def plot_observability_constraints_grid(
     ax.set_yticks(list(constraint_labels.keys()), constraint_labels.values())
 
     ax.set_xticks(range(len(time_grid)))
-    ax.set_xticklabels([t.datetime.strftime("%H:%M") for t in time_grid], fontsize=10)
+    ax.set_xticklabels([t.datetime.strftime("%H:%M") for t in time_grid], fontsize=7)
 
     ax.set_xticks(np.arange(extent[0], extent[1]), minor=True)
     ax.set_yticks(np.arange(extent[2], extent[3]), minor=True)
