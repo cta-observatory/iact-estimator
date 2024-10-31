@@ -22,10 +22,15 @@ For the moment there is no public packaged release.
 
 ## Usage
 
-You can use the package using the available command line entry points,
+You can use the package using the available command line entry points.
 
-1. get the default configuration file with `iact-estimator-cfg`
-2. launch the estimation with `iact-estimator`
+Assuming you are working from a directory called `project`
+
+1. get the default configuration file with `iact-estimator config`
+2. launch the estimation with `iact-estimator run --config config.yml --source-name "Crab Nebula"`
+
+> [!NOTE]
+> Currently the source name must be a valid identifier from the SIMBAD, NED or VizieR databases.
 
 For more details use the `-h` option to show the help menu.
 
