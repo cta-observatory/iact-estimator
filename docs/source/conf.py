@@ -61,6 +61,7 @@ nb_execution_mode = "force"
 nb_execution_allow_errors = False
 nb_execution_raise_on_error = True
 nb_remove_code_source = False
+nb_execution_timeout = 60
 
 # Options for towncrier extension
 # https://sphinxcontrib-towncrier.readthedocs.io/en/latest/
