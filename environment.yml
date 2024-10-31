@@ -29,3 +29,6 @@ dependencies:
   # Development
   - pre-commit
   - ruff
+  # PyPI-only or dev dependencies
+  - pip:
+      - starplot
