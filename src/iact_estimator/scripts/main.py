@@ -178,7 +178,7 @@ def main():
         logger.debug("Producing observability constraints grid")
         obs_grid_time_res = (
             1 * u.h
-            if (end_datetime - start_datetime).to("day").value < 1
+            if (end_datetime - start_datetime).to("day").value <= 1
             else 1 * u.day
         )
         _ = plot_observability_constraints_grid(
