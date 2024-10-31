@@ -1,26 +1,61 @@
 """Module that stores all functions related to observability estimation from the given location."""
 
-from astroplan import AtNightConstraint, MoonSeparationConstraint, AltitudeConstraint
+from datetime import datetime
+
+from astropy.time import Time
+
+from astroplan import (
+    AtNightConstraint,
+    MoonSeparationConstraint,
+    AltitudeConstraint,
+    MoonIlluminationConstraint,
+)
 import astropy.units as u
 
-from astroplan import is_observable, months_observable
+from astroplan import (
+    is_observable,
+    months_observable,
+    is_event_observable,
+    time_grid_from_range,
+)
 
 
 __all__ = ["define_constraints"]
 
 
+def get_days_in_this_year():
+    """Get the number of days in the current year.
+
+    Accounts for leap years."""
+    this_year = datetime.today().year
+    start_of_year = Time(f"{this_year}-01-01")
+    end_of_year = Time(f"{this_year}-12-31")
+
+    # Add 1 to include the last day
+    num_days = int((end_of_year - start_of_year).to_value("day") + 1)
+    return num_days
+
+
 def define_constraints(config):
     constraints_config = config["observation"]["constraints"]
 
-    moon = constraints_config["moon_separation"]
+    moon_separation = constraints_config["moon_separation"]
+    moon_illumination = constraints_config["moon_illumination_fraction"]
     zenith = constraints_config["zenith"]
 
     constraints = [
         AtNightConstraint(u.Quantity(constraints_config["max_solar_altitude"])),
         MoonSeparationConstraint(
-            min=u.Quantity(moon["min"]),
-            max=u.Quantity(moon["max"]),
-            ephemeris=moon["ephemeris"],
+            min=u.Quantity(moon_separation["min"]),
+            max=u.Quantity(moon_separation["max"]) if moon_separation["max"] else None,
+            ephemeris=moon_separation["ephemeris"],
+        ),
+        MoonIlluminationConstraint(
+            min=u.Quantity(moon_illumination["min"])
+            if moon_illumination["min"]
+            else None,
+            max=u.Quantity(moon_illumination["max"]),
+            ephemeris=moon_separation["ephemeris"],
         ),
         AltitudeConstraint(
             min=90 * u.deg - u.Quantity(zenith["max"]),
@@ -53,3 +88,32 @@ def check_observability(
     )
 
     return ever_observable, best_months
+
+
+def get_total_available_time(
+    target_source, observer, constraints, time_range, time_resolution
+):
+    """Get available observation time.
+
+    Args:
+        target_source (astroplan.FixedTarget)
+        observer (astroplan.Observer)
+        constraints (astroplan.Constraint or list(astroplan.Constraint)):
+            Set of constraining limits for the observation.
+        time_range (list(astropy.time.Time)): [start, stop] time stamps
+        time_resolution (u.Quantity): time step over which to evaluate the constraints.
+
+    Returns:
+        total_available_time (u.Quantity): in hours.
+    """
+    time_grid = time_grid_from_range(time_range, time_resolution=time_resolution)
+
+    is_observable_at_time = is_event_observable(
+        constraints, observer, target_source, times=time_grid
+    )
+
+    total_observable_time = is_observable_at_time.sum()
+
+    total_available_time = total_observable_time * time_resolution.to("h")
+
+    return total_available_time
