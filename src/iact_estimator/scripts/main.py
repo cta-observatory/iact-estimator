@@ -21,7 +21,9 @@ from ..core import (
     source_detection,
     calculate,
 )
-from ..plots import plot_spectrum, plot_sed, plot_transit, plot_altitude_airmass
+from ..plots.physics import plot_spectrum, plot_sed
+from ..plots.observability import plot_transit, plot_altitude_airmass
+from ..plots.wobble_skymap import plot_skymap_with_wobbles, load_wobbles
 from .. import RESOURCES_PATH
 
 parser = argparse.ArgumentParser()
@@ -205,6 +207,17 @@ def main():
                 airmass_yaxis=True,
                 savefig=True,
                 output_path=output_path,
+            )
+
+            instrument_fov = u.Quantity(config["fov"])
+            wobble_offsets, wobble_angles = load_wobbles(config["wobbles"])
+            plot_skymap_with_wobbles(
+                target_source,
+                observer,
+                instrument_fov,
+                wobble_angles,
+                wobble_offsets,
+                config,
             )
 
         if config["plotting_options"]["show"]:
