@@ -7,13 +7,18 @@ import astropy.units as u
 from astropy.visualization import quantity_support
 from astroplan import FixedTarget
 from astroplan.plots import plot_sky_24hr, plot_altitude
+from astropy.time import Time
+from datetime import timedelta
 from astroplan.utils import time_grid_from_range
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
+import seaborn as sns
 
 from .core import observed_flux, get_horizon_stereo_profile
 from .spectral import crab_nebula_spectrum
 from iact_estimator import HORIZON_PROFILE_M1, HORIZON_PROFILE_M2
+from .observability import get_total_available_time
 
 __all__ = [
     "plot_spectrum",
@@ -100,7 +105,7 @@ def plot_sed(
         "verticalalignment": "bottom",
     },
 ):
-    """
+    r"""
     Plot the Spectral Energy distribution with significances.
 
     Parameters
@@ -189,7 +194,7 @@ def plot_sed(
         for i in range(len(sigmas)):
             col = "0" if detected[i] else "0.75"
             ax.annotate(
-                f"{sigmas[i]:.1f}$\sigma$",
+                rf"{sigmas[i]:.1f}$\sigma$",
                 (en[i], sed[i]),
                 color=col,
                 xycoords="data",
@@ -391,7 +396,7 @@ def plot_observability_constraints_grid(
     savefig=True,
     output_path=None,
 ):
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(layout="constrained")
     ax = plt.cga() if ax is None else ax
 
     # Create grid of times from ``start_time`` to ``end_time``
@@ -406,11 +411,13 @@ def plot_observability_constraints_grid(
     for i, constraint in enumerate(constraints):
         # Evaluate each constraint
         observability_grid[i, :] = constraint(observer, target, times=time_grid)
-        constraint_labels[i] = constraint.__class__.__name__
+        constraint_labels[i] = f"{constraint.__class__.__name__.split('Constraint')[0]}"
 
     # Create plot showing observability of the target
 
-    extent = [-0.5, -0.5 + len(time_grid), -0.5, 2.5]
+    numcols = len(time_grid)
+    numrows = len(constraint_labels)
+    extent = [-0.5, numcols - 0.5, numrows - 0.5, -0.5]
 
     ax.imshow(observability_grid, extent=extent)
 
@@ -418,7 +425,7 @@ def plot_observability_constraints_grid(
     ax.set_yticks(list(constraint_labels.keys()), constraint_labels.values())
 
     ax.set_xticks(range(len(time_grid)))
-    ax.set_xticklabels([t.datetime.strftime("%d/%m/%y %H:%M") for t in time_grid])
+    ax.set_xticklabels([t.datetime.strftime("%H:%M") for t in time_grid], fontsize=10)
 
     ax.set_xticks(np.arange(extent[0], extent[1]), minor=True)
     ax.set_yticks(np.arange(extent[2], extent[3]), minor=True)
@@ -428,7 +435,6 @@ def plot_observability_constraints_grid(
     plt.setp(ax.get_xticklabels(), rotation=30, ha="right")
 
     ax.tick_params(axis="y", which="minor", left="off")
-    ax.set_xlabel("Time on {0} UTC".format(time_grid[0].datetime.date()))
 
     if savefig:
         output_path = output_path if output_path is not None else Path.cwd()
@@ -438,3 +444,101 @@ def plot_observability_constraints_grid(
         )
 
     return ax
+
+
+def create_observability_heatmap(
+    target_source,
+    observer,
+    constraints,
+    start_date,
+    end_date,
+    time_resolution=1 * u.hour,
+    cmap="YlGnBu",
+    sns_plotting_context="paper",
+    sns_axes_style="whitegrid",
+    savefig=True,
+    output_path=None,
+    save_format="png",
+):
+    """Plot an annotated heatmap showing the amount of available hours per day.
+
+    Parameters
+    ==========
+    target_source: `~astroplan.FixedTarget`
+    observer: `~astroplan.Observer`
+    constraints: `~astroplan.Constraint` or `list(~astroplan.Constraint)`
+    start_date: `~astropy.time.Time`
+    end_date: `~astropy.time.Time`
+    time_resolution: `u.Quantity`, default=1h
+    cmap: str, default="YlGnBu"
+    sns_plotting_context: str, default="paper"
+    sns_axes_style: str, default="darkgrid"
+    savefig: bool, default=True
+    output_path: `pathlib.Path`, default=None
+        If unspecified the figure is saved in the current working directory.
+    save_format: str, default="png"
+    """
+    date_range = pd.date_range(
+        start=start_date.datetime, end=end_date.datetime, freq="D"
+    )
+
+    data = []
+
+    for date in date_range:
+        # Define time range for this particular day
+        time_range = Time([date, date + timedelta(days=1)])
+
+        # Get available observation hours for the day
+        available_hours = get_total_available_time(
+            target_source, observer, constraints, time_range, time_resolution
+        ).value
+
+        # Append data with month, day, and available hours
+        data.append(
+            {
+                "year": date.year,
+                "month": date.month,
+                "day": date.day,
+                "available_hours": available_hours,
+            }
+        )
+
+    # Create DataFrame
+    df = pd.DataFrame(data)
+
+    if df["year"].nunique() > 1:
+        df["month_label"] = (
+            df["year"].astype(str) + "-" + df["month"].astype(str).str.zfill(2)
+        )
+    else:
+        df["month_label"] = df["month"]
+
+    heatmap_data = df.pivot(
+        index="month_label", columns="day", values="available_hours"
+    )
+
+    with sns.axes_style(sns_axes_style), sns.plotting_context(
+        sns_plotting_context
+    ), sns.color_palette("deep"):
+        # Dynamically set the figure size based on data dimensions
+        fig_width = 1 + heatmap_data.shape[1] * 0.3  # 0.3 inch per day
+        fig_height = 1 + heatmap_data.shape[0] * 0.5  # 0.5 inch per month
+        fig, ax = plt.subplots(figsize=(fig_width, fig_height), layout="constrained")
+        fmt = ".0f" if time_resolution == 1 * u.h else ".1f"
+        sns.heatmap(
+            heatmap_data,
+            ax=ax,
+            annot=True,
+            fmt=fmt,
+            cmap=cmap,
+            annot_kws={"size": 12, "fontweight": 10},
+            cbar_kws={"label": "Available Observation Hours"},
+        )
+        ax.set_xlabel("Day of the Month")
+        ax.set_ylabel("Month")
+
+    if savefig:
+        output_path = output_path if output_path is not None else Path.cwd()
+        fig.savefig(
+            output_path / f"observability_heatmap_{target_source.name}.{save_format}",
+        )
