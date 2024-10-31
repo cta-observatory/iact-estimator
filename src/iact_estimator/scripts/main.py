@@ -3,6 +3,7 @@
 import argparse
 import logging
 from pathlib import Path
+from datetime import datetime
 import shutil
 
 from astroplan import FixedTarget, Observer
@@ -27,8 +28,13 @@ from ..plots import (
     plot_transit,
     plot_altitude_airmass,
     plot_observability_constraints_grid,
+    create_observability_heatmap,
 )
-from ..observability import define_constraints, check_observability
+from ..observability import (
+    define_constraints,
+    check_observability,
+    get_days_in_this_year,
+)
 from .. import RESOURCES_PATH
 
 parser = argparse.ArgumentParser()
@@ -140,19 +146,19 @@ def main():
 
         crab = FixedTarget.from_name("Crab")
 
+        logger.debug("Defining observation constraints")
         constraints = define_constraints(config)
-
-        from datetime import datetime
 
         start_datetime = (
             Time(config["observation"]["start_datetime"])
             if config["observation"]["start_datetime"] is not None
             else Time(datetime.now(tz=observer.timezone))
         )
+        year_days = get_days_in_this_year()
         end_datetime = (
             Time(config["observation"]["end_datetime"])
             if config["observation"]["end_datetime"] is not None
-            else start_datetime + 1 * u.day
+            else start_datetime + year_days
         )
         logger.info("Observation starts at %s", start_datetime)
         logger.info("Observation ends at %s", end_datetime)
@@ -164,10 +170,17 @@ def main():
             else 1 * u.h
         )
 
+        logger.debug("Checking observability")
         ever_observable, best_months = check_observability(
             constraints, observer, [target_source], time_range, time_grid_resolution
         )
 
+        logger.debug("Producing observability constraints grid")
+        obs_grid_time_res = (
+            1 * u.h
+            if (end_datetime - start_datetime).to("day").value < 1
+            else 1 * u.day
+        )
         _ = plot_observability_constraints_grid(
             source_name,
             config,
@@ -175,7 +188,7 @@ def main():
             target_source,
             start_datetime,
             end_datetime,
-            time_grid_resolution,
+            obs_grid_time_res,
             constraints,
             ax=None,
             savefig=True,
@@ -187,6 +200,22 @@ def main():
             parser.exit(0)
 
         logger.info(f"The best months to observe the target source are {best_months}.")
+
+        logger.debug("Producing observability heatmap")
+        create_observability_heatmap(
+            target_source,
+            observer,
+            constraints,
+            start_datetime,
+            end_datetime,
+            time_resolution=1 * u.hour,
+            cmap="YlGnBu",
+            sns_plotting_context="paper",
+            sns_axes_style="whitegrid",
+            savefig=True,
+            output_path=None,
+            save_format="png",
+        )
 
         with quantity_support():
             plot_transit(
