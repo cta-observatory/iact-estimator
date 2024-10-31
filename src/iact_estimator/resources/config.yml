@@ -10,14 +10,18 @@ assumed_model:
 
 observation:
   constraints:
+    moon_illumination_fraction:
+      max: 0.2
+      min:
+      ephemeris:
     moon_separation:
     # https://astroplan.readthedocs.io/en/latest/api/astroplan.MoonSeparationConstraint.html#astroplan.MoonSeparationConstraint
       min: "45 deg"
-      max: "90 deg"
+      max:
       ephemeris:
     zenith:
-      min: "5 deg"
-      max: "50 deg"
+      min: "0 deg"
+      max: "60 deg"
     max_solar_altitude: "-18 deg"
   time: "50 h"
   start_datetime: # default to today
