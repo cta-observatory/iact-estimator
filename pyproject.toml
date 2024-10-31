@@ -28,6 +28,7 @@ dependencies = [
     "gammapy",
     "seaborn",
     "scipy<1.12", # see https://github.com/gammapy/gammapy/pull/4997
+    "starplot"
 ]
 dynamic = ["version"]
 
