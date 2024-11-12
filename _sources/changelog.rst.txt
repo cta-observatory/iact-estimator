@@ -1,0 +1,37 @@
+.. _changelog:
+
+=========
+Changelog
+=========
+
+.. _Semantic Versioning: https://semver.org/
+
+This is the changelog of *iact-estimator*.
+
+Here you can find the what has changed since every release and a list
+of the latest development changes.
+
+Each version follows `Semantic Versioning`_ (``<major>.<minor>.<patch>``).
+
+Backward incompatible (breaking) changes will only be introduced in minor
+versions unitl v1.0.0 and in major
+versions after that, in both cases with advance notice in the **Deprecations** section of releases.
+
+.. towncrier-draft-entries:: |release| [UNRELEASED DRAFT]
+
+.. towncrier release notes start
+
+v0.1.dev80+g3731626 (2024-11-12)
+================================
+
+Added
+-----
+
+- Added EBL data from Dominguez et al. 2011. (`#5 <https://github.com/cta-observatory/iact-estimator/issues/5>`__)
+
+
+Changed
+-------
+
+- Grouped all CLI into a single executable with subcommands.
+  Also added an new configuration option to disable the plotting figures windows. (`#18 <https://github.com/cta-observatory/iact-estimator/issues/18>`__)
