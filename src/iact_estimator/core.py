@@ -85,6 +85,11 @@ def setup_logging(log_level, source_name):
     return logger
 
 
+def log_and_raise(logger, msg, exc_type=ValueError):
+    logger.error(msg)
+    raise exc_type(msg)
+
+
 def get_horizon_stereo_profile(M1_data, M2_data):
     """Merge the horizon profiles into a stereo one.
 
