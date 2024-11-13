@@ -9,6 +9,7 @@ from astroplan import FixedTarget
 from astroplan.plots import plot_sky_24hr, plot_altitude
 import matplotlib.pyplot as plt
 import numpy as np
+import seaborn as sns
 
 from .core import observed_flux, get_horizon_stereo_profile
 from .spectral import crab_nebula_spectrum
@@ -24,6 +25,34 @@ __all__ = [
 ]
 
 logger = logging.getLogger(__name__)
+
+
+def get_default_seaborn_font_scaling(context):
+    context_params = sns.plotting_context(context)
+    font_scale = (
+        context_params["font.size"] / sns.plotting_context("paper")["font.size"]
+    )
+    return font_scale
+
+
+def set_context_with_scaled_figsize(
+    context="notebook", base_figure_size=plt.rcParams["figure.figsize"]
+):
+    """
+    Sets Seaborn context and adjusts figure size based on context's default scaling factor.
+
+    Parameters:
+        context (str): Seaborn context ('paper', 'notebook', 'talk', 'poster')
+    """
+
+    context_params = sns.plotting_context(context)
+    font_scale = (
+        context_params["font.size"] / sns.plotting_context("paper")["font.size"]
+    )
+
+    figure_size = (base_figure_size[0] * font_scale, base_figure_size[1] * font_scale)
+
+    return figure_size
 
 
 def plot_spectrum(
