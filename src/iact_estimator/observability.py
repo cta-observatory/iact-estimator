@@ -69,6 +69,28 @@ def define_constraints(config):
 def check_observability(
     constraints, observer, target_source, time_range, time_grid_resolution
 ):
+    """Check is the target source is observable and which months are best.
+
+    Parameters
+    ----------
+    constraints : `~astroplan.constraints.Constraint` or list(~astroplan.constraints.Constraint)`
+        One or more observational constraints.
+    observer : `~astroplan.Observer`
+        Instance of an _astroplan_ observer.
+    target_source : `~astroplan.FixedTarget`
+        Instance of an _astroplan_ fixed target source,
+    time_range : list(~astropy.time.Time), shape=(2,)
+        Start and stop observation time.
+    time_grid_resolution : `~astropy.units.Quantity`
+        Unit of time to test observability along the provided time range.
+
+    Returns
+    -------
+    ever_observable : bool
+        True if the target source is observable within at least one time unit.
+    best_months : set
+        Set of months where the target source is more suited for observation.
+    """
     # Are targets *ever* observable in the time range?
     ever_observable = is_observable(
         constraints,
