@@ -290,6 +290,7 @@ def main():
             )
 
         logger.info("All expected operations have been perfomed succesfully.")
+        logger.info("All output can be found at %s", output_path)
 
         if config["plotting_options"]["show"]:
             plt.show()
