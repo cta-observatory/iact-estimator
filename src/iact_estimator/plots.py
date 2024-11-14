@@ -396,6 +396,48 @@ def plot_observability_constraints_grid(
     savefig=True,
     output_path=None,
 ):
+    """
+    Plot a grid representing the observability of a target based on a set of constraints
+    over a specified time range.
+
+    Parameters
+    ----------
+    source_name : str
+        The name of the source being observed.
+    config : dict
+        Configuration dictionary containing plotting options, such as file format.
+    observer : `~astroplan.Observer`
+        The observer object that provides the position and time of observation.
+    target : `~astroplanb.FixedTarget`
+        The target object representing the source of interest.
+    start_time : datetime
+        The starting time of the observation period.
+    end_time : datetime
+        The ending time of the observation period.
+    time_resolution : `~astropy.units.Quantity`
+        The time resolution (step size) for the grid.
+    constraints : `~astroplan.constraints.Constraint` or list(~astroplan.constraints.Constraint)`
+        A list of constraint functions that evaluate the observability of the target
+        at given times for the observer and target.
+    ax : `~matplotlib.axes.Axes`, optional
+        The axis on which to plot the grid. If None, a new figure and axis are created.
+    savefig : bool, optional
+        Whether to save the generated plot as a file. Default is True.
+    output_path : str or Path, optional
+        The directory where the plot should be saved. If None, saves to the current
+        working directory.
+
+    Returns
+    -------
+    ax : `~matplotlib.axes.Axes`
+        The axis with the generated observability grid plot.
+
+    Notes
+    -----
+    The observability grid is created by evaluating each constraint function
+    at every time step within the specified time range. The grid is plotted as
+    an image, with time on the x-axis and constraints on the y-axis.
+    """
     fig, ax = plt.subplots(layout="constrained")
     ax = plt.cga() if ax is None else ax
 
