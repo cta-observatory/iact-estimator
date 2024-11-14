@@ -148,7 +148,6 @@ def fake_onoff_from_fake_observation(
     spectrum_dataset_maker,
     sky_models,
     n_off_regions,
-    target_source,
 ):
     """Produce ON/OFF spectrum datasets from a simulated observation.
 
@@ -160,7 +159,6 @@ def fake_onoff_from_fake_observation(
         empty_spectrum_dataset, simulated_observation
     )
 
-    sky_models[target_source.name].spatial_model = None
     spectrum_dataset.models = sky_models
     spectrum_dataset.fake()
 

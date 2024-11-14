@@ -2,16 +2,6 @@
 components:
 - name: Crab Nebula
   type: SkyModel
-  spatial:
-    type: PointSpatialModel
-    frame: icrs
-    parameters:
-    - name: lon_0
-      value: 83.63
-      unit: deg
-    - name: lat_0
-      value: 22.014
-      unit: deg
   spectral:
     type: LogParabolaSpectralModel
     parameters:

@@ -17,7 +17,7 @@ from gammapy.makers import (
     SpectrumDatasetMaker,
     WobbleRegionsFinder,
 )
-from gammapy.modeling.models import Models
+from gammapy.modeling.models import Models, PointSpatialModel
 import matplotlib.pyplot as plt
 
 from .. import __version__
@@ -321,13 +321,19 @@ def main():
                     selection=["exposure", "edisp", "background"],
                 )
 
+                if gammapy_config["datasets"]["type"] == "1d":
+                    sky_models[
+                        target_source.name
+                    ].spatial_model = PointSpatialModel.from_position(
+                        on_region_geometry.region.center
+                    )
+
                 spectrum_datasets_on_off = fake_onoff_from_fake_observation(
                     observations[0],
                     empty_spectrum_dataset,
                     spectrum_dataset_maker,
                     sky_models,
                     n_off_regions,
-                    target_source,
                 )
 
             spectrum_datasets_on_off_stacked = spectrum_datasets_on_off.stack_reduce()
