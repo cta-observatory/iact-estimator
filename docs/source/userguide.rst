@@ -20,7 +20,7 @@ to get the example configuration files:
 .. literalinclude:: /../../src/iact_estimator/resources/config.yml
     :language: yaml
 
-- a configuration files to define models to be used with the :ref:`gammapy_interface`,`
+- a configuration files to define models to be used with the :ref:`gammapy_interface`,
 
 .. literalinclude:: /../../src/iact_estimator/resources/models.yml
     :language: yaml
@@ -38,6 +38,8 @@ for a source named "my_source",
 .. code-block::
 
     iact-estimator --config config.yml --source-name my_source
+
+.. _gammapy_interface:
 
 Gammapy interface
 -----------------
