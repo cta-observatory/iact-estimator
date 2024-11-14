@@ -4,12 +4,15 @@ import logging
 from pathlib import Path
 
 import astropy.units as u
+from astropy.coordinates import AltAz
 from astropy.visualization import quantity_support
-from astroplan import FixedTarget
+from astroplan import FixedTarget, time_grid_from_range
 from astroplan.plots import plot_sky_24hr, plot_altitude
 import matplotlib.pyplot as plt
 import numpy as np
 import seaborn as sns
+
+from gammapy.maps import MapAxis
 
 from .core import observed_flux, get_horizon_stereo_profile
 from .spectral import crab_nebula_spectrum
@@ -22,6 +25,8 @@ __all__ = [
     "plot_altitude_airmass",
     "plot_exposure",
     "plot_rates",
+    "plot_gammapy_sed",
+    "plot_irf_source_pointing",
 ]
 
 logger = logging.getLogger(__name__)
@@ -403,4 +408,136 @@ def plot_rates(performance_data, title=None, ax=None):
         ax.legend()
         ax.set_xscale("log")
         ax.set_yscale("log")
+    return ax
+
+
+def plot_gammapy_sed(
+    observation_livetime,
+    flux_points,
+    assumed_spectral_model,
+    plot_ts_profiles=True,
+    energy_flux_unit="TeV cm-2 s-1",
+    source_name=None,
+    save=True,
+    output_path=None,
+    **kwargs,
+):
+    """Plot an SED with gammapy shoowing the significance per bin.
+
+    Optionally plot TS profiles.
+
+    Parameters
+    ==========
+    observation_livetime : `astropy.units.Quantity`
+    flux_points : `~gammapy.estimators.FluxPoints`
+    assumed_spectral_model : `~gammapy.modeling.models.SpectralModel`
+    plot_ts_profiles=True,
+    energy_flux_unit : str, default="TeV cm-2 s-1"
+    source_name : str, default=None
+    savefig : bool, default=True
+    output_path : str or `pathlib.Path`, default=None
+    kwargs :
+        Keyword arguments for `~matplotlib.axis.Axis.grid()`
+        and `~matplotlib.figure.Figure.savefig()`.
+    """
+
+    grid_kwargs = kwargs.get("grid", {})
+    savefig_kwargs = kwargs.get("savefig", {})
+    seaborn_kwargs = kwargs.get("seaborn", {})
+
+    figsize = set_context_with_scaled_figsize(
+        context=seaborn_kwargs["context"],
+        base_figure_size=plt.rcParams["figure.figsize"],
+    )
+    fig, ax = plt.subplots(figsize=figsize, layout="constrained")
+
+    sed_type = "e2dnde"
+    energy_flux_unit = u.Unit(energy_flux_unit)
+
+    ax.yaxis.units = energy_flux_unit
+
+    flux_points_table = flux_points.to_table(
+        sed_type="e2dnde", format="gadf-sed", formatted=True
+    )
+
+    energy_axis = MapAxis.from_energy_edges(
+        np.concatenate(
+            (
+                flux_points_table["e_min"].data,
+                np.array([flux_points_table["e_max"][-1]]),
+            )
+        )
+        * flux_points_table["e_min"].unit
+    )
+
+    assumed_spectral_model.plot(
+        [energy_axis.edges.min().value, energy_axis.edges.max().value]
+        * energy_axis.edges.unit,
+        ax=ax,
+        sed_type=sed_type,
+        label="Assumed spectral model",
+        color="green",
+    )
+
+    flux_points.plot(
+        ax=ax,
+        sed_type=sed_type,
+        color="darkorange",
+        label=f"Estimated observation ({observation_livetime})",
+    )
+
+    if plot_ts_profiles:
+        flux_points.plot_ts_profiles(ax=ax, sed_type=sed_type, cmap="Blues")
+
+    for flux_point in flux_points_table:
+        ax.annotate(
+            rf"{flux_point['sqrt_ts']:.1f} $\sigma$",
+            xy=(
+                flux_point["e_min"],
+                (
+                    flux_point["e2dnde"] * flux_point.table["e2dnde"].unit
+                    + 3 * flux_point["e2dnde_err"] * flux_point.table["e2dnde_err"].unit
+                ).to_value(energy_flux_unit),
+            ),
+            rotation=45,
+        )
+
+    ax.grid(**grid_kwargs)
+
+    ax.set_ylabel(
+        rf"$E^{2}\dfrac{{dN}}{{dE}}\quad$({energy_flux_unit.to_string('latex',fraction=False)})"
+    )
+    ax.legend()
+
+    if save:
+        output_path = output_path if output_path is not None else Path.cwd()
+        fig.savefig(
+            output_path / f"{source_name or ''}_gammapy_sed.{savefig_kwargs['format']}",
+            **savefig_kwargs,
+        )
+
+
+def plot_irf_source_pointing(target_source, observation, ax=None, **kwargs):
+    ax = plt.gca() if ax else None
+
+    observation_times = time_grid_from_range(
+        [observation.tstart, observation.tstop], time_resolution=1 * u.h
+    )
+
+    altaz_pointings = observation.get_pointing_altaz(observation_times)
+    target_source_altaz = target_source.coord.transform_to(
+        AltAz(
+            obstime=observation_times, location=observation.observatory_earth_location
+        )
+    )
+
+    ax.plot(altaz_pointings.az, altaz_pointings.alt, label="IRFs pointing")
+    ax.plot(target_source_altaz.az, target_source_altaz.alt, label="Target source")
+
+    ax.set_ylabel("Zenith angle (deg)")
+    ax.set_xlabel("Azimuth angle (deg)")
+    ax.grid()
+
+    ax.legend()
+
     return ax
