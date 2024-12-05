@@ -39,3 +39,15 @@ MID_ZENITH_PERFORMANCE = QTable.read(
 )
 """`~astropy.table.QTable` with energy bins, rate of gammas and background for
 mid zenith performance (30 to 45 degrees)."""
+
+MAGIC_LST1_LOW_ZENITH_PERFORMANCE = QTable.read(
+    RESOURCES_PATH / Path("MAGIC_LST1_low_zenith_performance.ecsv")
+)
+"""`~astropy.table.QTable` with energy bins, rate of gammas and background for
+low zenith performance (0 to 30 degrees)."""
+
+MAGIC_LST1_MID_ZENITH_PERFORMANCE = QTable.read(
+    RESOURCES_PATH / Path("MAGIC_LST1_mid_zenith_performance.ecsv")
+)
+"""`~astropy.table.QTable` with energy bins, rate of gammas and background for
+mid zenith performance (30 to 45 degrees)."""
