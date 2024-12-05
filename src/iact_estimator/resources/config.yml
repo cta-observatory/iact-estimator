@@ -1,4 +1,6 @@
 assumed_model:
+  # NOTE: this applies to the old version scripts
+  # for gammapy use models.yml
   # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
   name: gammapy.modeling.models.LogParabolaSpectralModel
   parameters:
@@ -44,9 +46,33 @@ plotting_options:
   file_format: "pdf"
   merge_horizon_profiles: True
 
+gammapy_interface:
+  # this section follows loosely gammapy's HLI but does NOT use it
+  # see https://github.com/gammapy/gammapy/issues/4169
+  # add any key that you want to overwrite based on gammapy low-level interface
+  input: # path to IRF file or path to real DL3 data compatible with GADF / `gammapy.data.DataStore`
+  datasets:
+    type: 1d
+    geom:
+        axes:
+            energy: {min: 70 GeV, max: 20 TeV, nbins: 5, per_decade: True}
+            energy_true: {min: 10 GeV, max: 100 TeV, nbins: 10, per_decade: True}
+    on_region:
+      frame: icrs,
+      radius: null # null for energy dependence
+      offset: "0.4 deg"
+    containment_correction: false
+  estimators:
+    flux_points:
+  plotting_options:
+    sed:
+      ts_profile: True
+      energy_flux_unit: "TeV cm-2 s-1"
+
+
 use_seaborn: True
 seaborn_options:
-  context: talk
+  context: paper
   style: whitegrid
   palette: viridis
   font: sans-serif
