@@ -9,6 +9,7 @@ dependencies:
   - pip
   - astroplan
   - astropy<7
+  - matplotlib<3.10
   - gammapy
   - seaborn
   - scipy=1.11* # see https://github.com/gammapy/gammapy/pull/4997

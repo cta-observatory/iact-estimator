@@ -24,6 +24,7 @@ classifiers = [
 dependencies = [
     "astroplan",
     "astropy<7",
+    "matplotlib<3.10",
     "gammapy",
     "seaborn",
     "scipy<1.12", # see https://github.com/gammapy/gammapy/pull/4997
