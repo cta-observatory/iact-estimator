@@ -1,12 +1,19 @@
-assumed_model:
-  # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
-  name: gammapy.modeling.models.LogParabolaSpectralModel
-  parameters:
-    amplitude: 3.39e-11 TeV^-1 cm^-2 s^-1
-    reference: 1 TeV
-    alpha: 2.51
-    beta: 0.21
-  from_log10: True # relevant for e.g. LogParabolaSpectralModel
+target_source:
+  name: "Crab Nebula"
+  coordinates:
+    force: false # force use of custom coordinates for sources found also by name
+    ra_l:
+    dec_b:
+    frame:
+  assumed_model:
+    # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
+    name: gammapy.modeling.models.LogParabolaSpectralModel
+    parameters:
+      amplitude: 3.39e-11 TeV^-1 cm^-2 s^-1
+      reference: 1 TeV
+      alpha: 2.51
+      beta: 0.21
+    from_log10: True # relevant for e.g. LogParabolaSpectralModel
 
 observation_time: 50 h
 observation_datetime: "2024-06-15 18:00"
