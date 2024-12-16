@@ -7,6 +7,7 @@ from datetime import datetime
 import shutil
 
 from astroplan import FixedTarget, Observer
+from astropy.coordinates.name_resolve import NameResolveError
 from astropy.time import Time
 import astropy.units as u
 from astropy.visualization import quantity_support
@@ -16,6 +17,7 @@ from .. import __version__
 from ..io import read_yaml
 from ..core import (
     setup_logging,
+    load_target_source_coordinates,
     initialize_model,
     check_input_configuration,
     prepare_data,
@@ -110,7 +112,15 @@ def main():
         output_path = (
             Path(args.output_path) if args.output_path is not None else Path.cwd()
         )
-        source_name = args.source_name
+
+        logging.info("Loading configuration file")
+        config = read_yaml(args.config)
+
+        source_name = (
+            config["target_source"]["name"]
+            if config["target_source"]["name"]
+            else "test_source"
+        )
 
         previous_output = len(
             [file for file in output_path.rglob(f"**/{source_name}*")]
@@ -121,9 +131,6 @@ def main():
             )
 
         logger = setup_logging(args.log_level, source_name)
-
-        logger.info("Loading configuration file")
-        config = read_yaml(args.config)
 
         logging.info("Validating input configuration")
         if not check_input_configuration(config):
@@ -141,7 +148,16 @@ def main():
             sns.set_theme(**seaborn_options)
 
         # Basic observability checks
-        target_source = FixedTarget.from_name(source_name)
+        if source_name:
+            try:
+                target_source = FixedTarget.from_name(source_name)
+            except NameResolveError:
+                target_source = load_target_source_coordinates(config)
+        elif (
+            source_name != "test_source"
+            and config["target_source"]["coordinates"]["force"]
+        ):
+            target_source = load_target_source_coordinates(config)
 
         if config["observer"]["auto"]:
             observer = Observer.at_site(config["observer"]["auto"])
@@ -303,6 +319,7 @@ def main():
         logger.info("All expected operations have been perfomed succesfully.")
 
         logger.info("All output can be found at %s", output_path)
+
         if config["plotting_options"]["show"]:
             plt.show()
 
