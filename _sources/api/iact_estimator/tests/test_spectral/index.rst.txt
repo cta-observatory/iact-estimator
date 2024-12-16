@@ -1,0 +1,19 @@
+iact_estimator.tests.test_spectral
+==================================
+
+.. py:module:: iact_estimator.tests.test_spectral
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.tests.test_spectral.test_crab_nebula_spectrum
+
+
+Module Contents
+---------------
+
+.. py:function:: test_crab_nebula_spectrum()
+
