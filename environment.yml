@@ -8,7 +8,7 @@ dependencies:
   - python
   - pip
   - astroplan
-  - astropy<6 # see https://github.com/gammapy/gammapy/issues/4972
+  - astropy<7
   - gammapy
   - seaborn
   - scipy=1.11* # see https://github.com/gammapy/gammapy/pull/4997
