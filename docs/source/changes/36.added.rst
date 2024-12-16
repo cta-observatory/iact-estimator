@@ -1,0 +1,1 @@
+Allow to define a source also via its celestial coordinates.
