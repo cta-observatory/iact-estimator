@@ -200,7 +200,10 @@ def plot_skymap_with_wobbles(
     for angle, offset, color in zip(wobble_angles, wobble_offsets, color_map.colors):
         color = matplotlib_colors.to_hex(color)
 
-        wobble_center = target_coordinates.directional_offset_by(angle, offset)
+        # Transform IACT convention to astropy
+        position_angle = (90 * u.deg - angle) % (360 * u.deg)
+
+        wobble_center = target_coordinates.directional_offset_by(position_angle, offset)
         wobble_ra = wobble_center.ra.to_value("hourangle")
         wobble_dec = wobble_center.dec.to_value("deg")
 
@@ -245,5 +248,3 @@ def plot_skymap_with_wobbles(
             f"{target_source.name}_skymap_with_wobbles.{config['wobble_skymap_plot_options']['export']['format']}",
             **config["wobble_skymap_plot_options"]["export"],
         )
-
-    # plt.show()
