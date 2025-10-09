@@ -27,8 +27,27 @@ observer:
     latitude:
     longitude:
     elevation:
-observation_time: 50 h
-observation_datetime: "2024-06-15 18:00"
+
+observation:
+  constraints:
+    moon_illumination_fraction:
+      max: 0.2
+      min:
+      ephemeris:
+    moon_separation:
+      # https://astroplan.readthedocs.io/en/latest/api/astroplan.MoonSeparationConstraint.html#astroplan.MoonSeparationConstraint
+      min: "45 deg"
+      max:
+      ephemeris:
+    zenith:
+      min: "0 deg"
+      max: "60 deg"
+    max_solar_altitude: "-18 deg"
+  time: "50 h"
+  start_datetime: # default to today
+  end_datetime: # default to 1 year from today
+  time_resolution: "1 h"
+
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
