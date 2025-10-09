@@ -15,6 +15,18 @@ target_source:
       beta: 0.21
     from_log10: True # relevant for e.g. LogParabolaSpectralModel
 
+observer:
+  # use any available location from astropy.coordinates.EarthLocation.get_site_names
+  # overrides manual initialization
+  auto: "Roque de los Muchachos"
+  # or initialize one from scratch
+  # see https://astroplan.readthedocs.io/en/latest/api/astroplan.Observer.html for details
+  manual:
+    timezone: "UTC"
+    name:
+    latitude:
+    longitude:
+    elevation:
 observation_time: 50 h
 observation_datetime: "2024-06-15 18:00"
 extension: 0.0 deg

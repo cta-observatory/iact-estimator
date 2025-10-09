@@ -193,7 +193,17 @@ def main():
         ):
             target_source = load_target_source_coordinates(config)
 
-        observer = Observer.at_site("Roque de los Muchachos")
+        if config["observer"]["auto"]:
+            observer = Observer.at_site(config["observer"]["auto"])
+        else:
+            obs_cfg = config["observer"]["manual"]
+            observer = Observer(
+                timezone=obs_cfg["timezone"],
+                name=obs_cfg["name"],
+                latitude=u.Quantity(obs_cfg["latitude"]),
+                longitude=u.Quantity(obs_cfg["longitude"]),
+                elevation=u.Quantity(obs_cfg["elevation"]),
+            )
         time = Time(config["observation_datetime"])
 
         crab = FixedTarget.from_name("Crab")
