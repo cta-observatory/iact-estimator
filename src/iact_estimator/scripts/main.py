@@ -274,7 +274,7 @@ def main():
         for survey in config["skyview"]["surveys"]:
             survey_name = survey["name"]
             fig, ax = plt.subplots()
-            _, hdu = plot_from_skyview_survey(
+            ax, hdu = plot_from_skyview_survey(
                 target_source,
                 survey_name=survey_name,
                 fov_radius=u.Quantity(survey["fov_radius"]),
@@ -288,14 +288,15 @@ def main():
             output_path = output_path if output_path is not None else Path.cwd()
             fig.savefig(
                 output_path
-                / f"{source_name}_altitude_airmass.{config['plotting_options']['file_format']}",
+                / f"{source_name}_{survey_name}.{config['plotting_options']['file_format']}",
                 bbox_inches=config["plotting_options"]["bbox_inches"],
             )
             if config["skyview"]["save_hdus"]:
                 save_fits_hdu(
                     hdu,
                     output_path
-                    / f"{source_name}_skyview_image_from_{survey_name.replace(' ','')}.fits",
+                    / f"{source_name}_skyview_image_from_{survey_name.replace(' ', '')}.fits",
+                    overwrite=args.overwrite,
                 )
 
         logger.info("Initializing assumed model")
