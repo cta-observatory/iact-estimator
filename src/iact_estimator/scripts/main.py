@@ -14,7 +14,7 @@ from astropy.visualization import quantity_support
 import matplotlib.pyplot as plt
 
 from .. import __version__
-from ..io import read_yaml
+from ..io import read_yaml, save_fits_hdu
 from ..core import (
     setup_logging,
     load_target_source_coordinates,
@@ -31,6 +31,7 @@ from ..plots.observability import (
     plot_observability_constraints_grid,
     create_observability_heatmap,
 )
+from ..plots.multi_wavelength import plot_from_skyview_survey
 from ..observability import (
     define_constraints,
     check_observability,
@@ -269,6 +270,34 @@ def main():
                 savefig=True,
                 output_path=output_path,
             )
+
+        for survey in config["skyview"]["surveys"]:
+            survey_name = survey["name"]
+            fig, ax = plt.subplots()
+            ax, hdu = plot_from_skyview_survey(
+                target_source,
+                survey_name=survey_name,
+                fov_radius=u.Quantity(survey["fov_radius"]),
+                log=survey["log"],
+                ax=ax,
+                reticle=survey["reticle"],
+                style_kwargs=survey["style_kwargs"],
+                reticle_style_kwargs=survey["reticle_style_kwargs"],
+            )
+            ax.set_title(f"{source_name} - {survey_name}")
+            output_path = output_path if output_path is not None else Path.cwd()
+            fig.savefig(
+                output_path
+                / f"{source_name}_{survey_name}.{config['plotting_options']['file_format']}",
+                bbox_inches=config["plotting_options"]["bbox_inches"],
+            )
+            if config["skyview"]["save_hdus"]:
+                save_fits_hdu(
+                    hdu,
+                    output_path
+                    / f"{source_name}_skyview_image_from_{survey_name.replace(' ', '')}.fits",
+                    overwrite=args.overwrite,
+                )
 
         logger.info("Initializing assumed model")
         assumed_spectrum = initialize_model(config)
