@@ -1,18 +1,57 @@
-assumed_model:
-  # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
-  name: gammapy.modeling.models.LogParabolaSpectralModel
-  parameters:
-    amplitude: 3.39e-11 TeV^-1 cm^-2 s^-1
-    reference: 1 TeV
-    alpha: 2.51
-    beta: 0.21
-  from_log10: True # relevant for e.g. LogParabolaSpectralModel
+target_source:
+  name: "Crab Nebula"
+  coordinates:
+    force: false # force use of custom coordinates for sources found also by name
+    ra_l:
+    dec_b:
+    frame:
+  assumed_model:
+    # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
+    name: gammapy.modeling.models.LogParabolaSpectralModel
+    parameters:
+      amplitude: 3.39e-11 TeV^-1 cm^-2 s^-1
+      reference: 1 TeV
+      alpha: 2.51
+      beta: 0.21
+    from_log10: True # relevant for e.g. LogParabolaSpectralModel
+
+observer:
+  # use any available location from astropy.coordinates.EarthLocation.get_site_names
+  # overrides manual initialization
+  auto: "Roque de los Muchachos"
+  # or initialize one from scratch
+  # see https://astroplan.readthedocs.io/en/latest/api/astroplan.Observer.html for details
+  manual:
+    timezone: "UTC"
+    name:
+    latitude:
+    longitude:
+    elevation:
+
+observation:
+  constraints:
+    moon_illumination_fraction:
+      max: 0.2
+      min:
+      ephemeris:
+    moon_separation:
+      # https://astroplan.readthedocs.io/en/latest/api/astroplan.MoonSeparationConstraint.html#astroplan.MoonSeparationConstraint
+      min: "45 deg"
+      max:
+      ephemeris:
+    zenith:
+      min: "0 deg"
+      max: "60 deg"
+    max_solar_altitude: "-18 deg"
+  time: "50 h"
+  start_datetime: # default to today
+  end_datetime: # default to 1 year from today
+  time_resolution: "1 h"
 
 wobbles:
   fov_offsets: 0.4 # deg
   position_angles: [0, 90, 180, 270] # deg
-observation_time: 50 h
-observation_datetime: "2024-06-15 18:00"
+
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
@@ -64,12 +103,12 @@ wobble_skymap_plot_options:
   wobbles_colormap: "tab10"
   map_color_scheme: "BLUE_LIGHT"
   legend:
-    location: "lower right"
+    location: "outside right upper"
     num_columns: 1
     background_alpha: 1
   magnitude:
-   danger: 5
-   max: 30
+    danger: 5
+    max: 30
   target_source:
     marker:
       size: 15

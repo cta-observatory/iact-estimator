@@ -6,11 +6,12 @@ import astropy.units as u
 import matplotlib.colors as matplotlib_colors
 import matplotlib.pyplot as plt
 import numpy as np
+
+from ibis import _
 from starplot.styles import PolygonStyle
-from starplot import MapPlot, Projection, Star, DSO
+from starplot import Mercator, StereoNorth, StereoSouth
+from starplot import MapPlot, Star
 from starplot.styles import PlotStyle, extensions
-from starplot.data.stars import STAR_NAMES
-from starplot.data.bayer import hip
 
 __all__ = ["calculate_square_coordinates", "load_wobbles", "plot_skymap_with_wobbles"]
 
@@ -102,25 +103,28 @@ def plot_skymap_with_wobbles(
     )
 
     ra_min, ra_max, dec_min, dec_max = calculate_square_coordinates(
-        target_coordinates.ra, target_coordinates.dec, 1.5 * instrument_field_of_view
+        target_coordinates.icrs.ra,
+        target_coordinates.icrs.dec,
+        instrument_field_of_view,
     )
 
     if -70 < target_coordinates.dec.deg < 70:
-        projection = Projection.MERCATOR
+        projection = Mercator()
     else:
         if observer.latitude < 0 and target_coordinates.dec.deg < -70:
-            projection = Projection.STEREO_SOUTH
+            projection = StereoNorth()
         if observer.latitude > 0 and target_coordinates.dec.deg > 70:
-            projection = Projection.STEREO_NORTH
+            projection = StereoSouth()
 
     p = MapPlot(
         projection=projection,  # specify a non-perspective projection
-        ra_min=ra_min.to_value("hourangle"),
-        ra_max=ra_max.to_value("hourangle"),
-        dec_min=dec_min.to_value("deg"),
-        dec_max=dec_max.to_value("deg"),
+        ra_min=ra_min.deg,
+        ra_max=ra_max.deg,
+        dec_min=dec_min.deg,
+        dec_max=dec_max.deg,
         style=style,
-        resolution=1500,
+        resolution=3600,
+        scale=1.5,
     )
 
     p.gridlines()
@@ -135,60 +139,73 @@ def plot_skymap_with_wobbles(
         else:
             return "black"
 
-    def bright_star_labels() -> dict:
-        return {
-            k: f"{v} {Star.get(name=v).magnitude}"
-            if Star.get(name=v).magnitude <= DANGER_MAGNITUDE
-            else v
-            for k, v in STAR_NAMES.items()
-        }
-
     def star_label_with_magnitude(star: Star) -> str:
-        try:
-            star_label = hip[star.hip]
-
-        except KeyError:
-            star_label = star.tyc if star.tyc is not None else star.hip
+        # Prefer the Bayer designation if present
+        if star.bayer is not None:
+            star_label = star.bayer
+        elif star.name is not None:
+            star_label = star.name
+        elif star.tyc is not None:
+            star_label = star.tyc
+        elif star.hip is not None:
+            star_label = str(star.hip)
+        else:
+            star_label = "?"  # fallback
 
         label = f"{star_label} ({star.magnitude})"
 
         return label
 
+    def dso_label(d):
+        if d.common_names:
+            return d.common_names[0]
+        if d.ngc:
+            return d.ngc
+        if d.ic:
+            return f"IC{d.ic}"
+        return d.name
+
     p.stars(
-        where=[
-            (Star.magnitude > DANGER_MAGNITUDE) & (Star.magnitude < MAGNITUDE_LIMIT)
-        ],
+        where=[(_.magnitude > DANGER_MAGNITUDE) & (_.magnitude < MAGNITUDE_LIMIT)],
+        legend_label=None,
     )
 
     p.stars(
-        where=[Star.magnitude < DANGER_MAGNITUDE],
-        where_labels=[Star.magnitude < DANGER_MAGNITUDE],
-        bayer_labels=True,
+        where=[_.magnitude < DANGER_MAGNITUDE],
+        where_labels=[_.magnitude < DANGER_MAGNITUDE],
+        bayer_labels=False,
+        legend_label=None,
         label_fn=star_label_with_magnitude,
         color_fn=color_by_mag,
     )
 
     p.galaxies(
-        where=[DSO.magnitude < MAGNITUDE_LIMIT],
+        where=[_.magnitude < MAGNITUDE_LIMIT],
+        label_fn=dso_label,
+        true_size=False,
     )
 
     p.nebula(
         where=[
-            DSO.magnitude < MAGNITUDE_LIMIT,
+            _.magnitude < MAGNITUDE_LIMIT,
         ],
         true_size=False,
-        label_fn=lambda d: d.ic,
+        labels=dso_label,
+        label_fn=dso_label,
     )
+
     p.open_clusters(
         where=[
-            DSO.magnitude < MAGNITUDE_LIMIT,
+            _.magnitude < MAGNITUDE_LIMIT,
         ],
+        labels=dso_label,
+        label_fn=dso_label,
     )
     p.milky_way()
     p.globular_clusters()
 
     p.marker(
-        ra=target_coordinates.ra.hour,
+        ra=target_coordinates.ra.deg,
         dec=target_coordinates.dec.deg,
         label=None,
         legend_label="target source",
@@ -204,8 +221,8 @@ def plot_skymap_with_wobbles(
         position_angle = (90 * u.deg - angle) % (360 * u.deg)
 
         wobble_center = target_coordinates.directional_offset_by(position_angle, offset)
-        wobble_ra = wobble_center.ra.to_value("hourangle")
-        wobble_dec = wobble_center.dec.to_value("deg")
+        wobble_ra = wobble_center.ra.deg
+        wobble_dec = wobble_center.dec.deg
 
         p.circle(
             center=(wobble_ra, wobble_dec),

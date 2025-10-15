@@ -151,7 +151,7 @@ def plot_sed(
         np.log10(max_energy.to_value(energy_unit)),
         50,
     ) * u.Unit(energy_unit)
-    labeltext = rf"Expected SED ($T_{{obs}}$ = {config['observation_time']})"
+    labeltext = rf"Expected SED ($T_{{obs}}$ = {config['observation']['time']})"
     plt.plot(
         energy,
         energy * energy * crab_nebula_spectrum()(energy),
