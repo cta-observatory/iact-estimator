@@ -29,9 +29,6 @@ Assuming you are working from a directory called `project`
 1. get the default configuration file with `iact-estimator config`
 2. launch the estimation with `iact-estimator run --config config.yml --source-name "Crab Nebula"`
 
-> [!NOTE]
-> Currently the source name must be a valid identifier from the SIMBAD, NED or VizieR databases.
-
 For more details use the `-h` option to show the help menu.
 
 The package is also a library, so you can use it to make your

@@ -32,6 +32,10 @@ for a source named "my_source",
 
     iact-estimator run --config config.yml --source-name my_source
 
+For detailed information about all possible options,
+please consult the :ref:`reference` or issue the help
+command with ``iact-estimator run -h``.
+
 Output
 ======
 

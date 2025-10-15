@@ -1,24 +1,19 @@
-"""Plotting functions."""
+"""Plotting functions related to observational performance of the insturment."""
 
 import logging
 from pathlib import Path
 
 import astropy.units as u
 from astropy.visualization import quantity_support
-from astroplan import FixedTarget
-from astroplan.plots import plot_sky_24hr, plot_altitude, plot_finder_image
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .core import observed_flux, get_horizon_stereo_profile
-from .spectral import crab_nebula_spectrum
-from iact_estimator import HORIZON_PROFILE_M1, HORIZON_PROFILE_M2
+from ..core import observed_flux
+from ..spectral import crab_nebula_spectrum
 
 __all__ = [
     "plot_spectrum",
     "plot_sed",
-    "plot_transit",
-    "plot_altitude_airmass",
     "plot_exposure",
     "plot_rates",
 ]
@@ -99,7 +94,7 @@ def plot_sed(
         "verticalalignment": "bottom",
     },
 ):
-    """
+    r"""
     Plot the Spectral Energy distribution with significances.
 
     Parameters
@@ -156,7 +151,7 @@ def plot_sed(
         np.log10(max_energy.to_value(energy_unit)),
         50,
     ) * u.Unit(energy_unit)
-    labeltext = rf"Expected SED ($T_{{obs}}$ = {config['observation_time']})"
+    labeltext = rf"Expected SED ($T_{{obs}}$ = {config['observation']['time']})"
     plt.plot(
         energy,
         energy * energy * crab_nebula_spectrum()(energy),
@@ -188,7 +183,7 @@ def plot_sed(
         for i in range(len(sigmas)):
             col = "0" if detected[i] else "0.75"
             ax.annotate(
-                f"{sigmas[i]:.1f}$\sigma$",
+                rf"{sigmas[i]:.1f}$\sigma$",
                 (en[i], sed[i]),
                 color=col,
                 xycoords="data",
@@ -201,139 +196,6 @@ def plot_sed(
             output_path
             / f"SED_{source_name}.{config['plotting_options']['file_format']}",
         )
-
-
-def plot_transit(
-    config,
-    source_name,
-    target_source,
-    observer,
-    time,
-    merge_profiles=True,
-    plot_crab=True,
-    style_kwargs=None,
-    savefig=True,
-    output_path=None,
-):
-    """
-    Plot the Spectral Energy distribution with significances.
-
-    Parameters
-    ----------
-    config : dict
-        Loaded configuration
-    output_path : str or `~pathlib.Path`
-    source_name : str
-    target_source : `astroplan.Target`
-    observer : `astroplan.Observer`
-    time : `~astropy.time.Time`
-        Datetime of the planned observation
-    merge_profiles : bool, default=True
-        If True plot the combined horizon profile
-        from both telescopes.
-    crab : bool, default=True
-        If True plot the Crab together with
-        the target source for comparison.
-    style_kwargs : dict, default=None
-        Dictionary of keywords passed into
-        `~matplotlib.pyplot.scatter`
-        to set plotting styles.
-    """
-    fig = plt.figure(figsize=config["plotting_options"]["figure_size"])
-    ax = fig.add_subplot(projection="polar")
-    ax.tick_params(pad=10)
-
-    plot_sky_24hr(
-        target_source,
-        observer,
-        time,
-        delta=1 * u.h,
-        ax=ax,
-        style_kwargs=style_kwargs,
-        north_to_east_ccw=True,
-        grid=True,
-        az_label_offset=0 * u.deg,
-        center_time_style_kwargs=None,
-    )
-    if plot_crab:
-        crab_nebula = FixedTarget.from_name("Crab Nebula")
-        plot_sky_24hr(
-            crab_nebula,
-            observer,
-            time,
-            delta=1 * u.h,
-            ax=ax,
-            style_kwargs={"label": "Crab Nebula"},
-            north_to_east_ccw=True,
-            grid=True,
-            az_label_offset=0 * u.deg,
-            center_time_style_kwargs=None,
-        )
-
-    if merge_profiles:
-        az, zd = get_horizon_stereo_profile(HORIZON_PROFILE_M1, HORIZON_PROFILE_M2)
-        ax.plot(
-            az.to_value("rad"),
-            zd.to_value("deg"),
-            linestyle="-",
-            label="Horizon profile",
-            alpha=0.5,
-            color="#4daf4a",
-        )
-    else:
-        ax.plot(
-            HORIZON_PROFILE_M2["azimuth"].to("rad").value,
-            HORIZON_PROFILE_M2["zenith"].value,
-            linestyle="-",
-            label="Horizon profile M2",
-            alpha=0.5,
-            color="#4daf4a",
-        )
-        ax.plot(
-            HORIZON_PROFILE_M1["azimuth"].to("rad").value,
-            HORIZON_PROFILE_M1["zenith"].value,
-            linestyle="-",
-            label="Horizon profile M1",
-            alpha=0.5,
-            color="#f781bf",
-        )
-
-    ax.legend(loc="center", bbox_to_anchor=(0.5, 0.8))
-    if savefig:
-        output_path = output_path if output_path is not None else Path.cwd()
-        fig.savefig(
-            output_path
-            / f"{source_name}_skyplot.{config['plotting_options']['file_format']}",
-            bbox_inches=config["plotting_options"]["bbox_inches"],
-        )
-        logger.debug("Plot has been successfully saved at %s", output_path)
-    return ax
-
-
-def plot_altitude_airmass(
-    config,
-    source_name,
-    target_source,
-    observer,
-    time,
-    ax=None,
-    savefig=True,
-    output_path=None,
-    **kwargs,
-):
-    fig, ax = plt.subplots(figsize=config["plotting_options"]["figure_size"])
-
-    plot_altitude(target_source, observer, time, ax=ax, **kwargs)
-    ax.grid(False)
-
-    if savefig:
-        output_path = output_path if output_path is not None else Path.cwd()
-        fig.savefig(
-            output_path
-            / f"{source_name}_altitude_airmass.{config['plotting_options']['file_format']}",
-            bbox_inches=config["plotting_options"]["bbox_inches"],
-        )
-    return ax
 
 
 def plot_exposure(data):
@@ -374,85 +236,4 @@ def plot_rates(performance_data, title=None, ax=None):
         ax.legend()
         ax.set_xscale("log")
         ax.set_yscale("log")
-    return ax
-
-
-@u.quantity_input(fov_radius=u.arcmin)
-def plot_from_skyview_survey(
-    target_source,
-    survey_name="DSS",
-    fov_radius=10 * u.arcmin,
-    log=False,
-    ax=None,
-    grid=False,
-    reticle=False,
-    style_kwargs=None,
-    reticle_style_kwargs=None,
-):
-    """Plot a survey image from the SkyView service centered on ``target``.
-
-    Parameters
-    ----------
-    target : `~astroplan.FixedTarget`, `~astropy.coordinates.SkyCoord`
-        Coordinates of celestial object
-
-    survey : string
-        Name of survey to retrieve image from. For dictionary of
-        available surveys, use
-        ``from astroquery.skyview import SkyView; SkyView.list_surveys()``.
-        Defaults to ``'DSS'``, the Digital Sky Survey.
-
-    fov_radius : `~astropy.units.Quantity`
-        Radius of field of view of retrieved image. Defaults to 10 arcmin.
-
-    log : bool, optional
-        Take the natural logarithm of the FITS image if `True`.
-        False by default.
-
-    ax : `~matplotlib.axes.Axes` or None, optional.
-        The `~matplotlib.axes.Axes` object to be drawn on.
-        If None, uses the current `~matplotlib.axes.Axes`.
-
-    grid : bool, optional.
-        Grid is drawn if `True`. `False` by default.
-
-    reticle : bool, optional
-        Draw reticle on the center of the FOV if `True`. Default is `False`.
-
-    style_kwargs : dict or `None`, optional.
-        A dictionary of keywords passed into `~matplotlib.pyplot.imshow`
-        to set plotting styles.
-
-    reticle_style_kwargs : dict or `None`, optional
-        A dictionary of keywords passed into `~matplotlib.pyplot.axvline` and
-        `~matplotlib.pyplot.axhline` to set reticle style.
-
-    Returns
-    -------
-    ax : `~matplotlib.axes.Axes`
-        Matplotlib axes with survey image centered on ``target``
-
-    hdu : `~astropy.io.fits.PrimaryHDU`
-        FITS HDU of the retrieved image
-
-    Notes
-    -----
-    This is wrapper function around `astroplan.plots.plot_finder_image()`.
-
-    """
-
-    ax = plt.gca() if ax is None else ax
-
-    ax = plot_finder_image(
-        target_source,
-        survey=survey_name,
-        fov_radius=fov_radius,
-        log=log,
-        ax=ax,
-        grid=grid,
-        reticle=reticle,
-        style_kwargs=style_kwargs,
-        reticle_style_kwargs=reticle_style_kwargs,
-    )
-
     return ax
