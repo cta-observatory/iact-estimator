@@ -33,7 +33,7 @@ def get_days_in_this_year():
 
     # Add 1 to include the last day
     num_days = int((end_of_year - start_of_year).to_value("day") + 1)
-    return num_days
+    return num_days * u.day
 
 
 def define_constraints(config):

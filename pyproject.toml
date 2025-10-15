@@ -27,6 +27,7 @@ dependencies = [
     "matplotlib",
     "gammapy",
     "seaborn",
+    "starplot",
 ]
 dynamic = ["version"]
 
@@ -41,7 +42,7 @@ docs = [
     "sphinx-autoapi",
     "sphinx-copybutton",
     "sphinxcontrib-towncrier",
-    "towncrier<24.7"
+    "towncrier<24.7",
 ]
 dev = ["pre-commit", "ruff", "iact_estimator[docs]", "iact_estimator[tests]"]
 tests = ["pytest", "pytest-console-scripts"]

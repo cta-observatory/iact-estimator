@@ -48,9 +48,14 @@ observation:
   end_datetime: # default to 1 year from today
   time_resolution: "1 h"
 
+wobbles:
+  fov_offsets: 0.4 # deg
+  position_angles: [0, 90, 180, 270] # deg
+
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
+fov: 3.5 deg
 zenith_performance: "low" # "low"=0-30deg, "mid"=30-45deg
 # you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
 
@@ -93,3 +98,26 @@ seaborn_options:
   rc:
     "xtick.bottom": True
     "ytick.left": True
+
+wobble_skymap_plot_options:
+  wobbles_colormap: "tab10"
+  map_color_scheme: "BLUE_LIGHT"
+  legend:
+    location: "outside right upper"
+    num_columns: 1
+    background_alpha: 1
+  magnitude:
+    danger: 5
+    max: 30
+  target_source:
+    marker:
+      size: 15
+      symbol: "star"
+      fill: "full"
+      color: "#ed7eed"
+      edge_color: "#e0c1e0"
+      alpha: 0.4
+  export:
+    format: "png" # "png", "jpeg", or "svg"
+    padding: 0.3
+    transparent: True

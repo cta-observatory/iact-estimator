@@ -4,12 +4,7 @@ import logging
 from pathlib import Path
 
 from numpy import loadtxt
-from yaml import load
-
-try:
-    from yaml import CLoader as Loader
-except ImportError:
-    from yaml import Loader
+from yaml import safe_load
 
 __all__ = ["read_yaml", "load_ebl"]
 
@@ -37,7 +32,7 @@ def read_yaml(input_file_path):
         raise ValueError(f"Configuration file not found at {input_file_path}")
 
     with open(input_file_path, "r") as input_file:
-        data = load(input_file, Loader=Loader)
+        data = safe_load(input_file)
 
     return data
 
