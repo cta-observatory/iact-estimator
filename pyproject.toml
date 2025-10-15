@@ -22,7 +22,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Astronomy",
 ]
 dependencies = [
-    "astroplan",
+    "astroplan @ git+https://github.com/astropy/astroplan.git", # see https://github.com/astropy/astroplan/pull/622
     "astropy",
     "matplotlib",
     "astroquery",
