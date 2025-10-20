@@ -1,0 +1,1 @@
+Added configuration of the observer in order to estimate from more observatory sites other than just Roque de Los Muchachos.

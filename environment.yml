@@ -8,7 +8,9 @@ dependencies:
   - python
   - pip
   - astroplan
-  - astropy<6 # see https://github.com/gammapy/gammapy/issues/4972
+  - astropy
+  - matplotlib
+  - astroquery
   - gammapy
   - seaborn
   - scipy=1.11* # see https://github.com/gammapy/gammapy/pull/4997
@@ -29,3 +31,6 @@ dependencies:
   # Development
   - pre-commit
   - ruff
+  # PyPI-only or dev dependencies
+  - pip:
+      - starplot

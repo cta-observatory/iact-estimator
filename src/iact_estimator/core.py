@@ -4,6 +4,8 @@ import logging
 import importlib
 
 import astropy.units as u
+from astropy.coordinates import SkyCoord
+from astroplan import FixedTarget
 import numpy as np
 from scipy import interpolate
 from scipy.integrate import quad
@@ -29,6 +31,35 @@ __all__ = [
 ]
 
 logger = logging.getLogger(__name__)
+
+
+def load_target_source_coordinates(config):
+    """Load target source using celestial coordinates.
+
+    Parameters
+    ----------
+    config : dict
+        Loaded configuration file.
+
+    Returns
+    -------
+    target_source : `~astroplan.FixedTarget`
+    """
+    source_name = (
+        config["target_source"]["name"]
+        if config["target_source"]["name"]
+        else "test_source"
+    )
+
+    try:
+        coords = config["target_source"]["coordinates"]
+        target_source_coordinates = SkyCoord(
+            coords["ra_l"], coords["dec_b"], frame=coords["frame"].lower()
+        )
+        target_source = FixedTarget(coord=target_source_coordinates, name=source_name)
+    except ValueError:
+        logging.exception("Invalid target source coordinates.")
+    return target_source
 
 
 def setup_logging(log_level, source_name):
@@ -222,17 +253,15 @@ def initialize_model(config):
     initialized_model : `~gammapy.modeling.models.SpectralModel`
         Initialized instance of a spectral model.
     """
-    model_name = config["assumed_model"]["name"]
+    assumed_model_cfg = config["target_source"]["assumed_model"]
+    model_name = assumed_model_cfg["name"]
     module_name = ".".join(model_name.split(".")[:-1])
     class_name = model_name.split(".")[-1]
     module = importlib.import_module(module_name)
     model = getattr(module, class_name)
-    model_parameters = config["assumed_model"]["parameters"]
+    model_parameters = assumed_model_cfg["parameters"]
 
-    if (
-        class_name == "LogParabolaSpectralModel"
-        and config["assumed_model"]["from_log10"]
-    ):
+    if class_name == "LogParabolaSpectralModel" and assumed_model_cfg["from_log10"]:
         initialized_model = model.from_log10(**model_parameters)
     else:
         initialized_model = model(**model_parameters)
@@ -417,7 +446,7 @@ def calculate(energy_bins, gamma_rate, background_rate, config, assumed_spectrum
 
     n_off_regions = config["n_off_regions"]
     redshift = config["redshift"]
-    observation_time_min = u.Quantity(config["observation_time"]).to("min")
+    observation_time_min = u.Quantity(config["observation"]["time"]).to("min")
     pulsar_mode_config = config["pulsar_mode"]
     pulsar_mode = pulsar_mode_config["enable"]
     pulsar_on_range = pulsar_mode_config["pulsar_on_range"]

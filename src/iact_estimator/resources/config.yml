@@ -1,15 +1,57 @@
-assumed_model:
-  # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
-  name: gammapy.modeling.models.LogParabolaSpectralModel
-  parameters:
-    amplitude: 3.39e-11 TeV^-1 cm^-2 s^-1
-    reference: 1 TeV
-    alpha: 2.51
-    beta: 0.21
-  from_log10: True # relevant for e.g. LogParabolaSpectralModel
+target_source:
+  name: "Crab Nebula"
+  coordinates:
+    force: false # force use of custom coordinates for sources found also by name
+    ra_l:
+    dec_b:
+    frame:
+  assumed_model:
+    # see https://docs.gammapy.org/1.1/user-guide/model-gallery/index.html#spectral-models
+    name: gammapy.modeling.models.LogParabolaSpectralModel
+    parameters:
+      amplitude: 3.39e-11 TeV^-1 cm^-2 s^-1
+      reference: 1 TeV
+      alpha: 2.51
+      beta: 0.21
+    from_log10: True # relevant for e.g. LogParabolaSpectralModel
 
-observation_time: 50 h
-observation_datetime: "2024-06-15 18:00"
+observer:
+  # use any available location from astropy.coordinates.EarthLocation.get_site_names
+  # overrides manual initialization
+  auto: "Roque de los Muchachos"
+  # or initialize one from scratch
+  # see https://astroplan.readthedocs.io/en/latest/api/astroplan.Observer.html for details
+  manual:
+    timezone: "UTC"
+    name:
+    latitude:
+    longitude:
+    elevation:
+
+observation:
+  constraints:
+    moon_illumination_fraction:
+      max: 0.2
+      min:
+      ephemeris:
+    moon_separation:
+      # https://astroplan.readthedocs.io/en/latest/api/astroplan.MoonSeparationConstraint.html#astroplan.MoonSeparationConstraint
+      min: "45 deg"
+      max:
+      ephemeris:
+    zenith:
+      min: "0 deg"
+      max: "60 deg"
+    max_solar_altitude: "-18 deg"
+  time: "50 h"
+  start_datetime: # default to today
+  end_datetime: # default to 1 year from today
+  time_resolution: "1 h"
+
+wobbles:
+  fov_offsets: 0.4 # deg
+  position_angles: [0, 90, 180, 270] # deg
+
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
@@ -19,6 +61,7 @@ sum_trigger: False
 # For private data, these values should come with the
 # metadata of your file
 instrument: "MAGIC"
+fov: 3.5 deg
 zenith_range: "low"
 # you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
 
@@ -50,6 +93,22 @@ plotting_options:
   file_format: "pdf"
   merge_horizon_profiles: True
 
+skyview:
+  save_hdus: True
+  surveys:
+    - name: "DSS"
+      fov_radius: "10 arcmin"
+      log: False
+      reticle: False
+      style_kwargs: { "cmap": "viridis" }
+      reticle_style_kwargs: { "color": "white", "lw": 2 }
+    - name: "GB6 (4850MHz)"
+      fov_radius: "10 arcmin"
+      log: False
+      reticle: False
+      style_kwargs: { "cmap": "viridis" }
+      reticle_style_kwargs: { "color": "white", "lw": 2 }
+
 use_seaborn: True
 seaborn_options:
   context: talk
@@ -61,3 +120,26 @@ seaborn_options:
   rc:
     "xtick.bottom": True
     "ytick.left": True
+
+wobble_skymap_plot_options:
+  wobbles_colormap: "tab10"
+  map_color_scheme: "BLUE_LIGHT"
+  legend:
+    location: "outside right upper"
+    num_columns: 1
+    background_alpha: 1
+  magnitude:
+    danger: 5
+    max: 30
+  target_source:
+    marker:
+      size: 15
+      symbol: "star"
+      fill: "full"
+      color: "#ed7eed"
+      edge_color: "#e0c1e0"
+      alpha: 0.4
+  export:
+    format: "png" # "png", "jpeg", or "svg"
+    padding: 0.3
+    transparent: True
