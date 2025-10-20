@@ -55,8 +55,14 @@ wobbles:
 extension: 0.0 deg
 redshift: -1 # redshift of the source (for the EBL absorption), if -1 then no absorption
 sum_trigger: False
+
+# see documentation for a table of publicly available
+# values
+# For private data, these values should come with the
+# metadata of your file
+instrument: "MAGIC"
 fov: 3.5 deg
-zenith_performance: "low" # "low"=0-30deg, "mid"=30-45deg
+zenith_range: "low"
 # you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
 
 ebl_file_path:
@@ -94,14 +100,14 @@ skyview:
       fov_radius: "10 arcmin"
       log: False
       reticle: False
-      style_kwargs: {"cmap": "viridis"}
-      reticle_style_kwargs: {"color": "white", "lw":2}
+      style_kwargs: { "cmap": "viridis" }
+      reticle_style_kwargs: { "color": "white", "lw": 2 }
     - name: "GB6 (4850MHz)"
       fov_radius: "10 arcmin"
       log: False
       reticle: False
-      style_kwargs: {"cmap": "viridis"}
-      reticle_style_kwargs: {"color": "white", "lw":2}
+      style_kwargs: { "cmap": "viridis" }
+      reticle_style_kwargs: { "color": "white", "lw": 2 }
 
 use_seaborn: True
 seaborn_options:

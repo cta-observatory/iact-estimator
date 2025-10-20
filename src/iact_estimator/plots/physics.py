@@ -144,7 +144,7 @@ def plot_sed(
     ax.set(
         xlabel=rf"Energy [ {energy_unit} ]",
         ylabel=rf"$E^{2}$ $\dfrac{{dN}}{{dE dA dt}}$ [ {energy_flux_unit.to_string('latex', fraction=False)} ]",
-        title=rf"$\Sigma\sigma_i / \sqrt{{{len(sigmas)}}} = {{{round(sig_comb.value, 1)}}}$",
+        title=rf"$\Sigma\sigma_i / \sqrt{{{len(sigmas)}}} = {{{round(sig_comb, 1)}}}$",
     )
     energy = np.logspace(
         np.log10(min_energy.to_value(energy_unit)),

@@ -34,10 +34,15 @@ telescope system given a spectral shape.
 The signal significances of each spectral point are computed according to
 Eq. 17 definition from [2]_.
 
-The currently available performance data shipped with the package is:
+The currently available performance data publicly shipped with the package is
+summarized by this table:
 
-- MAGIC *low* zenith angle (0 to 30 degrees) in the range 40GeV-16TeV from [1]_,
-- MAGIC *mid* zenith angle (30 to 45 degrees) in the range 40GeV-16TeV from [1]_.
+==========  ===============  ============  ============  ==========
+Istrument   Zenith range ID  Zenith range  Energy range  References
+==========  ===============  ============  ============  ==========
+MAGIC       low              0 to 30 deg   40GeV-16TeV   [1]_
+MAGIC       mid              30 to 45 deg  40GeV-16TeV   [1]_
+==========  ===============  ============  ============  ==========
 
 Current caveats
 ---------------
