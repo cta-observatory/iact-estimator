@@ -1,0 +1,166 @@
+iact_estimator.io
+=================
+
+.. py:module:: iact_estimator.io
+
+.. autoapi-nested-parse::
+
+   Functions for input / output operations.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.io.read_yaml
+   iact_estimator.io.load_ebl
+   iact_estimator.io.load_performance_ecsv
+   iact_estimator.io.save_fits_hdu
+
+
+Module Contents
+---------------
+
+.. py:function:: read_yaml(input_file_path)
+
+   
+   Load data from a YAML file as a dictionary.
+
+
+   :Parameters:
+
+       **input_file_path** : `str` or `pathlib.Path`
+           Path to the input YAML file.
+
+
+
+   :Returns:
+
+       **data** : `dict`
+           Contents of the YAML file in form
+           of a Python dictionary.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: load_ebl(ebl_file_path)
+
+   
+   Load Extragalactic Background Light (EBL) data.
+
+
+   :Parameters:
+
+       **ebl_file_path** : `str` or `~pathlib.Path`
+           Path to an EBL data file.
+
+
+
+   :Returns:
+
+       **zz** : `np.array`
+           TBD.
+
+       **energies** : `~astopy.units.Quantity`
+           Energy values.
+
+       **taus** : `np.array`
+           TBD.
+
+
+
+
+
+
+
+
+   .. rubric:: Notes
+
+   This is a legacy function which works
+   only with the default data file packages with
+   *iact-estimator*.
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: load_performance_ecsv(input_file_path)
+
+   
+   Load performance data from an ECSV file as a dictionary.
+
+
+   :Parameters:
+
+       **input_file_path** : `str`
+           Path to the input ECSV file.
+
+
+
+   :Returns:
+
+       **table** : `~astropy.table.QTable`
+           Contents of the YAML file in form
+           of a Python dictionary.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: save_fits_hdu(hdu, output_path, **kwargs)
+
+   
+   Save and HDU to a new FITS file.
+
+
+   :Parameters:
+
+       **hdu** : HDU-like class from `astropy.io.fits`
+           Primary, Image or Table-HDU.
+
+       **output_path** : str or `~pathlib.Path`
+           Complete path to the saved file.
+
+       **\*\*kwargs** : dict
+           Options for the `~astropy.io.fits.PrimaryHDU.writeto()` method.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

@@ -1,0 +1,19 @@
+iact_estimator.tests.test_io
+============================
+
+.. py:module:: iact_estimator.tests.test_io
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.tests.test_io.test_read_yaml
+
+
+Module Contents
+---------------
+
+.. py:function:: test_read_yaml(tmp_path)
+

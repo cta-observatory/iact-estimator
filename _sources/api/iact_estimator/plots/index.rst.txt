@@ -1,0 +1,18 @@
+iact_estimator.plots
+====================
+
+.. py:module:: iact_estimator.plots
+
+
+Submodules
+----------
+
+.. toctree::
+   :maxdepth: 1
+
+   /api/iact_estimator/plots/multi_wavelength/index
+   /api/iact_estimator/plots/observability/index
+   /api/iact_estimator/plots/physics/index
+   /api/iact_estimator/plots/wobble_skymap/index
+
+

@@ -1,0 +1,149 @@
+iact_estimator.plots.physics
+============================
+
+.. py:module:: iact_estimator.plots.physics
+
+.. autoapi-nested-parse::
+
+   Plotting functions related to observational performance of the insturment.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.plots.physics.plot_spectrum
+   iact_estimator.plots.physics.plot_sed
+   iact_estimator.plots.physics.plot_exposure
+   iact_estimator.plots.physics.plot_rates
+
+
+Module Contents
+---------------
+
+.. py:function:: plot_spectrum(config, energy_bounds, model, source_name, plotting_options, savefig=True, output_path=None, **kwargs)
+
+   
+   Plot a spectrum from a model.
+
+
+   :Parameters:
+
+       **energy_bounds** : `~astropy.units.Quantity`
+           Plot energy bounds.
+
+       **model** : `~gammapy.modeling.models.SpectralModel`
+           Spectral model to plot.
+
+       **output_path** : `str` or `pathlib.Path`
+           Path to the output directory where to save the plot.
+
+       **source_name** : `str`
+           Name of the source.
+
+       **plotting_options** : `dict`
+           Dictionary of options related to plotting
+           from the configuration file.
+
+       **\*\*kwargs**
+           Keyword arguments for `~matplotlib.pyplot.plot`.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: plot_sed(config, sigmas, sig_comb, source_name, assumed_spectrum, en, sed, dsed, detected, savefig=True, output_path=None, annotation_options={'rotation': 45, 'xytext': (10, 10), 'size': 15, 'horizontalalignment': 'left', 'verticalalignment': 'bottom'})
+
+   
+   Plot the Spectral Energy distribution with significances.
+
+
+   :Parameters:
+
+       **config** : dict
+           Loaded configuration
+
+       **sigmas** : array-like
+           ..
+
+       **sig_comb** : float
+           Combined significance
+
+       **source_name** : str
+           ..
+
+       **assumed_spectrum** : `~gammapy.modeling.models.SpectralModel`
+           ..
+
+       **en**
+           ..
+
+       **sed**
+           ..
+
+       **dsed**
+           ..
+
+       **detected**
+           ..
+
+       **savefig** : bool
+           ..
+
+       **output_path** : str or `~pathlib.Path`
+           ..
+
+       **annotation_options** : dict
+           Options for `matplotlib.axes.Axes.annotate`.
+
+
+
+
+
+
+
+
+
+
+
+   .. rubric:: Notes
+
+   Spectral points following the assumed spectrum are shown.
+   Their error bars reflect the performance of the instrument for such a source.
+
+   Significance for each bin is given. Bins without detection
+   have gray numbers.
+
+   At the top of the plot a simple number using
+   information from all the shown bins is given to evaluate
+   if the source can be detected, roughly if
+
+   .. math::
+
+       \dfrac{ \sum  sigma_{i} } { \sqrt{N} } \gtrsim 5
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: plot_exposure(data)
+
+.. py:function:: plot_rates(performance_data, title=None, ax=None)
+
