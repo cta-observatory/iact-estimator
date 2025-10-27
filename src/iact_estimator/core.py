@@ -360,11 +360,11 @@ def prepare_data(config, performance_data=None):
         raise NotImplementedError(message)
 
     magic_lst1 = "magic_lst1_" if config["magic_lst1"] else ""
-    dataset = f"{magic_lst1}{config['zenith_performance']}"
+    dataset = f"{magic_lst1}{config['zenith_range']}"
     performance_data = available_datasets[dataset]
 
-    min_energy = performance_data[config["zenith_performance"]]["min_energy"]
-    max_energy = performance_data[config["zenith_performance"]]["max_energy"]
+    min_energy = performance_data["min_energy"]
+    max_energy = performance_data["max_energy"]
     energy_bins = np.append(min_energy.value, max_energy[-1].value) * min_energy.unit
     gamma_rate = performance_data["gamma_rate"]
     background_rate = performance_data["background_rate"]

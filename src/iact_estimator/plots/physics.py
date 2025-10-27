@@ -151,10 +151,8 @@ def plot_sed(
         np.log10(max_energy.to_value(energy_unit)),
         50,
     ) * u.Unit(energy_unit)
-    performance_name = f"{'MAGIC+LST-1' if config['magic_lst1'] else 'MAGIC'} ({config['zenith_performance']} zenith)"
-    labeltext = (
-        rf"{performance_name} Expected SED ($T_{{obs}}$ = {config['observation_time']})"
-    )
+    performance_name = f"{'MAGIC+LST-1' if config['magic_lst1'] else 'MAGIC'} ({config['zenith_range']} zenith)"
+    labeltext = rf"{performance_name} Expected SED ($T_{{obs}}$ = {config['observation']['time']})"
     plt.plot(
         energy,
         energy * energy * crab_nebula_spectrum()(energy),
