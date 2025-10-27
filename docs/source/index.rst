@@ -37,44 +37,54 @@ Eq. 17 definition from [2]_.
 The currently available performance data publicly shipped with the package is
 summarized by this table:
 
-==========  ===============  ============  ============  ==========
-Istrument   Zenith range ID  Zenith range  Energy range  References
-==========  ===============  ============  ============  ==========
-MAGIC       low              0 to 30 deg   40GeV-16TeV   [1]_
-MAGIC       mid              30 to 45 deg  40GeV-16TeV   [1]_
-==========  ===============  ============  ============  ==========
+=================  ===============  ============  ==============  ==========
+Instrument         Zenith range ID  Zenith range  Energy range    References
+=================  ===============  ============  ==============  ==========
+MAGIC              low              0 to 30 deg   40 GeV-16 TeV   [1]_
+MAGIC              mid              30 to 45 deg  40 GeV-16 TeV   [1]_
+MAGIC              high             ~60 deg       250 GeV-16 TeV  [4]_
+MAGIC+LST1         low              0 to 30 deg   40 GeV-16 TeV   [5]_
+MAGIC+LST1         mid              30 to 45 deg  80 GeV-16 TeV   [3]_
+MAGIC+LST1         high             ~60 deg       250 GeV-16 TeV  [5]_
+=================  ===============  ============  ==============  ==========
+
+.. note::
+   MAGIC+LST1 high zenith performance is based on Monte Carlo simulations with
+   conservative background estimates. Please refer to :ref:`userguide` for
+   detailed caveats when using this dataset.
 
 Current caveats
 ---------------
 
-- the tool is operating on estimated energy doing simple
-  comparisons with differential in estimated energy rates seen for the
-  Crab Nebula; for softer sources the differences in energy migration
-  will result in different performance than the ones produced by this tool
+.. warning::
+   Please refer to the :ref:`userguide` for comprehensive information about
+   caveats and limitations. Key points include:
 
-- the treatment of extended sources is very approximate, only the
-  increase in background is taken into account (without energy
-  dependence of Point Spread Function); for extended sources with extension >~ 0.4 deg the
-  dependence on the offset from the centre of the camera will further
-  worsen the performance w.r.t. one produced by this tool
+- The tool operates on **estimated energy** by comparing with differential rates
+  from Crab Nebula observations; for sources with soft spectra, energy migration
+  effects may result in different performance
 
-- significances are given for each differential energy bin
-  separately, but to detect a source one normally applies a cut that
-  keeps a broad range of energies inside resulting in better integral
-  sensitivity than differential one; also, optimization of cuts for a
-  broad energy range usually results in somewhat
-  better sensitivity than what one can get by simply integrating
-  the used here signal in
-  differential energy bins; as a very crude approximation for detection
-  capability we calculate here also a sum of significances of all the
-  points in Spectral Energy Distribution
-  divided by the sqrt of the number of those points
+- The treatment of **extended sources** is approximate, accounting only for
+  increased background (without energy-dependent PSF); for sources with
+  extension > 0.4°, camera offset effects will further reduce performance
+
+- Significances are given for **differential energy bins**; in practice, broader
+  energy cuts and optimized analysis yield better integral sensitivity than
+  simple integration of differential bins
+
+- The **combined significance** is a crude approximation of detection capability
+
+- **High zenith** observations have higher energy thresholds and specific
+  limitations (see userguide)
 
 References
 ----------
 
-.. [1] Aleksic, J., et al., 2016, Astroparticle Physics, 72, 76
-.. [2] Li & Ma 1983, ApJ, 272, 317
+.. [1] Aleksić, J., et al., 2016, Astroparticle Physics, 72, 76
+.. [2] Li, T.-P. & Ma, Y.-Q., 1983, ApJ, 272, 317
+.. [3] Abe, H., et al., 2023, A&A, 670, A145
+.. [4] MAGIC Crab observations at 55-62° zenith (2016-2018), Dataset: J. van Scherpenberg
+.. [5] MAGIC+LST1 Monte Carlo simulations (conservative estimates for high zenith)
 
 .. toctree::
    :maxdepth: 2
