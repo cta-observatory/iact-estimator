@@ -13,6 +13,8 @@ from scipy.integrate import quad
 from . import (
     LOW_ZENITH_PERFORMANCE,
     MID_ZENITH_PERFORMANCE,
+    MAGIC_LST1_LOW_ZENITH_PERFORMANCE,
+    MAGIC_LST1_MID_ZENITH_PERFORMANCE,
 )
 from .io import load_ebl
 from .spectral import crab_nebula_spectrum
@@ -347,9 +349,19 @@ def prepare_data(config, performance_data=None):
         available_datasets = {
             "low": LOW_ZENITH_PERFORMANCE,
             "mid": MID_ZENITH_PERFORMANCE,
+            "magic_lst1_low": MAGIC_LST1_LOW_ZENITH_PERFORMANCE,
+            "magic_lst1_mid": MAGIC_LST1_MID_ZENITH_PERFORMANCE,
         }
 
-        performance_data = available_datasets[config["zenith_range"]]
+    if config["sum_trigger"] and config["magic_lst1"]:
+        message = "LST-1 is not compatible with the MAGIC SUM trigger."
+        " is not currently available."
+        logger.critical(message)
+        raise NotImplementedError(message)
+
+    magic_lst1 = "magic_lst1_" if config["magic_lst1"] else ""
+    dataset = f"{magic_lst1}{config['zenith_range']}"
+    performance_data = available_datasets[dataset]
 
     min_energy = performance_data["min_energy"]
     max_energy = performance_data["max_energy"]

@@ -63,6 +63,7 @@ sum_trigger: False
 instrument: "MAGIC"
 fov: 3.5 deg
 zenith_range: "low"
+magic_lst1: True
 # you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
 
 ebl_file_path:
