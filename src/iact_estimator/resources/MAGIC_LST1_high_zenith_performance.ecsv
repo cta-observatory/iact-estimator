@@ -1,0 +1,43 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - {name: min_energy, unit: GeV, datatype: float64}
+# - {name: max_energy, unit: GeV, datatype: float64}
+# - {name: gamma_rate, unit: 1 / min, datatype: float64}
+# - {name: background_rate, unit: 1 / min, datatype: float64}
+# meta:
+#   __serialized_columns__:
+#     background_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: background_rate}
+#     gamma_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: gamma_rate}
+#     max_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: &id001 !astropy.units.Unit {unit: GeV}
+#       value: !astropy.table.SerializedColumn {name: max_energy}
+#     min_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: min_energy}
+#   comment: MC values computed at 59 zd angle, might be ~20% too optimistic >~1 TeV. Background increased by 40% above 1 TeV to account for MC optimism.
+#   name: MAGIC_LST1_high_zenith
+#   is_mc: true
+# schema: astropy-2.0
+min_energy max_energy gamma_rate background_rate
+39.81071705534972 63.09573444801933 0.0 0.0
+63.09573444801933 100.0 0.0 0.0
+100.0 158.48931924611136 0.0 0.0
+158.48931924611136 251.188643150958 0.0 0.0
+251.188643150958 398.1071705534973 0.6929 0.349
+398.1071705534973 630.9573444801933 2.0531 0.2163
+630.9573444801933 1000.0 1.5028 0.0393
+1000.0 1584.8931924611143 0.8963 0.01764
+1584.8931924611143 2511.886431509581 0.5915 0.00518
+2511.886431509581 3981.0717055349733 0.3513 0.00182
+3981.0717055349733 6309.573444801933 0.2314 0.00252
+6309.573444801933 10000.0 0.111 0.0007
+10000.0 15848.931924611143 0.0488 0.00084
