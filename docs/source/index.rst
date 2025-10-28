@@ -83,7 +83,7 @@ References
 .. [1] Aleksić, J., et al., 2016, Astroparticle Physics, 72, 76
 .. [2] Li, T.-P. & Ma, Y.-Q., 1983, ApJ, 272, 317
 .. [3] Abe, H., et al., 2023, A&A, 670, A145
-.. [4] MAGIC Crab observations at 55-62° zenith (2016-2018), Dataset: J. van Scherpenberg
+.. [4] MAGIC Crab observations at 55-62° zenith (2016-2018), Dataset: `Dr. J. van Scherpenberg PhD Thesis <https://nbn-resolving.org/urn:nbn:de:bvb:91-diss-20250606-1775491-0-4>`_
 .. [5] MAGIC+LST1 Monte Carlo simulations (conservative estimates for high zenith)
 
 .. toctree::
