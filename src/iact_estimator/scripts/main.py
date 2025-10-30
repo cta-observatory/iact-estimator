@@ -184,8 +184,6 @@ def main():
                 elevation=u.Quantity(obs_cfg["elevation"]),
             )
 
-        crab = FixedTarget.from_name("Crab")
-
         logger.debug("Defining observation constraints")
         constraints = define_constraints(config)
 
@@ -265,7 +263,6 @@ def main():
                 observer,
                 start_datetime,
                 merge_profiles=config["plotting_options"]["merge_horizon_profiles"],
-                plot_crab=True if (crab.coord == target_source.coord) else False,
                 style_kwargs=None,
                 savefig=True,
                 output_path=output_path,

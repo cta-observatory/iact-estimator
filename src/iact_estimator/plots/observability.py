@@ -12,7 +12,6 @@ import seaborn as sns
 from datetime import timedelta
 from pathlib import Path
 
-from astroplan import FixedTarget
 from astroplan.plots import plot_sky_24hr, plot_altitude
 from astroplan.utils import time_grid_from_range
 from astropy.coordinates.errors import NonRotationTransformationWarning
@@ -35,13 +34,12 @@ def plot_transit(
     observer,
     time,
     merge_profiles=True,
-    plot_crab=True,
     style_kwargs=None,
     savefig=True,
     output_path=None,
 ):
     """
-    Plot the Spectral Energy distribution with significances.
+    Plot the 24h skyplot of a target source as seen by an observer.
 
     Parameters
     ----------
@@ -80,20 +78,6 @@ def plot_transit(
         az_label_offset=0 * u.deg,
         center_time_style_kwargs=None,
     )
-    if plot_crab:
-        crab_nebula = FixedTarget.from_name("Crab Nebula")
-        plot_sky_24hr(
-            crab_nebula,
-            observer,
-            time,
-            delta=1 * u.h,
-            ax=ax,
-            style_kwargs={"label": "Crab Nebula"},
-            north_to_east_ccw=True,
-            grid=True,
-            az_label_offset=0 * u.deg,
-            center_time_style_kwargs=None,
-        )
 
     if merge_profiles:
         az, zd = get_horizon_stereo_profile(HORIZON_PROFILE_M1, HORIZON_PROFILE_M2)
