@@ -1,0 +1,1 @@
+Fixed a bug for whic if the target source is initialized using non-ICRS coordinates ``plot_skymap_with_wobbles`` would fail.
