@@ -1,0 +1,1 @@
+Fixed a bug for which plot_transit will fail if target source coords are not in ICRS frame.
