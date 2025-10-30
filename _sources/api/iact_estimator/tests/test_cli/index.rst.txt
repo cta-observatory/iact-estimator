@@ -1,0 +1,35 @@
+iact_estimator.tests.test_cli
+=============================
+
+.. py:module:: iact_estimator.tests.test_cli
+
+.. autoapi-nested-parse::
+
+   Tests for the Command-line interface.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.tests.test_cli.test_cli_version
+   iact_estimator.tests.test_cli.test_cli_config
+   iact_estimator.tests.test_cli.test_cli_run
+   iact_estimator.tests.test_cli.test_cli_run_galactic_coordinates
+
+
+Module Contents
+---------------
+
+.. py:function:: test_cli_version(script_runner)
+
+.. py:function:: test_cli_config(script_runner, tmp_path)
+
+.. py:function:: test_cli_run(script_runner, tmp_path)
+
+.. py:function:: test_cli_run_galactic_coordinates(script_runner, tmp_path)
+
