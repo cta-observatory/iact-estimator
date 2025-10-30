@@ -90,7 +90,7 @@ def plot_skymap_with_wobbles(
     savefig=True,
     output_path=None,
 ):
-    target_coordinates = target_source.coord
+    target_coordinates = target_source.coord.icrs
 
     plotting_options = config["wobble_skymap_plot_options"]
 
@@ -103,8 +103,8 @@ def plot_skymap_with_wobbles(
     )
 
     ra_min, ra_max, dec_min, dec_max = calculate_square_coordinates(
-        target_coordinates.icrs.ra,
-        target_coordinates.icrs.dec,
+        target_coordinates.ra,
+        target_coordinates.dec,
         instrument_field_of_view,
     )
 
@@ -201,7 +201,7 @@ def plot_skymap_with_wobbles(
         labels=dso_label,
         label_fn=dso_label,
     )
-    p.milky_way()
+    # p.milky_way()
     p.globular_clusters()
 
     p.marker(
