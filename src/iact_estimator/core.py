@@ -7,7 +7,6 @@ import astropy.units as u
 from astropy.coordinates import SkyCoord
 from astroplan import FixedTarget
 import numpy as np
-from scipy import interpolate
 from scipy.integrate import quad
 
 from . import (
@@ -290,10 +289,14 @@ def observed_flux(energy, redshift, flux_int, ebl_file_path):
         Initialized instance of a spectral model.
     """
     ebl_redshift, ebl_energy, ebl_taus = load_ebl(ebl_file_path)
-    ftau = interpolate.interp2d(
-        ebl_redshift, ebl_energy.to_value(energy.unit), ebl_taus, kind="cubic"
-    )
-    tau = ftau(redshift, energy.value)
+    # ebl_energy is a numpy array (from load_ebl), convert energy to same units
+    # Use RectBivariateSpline instead of deprecated interp2d
+    from scipy.interpolate import RectBivariateSpline
+
+    ftau = RectBivariateSpline(ebl_energy, ebl_redshift, ebl_taus, kx=3, ky=3)
+    # Use energy in GeV since ebl_energy is in GeV
+    energy_gev = energy.to_value(u.GeV)
+    tau = ftau(energy_gev, redshift, grid=False)
     atten = np.exp(-tau)
     return flux_int * atten
 
