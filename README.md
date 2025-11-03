@@ -1,7 +1,7 @@
 # IACT Telescopes estimator
 
 [![CI](https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml)
-
+[![codecov](https://codecov.io/gh/cta-observatory/iact-estimator/branch/main/graph/badge.svg)](https://codecov.io/gh/cta-observatory/iact-estimator)
 [![docs](https://readthedocs.org/projects/iact-estimator/badge/?version=latest)](https://iact-estimator.readthedocs.io/latest/?badge=latest)
 
 ``iact-estimator`` is a Python3-based package that allows
