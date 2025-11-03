@@ -1,0 +1,65 @@
+iact_estimator.spectral
+=======================
+
+.. py:module:: iact_estimator.spectral
+
+.. autoapi-nested-parse::
+
+   Spectral references and operations.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.spectral.crab_nebula_spectrum
+
+
+Module Contents
+---------------
+
+.. py:function:: crab_nebula_spectrum()
+
+   
+   Spectrum of the Crab Nebula.
+
+   Reference data comes from [R31bd10d40916-1]_.
+
+   :Parameters:
+
+       **energy** : `~astropy.units.Quantity`
+           Energy values where to evaluate the spectrum.
+
+
+
+   :Returns:
+
+       **spectrum** : `~astropy.units.Quantity`
+           Energy spectrum evaluated at ``energy`` values.
+
+
+
+
+
+
+
+
+
+   .. rubric:: References
+
+   .. [R31bd10d40916-1] Aleksić, J. et al. The major upgrade of the MAGIC telescopes, Part II:
+         A performance study using observations of the Crab Nebula.
+         Astroparticle Physics 72, 76-94 (2015).
+
+   .. only:: latex
+
+      [R31bd10d40916-1]_
+
+
+   ..
+       !! processed by numpydoc !!
+

@@ -1,0 +1,287 @@
+iact_estimator.tests.conftest
+=============================
+
+.. py:module:: iact_estimator.tests.conftest
+
+.. autoapi-nested-parse::
+
+   Shared pytest fixtures for the test suite.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.tests.conftest.sample_config
+   iact_estimator.tests.conftest.sample_crab_config
+   iact_estimator.tests.conftest.sample_target_source
+   iact_estimator.tests.conftest.sample_observer
+   iact_estimator.tests.conftest.sample_time_range
+   iact_estimator.tests.conftest.sample_performance_data
+   iact_estimator.tests.conftest.sample_horizon_profile
+   iact_estimator.tests.conftest.sample_ebl_file
+   iact_estimator.tests.conftest.sample_yaml_config
+   iact_estimator.tests.conftest.sample_energy_bins
+   iact_estimator.tests.conftest.sample_spectrum
+
+
+Module Contents
+---------------
+
+.. py:function:: sample_config()
+
+   
+   Sample configuration dictionary for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_crab_config(sample_config)
+
+   
+   Configuration for Crab Nebula observations.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_target_source()
+
+   
+   Sample FixedTarget for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_observer()
+
+   
+   Sample Observer for testing (Roque de los Muchachos Observatory).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_time_range()
+
+   
+   Sample time range for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_performance_data()
+
+   
+   Sample performance data table for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_horizon_profile()
+
+   
+   Sample horizon profile data for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_ebl_file(tmp_path)
+
+   
+   Create a sample EBL file for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_yaml_config(tmp_path, sample_config)
+
+   
+   Create a sample YAML configuration file for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_energy_bins()
+
+   
+   Sample energy bins for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: sample_spectrum()
+
+   
+   Sample spectral model for testing.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

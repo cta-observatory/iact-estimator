@@ -1,0 +1,386 @@
+{
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Crab Nebula example for low zenith range"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "import astropy.units as u\n",
+    "import matplotlib.pyplot as plt\n",
+    "\n",
+    "from datetime import datetime, timezone\n",
+    "from pathlib import Path\n",
+    "\n",
+    "from astroplan import FixedTarget, Observer\n",
+    "from astropy.time import Time\n",
+    "from astropy.visualization import quantity_support\n",
+    "from ipywidgets import interact, DatetimePicker\n",
+    "\n",
+    "from iact_estimator import RESOURCES_PATH\n",
+    "from iact_estimator.core import (\n",
+    "    calculate,\n",
+    "    initialize_model,\n",
+    "    prepare_data,\n",
+    "    source_detection,\n",
+    ")\n",
+    "from iact_estimator.io import read_yaml\n",
+    "from iact_estimator.observability import get_days_in_this_year, define_constraints\n",
+    "from iact_estimator.plots.physics import plot_sed, plot_spectrum\n",
+    "from iact_estimator.plots.observability import (\n",
+    "    create_observability_heatmap,\n",
+    "    plot_altitude_airmass,\n",
+    "    plot_transit,\n",
+    ")\n",
+    "from iact_estimator.plots.wobble_skymap import load_wobbles, plot_skymap_with_wobbles"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "nbsphinx": "hidden"
+   },
+   "outputs": [],
+   "source": [
+    "output_path = Path.cwd()\n",
+    "config = read_yaml(RESOURCES_PATH / \"config.yml\")\n",
+    "source_name = \"Crab\"\n",
+    "\n",
+    "observer = Observer.at_site(\"Roque de los Muchachos\")\n",
+    "\n",
+    "crab = FixedTarget.from_name(source_name)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "nbsphinx": "hidden"
+   },
+   "outputs": [],
+   "source": [
+    "plotting_options = config[\"plotting_options\"]\n",
+    "use_seaborn = config[\"use_seaborn\"]\n",
+    "if use_seaborn:\n",
+    "    import seaborn as sns\n",
+    "\n",
+    "    seaborn_options = config[\"seaborn_options\"]\n",
+    "    sns.set_theme(**seaborn_options)\n",
+    "\n",
+    "\n",
+    "assumed_spectrum = initialize_model(config)\n",
+    "\n",
+    "plot_energy_bounds = [\n",
+    "    u.Quantity(plotting_options[\"min_energy\"]),\n",
+    "    u.Quantity(plotting_options[\"max_energy\"]),\n",
+    "]"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Source transit"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "target_source = FixedTarget.from_name(source_name)\n",
+    "observer = Observer.at_site(\"Roque de los Muchachos\")\n",
+    "\n",
+    "date_time = DatetimePicker(\n",
+    "    value=datetime.now(timezone.utc), description=\"Select a datetime\", disabled=False\n",
+    ")\n",
+    "\n",
+    "crab = FixedTarget.from_name(\"Crab\")\n",
+    "plot_crab = True if (crab.coord == target_source.coord) else False\n",
+    "\n",
+    "\n",
+    "def interactive_plot_transit(date_time):\n",
+    "    with quantity_support():\n",
+    "        plot_transit(\n",
+    "            config,\n",
+    "            source_name,\n",
+    "            target_source,\n",
+    "            observer,\n",
+    "            time=Time(date_time).utc,\n",
+    "            merge_profiles=True,\n",
+    "            plot_crab=False,\n",
+    "            savefig=False,\n",
+    "        )\n",
+    "\n",
+    "\n",
+    "interact(interactive_plot_transit, date_time=date_time)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Altitude and airmass"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "date_time = DatetimePicker(\n",
+    "    value=datetime.now(timezone.utc), description=\"Select a datetime\", disabled=False\n",
+    ")\n",
+    "\n",
+    "\n",
+    "def plot_alt(date_time):\n",
+    "    print(date_time)\n",
+    "\n",
+    "    plot_altitude_airmass(\n",
+    "        config,\n",
+    "        source_name,\n",
+    "        target_source,\n",
+    "        observer,\n",
+    "        time=Time(date_time).utc,\n",
+    "        brightness_shading=True,\n",
+    "        airmass_yaxis=True,\n",
+    "        savefig=False,\n",
+    "    )\n",
+    "\n",
+    "\n",
+    "interact(plot_alt, date_time=date_time)\n",
+    "plt.show()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Spectrum"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "plot_spectrum(\n",
+    "    config,\n",
+    "    plot_energy_bounds,\n",
+    "    assumed_spectrum,\n",
+    "    source_name,\n",
+    "    plotting_options,\n",
+    "    savefig=False,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Estimated spectral energy distribution"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "nbsphinx": "hidden"
+   },
+   "outputs": [],
+   "source": [
+    "energy_bins, gamma_rate, background_rate = prepare_data(config)\n",
+    "\n",
+    "en, sed, dsed, sigmas, detected = calculate(\n",
+    "    energy_bins, gamma_rate, background_rate, config, assumed_spectrum\n",
+    ")\n",
+    "\n",
+    "combined_significance = source_detection(\n",
+    "    sigmas, u.Quantity(config[\"observation\"][\"time\"])\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "annotation_options = {\"rotation\": 45, \"xytext\": (10, 10), \"size\": 15}\n",
+    "\n",
+    "with quantity_support():\n",
+    "    plot_sed(\n",
+    "        config,\n",
+    "        sigmas,\n",
+    "        combined_significance,\n",
+    "        source_name,\n",
+    "        assumed_spectrum,\n",
+    "        en,\n",
+    "        sed,\n",
+    "        dsed,\n",
+    "        detected,\n",
+    "        savefig=False,\n",
+    "        annotation_options=annotation_options,\n",
+    "    )\n",
+    "    plt.ylim(1.0e-12, 2.0e-10)"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Observability heatmap"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "constraints = define_constraints(config)\n",
+    "\n",
+    "start_datetime = (\n",
+    "    Time(config[\"observation\"][\"start_datetime\"])\n",
+    "    if config[\"observation\"][\"start_datetime\"] is not None\n",
+    "    else Time(datetime.now(tz=observer.timezone))\n",
+    ")\n",
+    "year_days = get_days_in_this_year()\n",
+    "end_datetime = (\n",
+    "    Time(config[\"observation\"][\"end_datetime\"])\n",
+    "    if config[\"observation\"][\"end_datetime\"] is not None\n",
+    "    else start_datetime + year_days\n",
+    ")\n",
+    "\n",
+    "create_observability_heatmap(\n",
+    "    target_source,\n",
+    "    observer,\n",
+    "    constraints,\n",
+    "    start_datetime,\n",
+    "    end_datetime,\n",
+    "    time_resolution=1 * u.hour,\n",
+    "    cmap=\"YlGnBu\",\n",
+    "    sns_plotting_context=\"paper\",\n",
+    "    sns_axes_style=\"whitegrid\",\n",
+    "    savefig=True,\n",
+    "    output_path=None,\n",
+    "    save_format=\"png\",\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Pointing strategy"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "config = read_yaml(RESOURCES_PATH / \"config.yml\")\n",
+    "\n",
+    "# you can override at runtime any part of the config\n",
+    "# e.g. this section corresponds to\n",
+    "# https://starplot.dev/reference-styling/#starplot.styles.LegendStyle\n",
+    "config[\"wobble_skymap_plot_options\"][\"legend\"] = {\n",
+    "    \"alignment\": \"left\",\n",
+    "    \"location\": \"outside left upper\",\n",
+    "    \"padding_x\": -500,\n",
+    "    \"num_columns\": 1,\n",
+    "}\n",
+    "\n",
+    "instrument_fov = u.Quantity(config[\"fov\"])\n",
+    "wobble_offsets, wobble_angles = load_wobbles(config[\"wobbles\"])\n",
+    "plot_skymap_with_wobbles(\n",
+    "    target_source,\n",
+    "    observer,\n",
+    "    instrument_fov,\n",
+    "    wobble_angles,\n",
+    "    wobble_offsets,\n",
+    "    config,\n",
+    ")"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Skymaps from Skyview"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from iact_estimator.plots.multi_wavelength import plot_from_skyview_survey\n",
+    "\n",
+    "for survey in config[\"skyview\"][\"surveys\"]:\n",
+    "    survey_name = survey[\"name\"]\n",
+    "    fig, ax = plt.subplots()\n",
+    "    ax, hdu = plot_from_skyview_survey(\n",
+    "        target_source,\n",
+    "        survey_name=survey_name,\n",
+    "        fov_radius=u.Quantity(survey[\"fov_radius\"]),\n",
+    "        log=survey[\"log\"],\n",
+    "        ax=ax,\n",
+    "        reticle=survey[\"reticle\"],\n",
+    "        style_kwargs=survey[\"style_kwargs\"],\n",
+    "        reticle_style_kwargs=survey[\"reticle_style_kwargs\"],\n",
+    "    )\n",
+    "    ax.set_title(f\"{source_name} - {survey_name}\")\n",
+    "    output_path = output_path if output_path is not None else Path.cwd()\n",
+    "    fig.savefig(\n",
+    "        output_path\n",
+    "        / f\"{source_name}_{survey_name}.{config['plotting_options']['file_format']}\",\n",
+    "        bbox_inches=config[\"plotting_options\"][\"bbox_inches\"],\n",
+    "    )"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python 3 (ipykernel)",
+   "language": "python",
+   "name": "python3"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.13.5"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 4
+}

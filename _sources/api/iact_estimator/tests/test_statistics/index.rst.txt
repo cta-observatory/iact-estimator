@@ -1,0 +1,647 @@
+iact_estimator.tests.test_statistics
+====================================
+
+.. py:module:: iact_estimator.tests.test_statistics
+
+.. autoapi-nested-parse::
+
+   Tests for the statistics module.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   iact_estimator.tests.test_statistics.TestSigmaToProbability
+   iact_estimator.tests.test_statistics.TestProbabilityToSigma
+   iact_estimator.tests.test_statistics.TestSignificanceLiMa
+   iact_estimator.tests.test_statistics.TestStatisticsRoundTrip
+
+
+Module Contents
+---------------
+
+.. py:class:: TestSigmaToProbability
+
+   
+   Tests for sigma_to_probability function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_sigma_1()
+
+      
+      Test conversion of 1-sigma significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_sigma_2()
+
+      
+      Test conversion of 2-sigma significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_sigma_3()
+
+      
+      Test conversion of 3-sigma significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_sigma_5()
+
+      
+      Test conversion of 5-sigma significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_zero_sigma()
+
+      
+      Test conversion of 0-sigma significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_negative_sigma()
+
+      
+      Test conversion of negative sigma.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_array_input()
+
+      
+      Test conversion with array input.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestProbabilityToSigma
+
+   
+   Tests for probability_to_sigma function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_inversion_1_sigma()
+
+      
+      Test that probability_to_sigma inverts sigma_to_probability.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_inversion_5_sigma()
+
+      
+      Test inversion for 5-sigma significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_probability_half()
+
+      
+      Test conversion of probability=0.5 (0-sigma).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_small_probability()
+
+      
+      Test conversion of small probability (high significance).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_array_input()
+
+      
+      Test conversion with array input.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestSignificanceLiMa
+
+   
+   Tests for significance_li_ma function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_no_excess()
+
+      
+      Test with no excess events.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_positive_excess()
+
+      
+      Test with positive excess.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_off_region_scaling()
+
+      
+      Test with different alpha (OFF region scaling).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_high_significance()
+
+      
+      Test case with high significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_typical_iact_case()
+
+      
+      Test typical IACT observation case.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_with_expected_signal()
+
+      
+      Test with expected signal parameter.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_zero_counts()
+
+      
+      Test with zero counts.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_small_alpha()
+
+      
+      Test with small alpha value (many OFF regions).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestStatisticsRoundTrip
+
+   
+   Tests for round-trip conversions.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_sigma_probability_roundtrip()
+
+      
+      Test round-trip conversion for various sigma values.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_probability_sigma_roundtrip()
+
+      
+      Test round-trip conversion for various probability values.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+

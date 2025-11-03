@@ -1,0 +1,887 @@
+iact_estimator.tests.test_core
+==============================
+
+.. py:module:: iact_estimator.tests.test_core
+
+.. autoapi-nested-parse::
+
+   Tests for the core module.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Classes
+-------
+
+.. autoapisummary::
+
+   iact_estimator.tests.test_core.TestLoadTargetSourceCoordinates
+   iact_estimator.tests.test_core.TestSetupLogging
+   iact_estimator.tests.test_core.TestGetHorizonStereoProfile
+   iact_estimator.tests.test_core.TestCheckInputConfiguration
+   iact_estimator.tests.test_core.TestInitializeModel
+   iact_estimator.tests.test_core.TestObservedFlux
+   iact_estimator.tests.test_core.TestGetSED
+   iact_estimator.tests.test_core.TestPrepareData
+   iact_estimator.tests.test_core.TestSourceDetection
+   iact_estimator.tests.test_core.TestCalculate
+
+
+Module Contents
+---------------
+
+.. py:class:: TestLoadTargetSourceCoordinates
+
+   
+   Tests for load_target_source_coordinates function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_load_icrs_coordinates()
+
+      
+      Test loading target source with ICRS coordinates.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_load_galactic_coordinates()
+
+      
+      Test loading target source with Galactic coordinates.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_load_no_name_uses_default()
+
+      
+      Test that missing name defaults to 'test_source'.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestSetupLogging
+
+   
+   Tests for setup_logging function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_setup_logging_info_level(tmp_path, monkeypatch)
+
+      
+      Test setting up logger with INFO level.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_setup_logging_debug_level(tmp_path, monkeypatch)
+
+      
+      Test setting up logger with DEBUG level.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_setup_logging_invalid_level()
+
+      
+      Test that invalid log level raises ValueError.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestGetHorizonStereoProfile
+
+   
+   Tests for get_horizon_stereo_profile function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_merge_horizon_profiles(sample_horizon_profile)
+
+      
+      Test merging two horizon profiles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_horizon_profile_with_wraparound()
+
+      
+      Test horizon profile with azimuth > 360 degrees.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestCheckInputConfiguration
+
+   
+   Tests for check_input_configuration function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_valid_configuration(sample_config, sample_performance_data)
+
+      
+      Test that valid configuration passes.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_invalid_large_extension(sample_config, sample_performance_data)
+
+      
+      Test that large extension triggers warning.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_invalid_n_off_regions(sample_config, sample_performance_data)
+
+      
+      Test that invalid number of OFF regions triggers warning.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_sum_trigger_mid_zenith_not_implemented(sample_config)
+
+      
+      Test that SUMT at mid zenith raises NotImplementedError.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_pulsar_mode_validation(sample_config, sample_performance_data)
+
+      
+      Test pulsar mode parameter validation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestInitializeModel
+
+   
+   Tests for initialize_model function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_initialize_power_law()
+
+      
+      Test initializing a PowerLaw model.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_initialize_log_parabola_from_log10(sample_config)
+
+      
+      Test initializing LogParabola model with from_log10.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestObservedFlux
+
+   
+   Tests for observed_flux function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_observed_flux_zero_redshift(sample_ebl_file)
+
+      
+      Test that zero redshift returns unattenuated flux.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_observed_flux_with_attenuation(sample_ebl_file)
+
+      
+      Test that non-zero redshift computes observed flux.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestGetSED
+
+   
+   Tests for get_sed function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_get_sed_calculation()
+
+      
+      Test SED calculation from energy and flux.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestPrepareData
+
+   
+   Tests for prepare_data function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_prepare_data_low_zenith(sample_config)
+
+      
+      Test preparing performance data for low zenith.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_prepare_data_with_degradation_factor(sample_config)
+
+      
+      Test that degradation factor scales rates correctly.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_prepare_data_magic_lst1(sample_config)
+
+      
+      Test preparing data for MAGIC+LST1 mode.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestSourceDetection
+
+   
+   Tests for source_detection function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_source_detection_high_significance(capsys)
+
+      
+      Test source detection with high significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_source_detection_low_significance(capsys)
+
+      
+      Test source detection with low significance.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_source_detection_no_data(capsys)
+
+      
+      Test source detection with no significant data points.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+.. py:class:: TestCalculate
+
+   
+   Tests for calculate function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+   .. py:method:: test_calculate_basic(sample_config, sample_spectrum)
+
+      
+      Test basic calculate function.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+
+   .. py:method:: test_calculate_with_pulsar_mode(sample_config, sample_spectrum)
+
+      
+      Test calculate function with pulsar mode enabled.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      ..
+          !! processed by numpydoc !!
+
+

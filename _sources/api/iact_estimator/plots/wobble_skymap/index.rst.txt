@@ -1,0 +1,93 @@
+iact_estimator.plots.wobble_skymap
+==================================
+
+.. py:module:: iact_estimator.plots.wobble_skymap
+
+.. autoapi-nested-parse::
+
+   Plotting API for skymap with planned wobbles.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.plots.wobble_skymap.calculate_square_coordinates
+   iact_estimator.plots.wobble_skymap.load_wobbles
+   iact_estimator.plots.wobble_skymap.plot_skymap_with_wobbles
+
+
+Module Contents
+---------------
+
+.. py:function:: calculate_square_coordinates(ra0, dec0, delta_dec)
+
+   
+   Calculate the required Right Ascension (RA) range to maintain a square plot.
+
+   Parameters:
+   ra0 (float): Central Right Ascension in degrees.
+   dec0 (float): Central Declination in degrees.
+   delta_dec (float): Size of the square in Declination degrees.
+
+   Returns:
+   tuple: (RA_min, RA_max, Dec_min, Dec_max)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: load_wobbles(wobbles_config)
+
+   
+   Load estimated wobble information from configuration.
+
+
+   :Parameters:
+
+       **wobbles_config** : dict
+           Dictionary with 'fov_offsets' and 'position_angles'
+           as keys and a list of floats as values.
+
+
+
+   :Returns:
+
+       **offsets** : array-like
+           Array of FoV offset angles in degrees.
+
+       **angles** : array-like
+           Array or position angles in degrees.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: plot_skymap_with_wobbles(target_source, observer, instrument_field_of_view, wobble_angles, wobble_offsets, config, savefig=True, output_path=None)
+

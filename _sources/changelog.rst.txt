@@ -1,0 +1,51 @@
+.. _changelog:
+
+=========
+Changelog
+=========
+
+.. _Semantic Versioning: https://semver.org/
+
+This is the changelog of *iact-estimator*.
+
+Here you can find the what has changed since every release and a list
+of the latest development changes.
+
+Each version follows `Semantic Versioning`_ (``<major>.<minor>.<patch>``).
+
+Backward incompatible (breaking) changes will only be introduced in minor
+versions unitl v1.0.0 and in major
+versions after that, in both cases with advance notice in the **Deprecations** section of releases.
+
+.. towncrier-draft-entries:: |release| [UNRELEASED DRAFT]
+
+.. towncrier release notes start
+
+v0.1.dev185+g3c970ebe1 (2025-11-03)
+===================================
+
+Added
+-----
+
+- Added support for custom external performance data. (`#4 <https://github.com/cta-observatory/iact-estimator/issues/4>`__)
+- Added EBL data from Dominguez et al. 2011. (`#5 <https://github.com/cta-observatory/iact-estimator/issues/5>`__)
+- Added preliminary checks for observability and new plot to show an observability grid in time based on the specified constraints. (`#22 <https://github.com/cta-observatory/iact-estimator/issues/22>`__)
+- Add support for plotting and saving images from the `SkyView <https://skyview.gsfc.nasa.gov/current/cgi/titlepage.pl>`_ service. (`#25 <https://github.com/cta-observatory/iact-estimator/issues/25>`__)
+- Added support for MAGIC+LST-1 performance estimation. (`#28 <https://github.com/cta-observatory/iact-estimator/issues/28>`__)
+- Added support for plotting a skymap with the planned wobble pointings. (`#29 <https://github.com/cta-observatory/iact-estimator/issues/29>`__)
+- Added configuration of the observer in order to estimate from more observatory sites other than just Roque de Los Muchachos. (`#35 <https://github.com/cta-observatory/iact-estimator/issues/35>`__)
+- Allow to define a source also via its celestial coordinates. (`#36 <https://github.com/cta-observatory/iact-estimator/issues/36>`__)
+
+
+Changed
+-------
+
+- Grouped all CLI into a single executable with subcommands.
+  Also added an new configuration option to disable the plotting figures windows. (`#18 <https://github.com/cta-observatory/iact-estimator/issues/18>`__)
+
+
+Fixed
+-----
+
+- Fixed a bug for whic if the target source is initialized using non-ICRS coordinates ``plot_skymap_with_wobbles`` would fail. (`#45 <https://github.com/cta-observatory/iact-estimator/issues/45>`__)
+- Fixed a bug for which plot_transit will fail if target source coords are not in ICRS frame. (`#46 <https://github.com/cta-observatory/iact-estimator/issues/46>`__)

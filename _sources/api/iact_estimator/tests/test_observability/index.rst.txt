@@ -1,0 +1,239 @@
+iact_estimator.tests.test_observability
+=======================================
+
+.. py:module:: iact_estimator.tests.test_observability
+
+.. autoapi-nested-parse::
+
+   Tests for the observability module.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.tests.test_observability.test_get_days_in_this_year
+   iact_estimator.tests.test_observability.test_define_constraints
+   iact_estimator.tests.test_observability.test_define_constraints_custom_values
+   iact_estimator.tests.test_observability.test_define_constraints_no_moon_max
+   iact_estimator.tests.test_observability.test_check_observability
+   iact_estimator.tests.test_observability.test_get_total_available_time
+   iact_estimator.tests.test_observability.test_get_total_available_time_different_resolutions
+   iact_estimator.tests.test_observability.test_get_total_available_time_unreachable_target
+   iact_estimator.tests.test_observability.test_check_observability_always_observable_target
+
+
+Module Contents
+---------------
+
+.. py:function:: test_get_days_in_this_year()
+
+   
+   Test getting the number of days in the current year.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_define_constraints(sample_config)
+
+   
+   Test defining observational constraints from config.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_define_constraints_custom_values(sample_config)
+
+   
+   Test defining constraints with custom values.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_define_constraints_no_moon_max()
+
+   
+   Test defining constraints with no maximum moon separation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_check_observability(sample_target_source, sample_observer, sample_config)
+
+   
+   Test checking observability of a target.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_get_total_available_time(sample_target_source, sample_observer, sample_config, sample_time_range)
+
+   
+   Test computing total available observation time.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_get_total_available_time_different_resolutions(sample_target_source, sample_observer, sample_config)
+
+   
+   Test that different time resolutions give consistent results.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_get_total_available_time_unreachable_target(sample_observer, sample_config)
+
+   
+   Test total available time for an unreachable target.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_check_observability_always_observable_target(sample_observer, sample_config)
+
+   
+   Test observability for a target that should be observable during the year.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

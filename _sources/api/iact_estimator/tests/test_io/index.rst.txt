@@ -1,0 +1,239 @@
+iact_estimator.tests.test_io
+============================
+
+.. py:module:: iact_estimator.tests.test_io
+
+.. autoapi-nested-parse::
+
+   Tests for the io module.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.tests.test_io.test_read_yaml
+   iact_estimator.tests.test_io.test_read_yaml_nonexistent_file
+   iact_estimator.tests.test_io.test_read_yaml_with_pathlib
+   iact_estimator.tests.test_io.test_load_ebl
+   iact_estimator.tests.test_io.test_load_ebl_nonexistent_file
+   iact_estimator.tests.test_io.test_load_performance_ecsv
+   iact_estimator.tests.test_io.test_save_fits_hdu
+   iact_estimator.tests.test_io.test_save_fits_hdu_overwrite
+   iact_estimator.tests.test_io.test_save_fits_hdu_invalid_directory
+
+
+Module Contents
+---------------
+
+.. py:function:: test_read_yaml(tmp_path)
+
+   
+   Test reading YAML configuration file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_read_yaml_nonexistent_file()
+
+   
+   Test reading a non-existent YAML file raises ValueError.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_read_yaml_with_pathlib(tmp_path)
+
+   
+   Test reading YAML file with pathlib.Path object.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_load_ebl(sample_ebl_file)
+
+   
+   Test loading EBL data file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_load_ebl_nonexistent_file()
+
+   
+   Test loading non-existent EBL file raises ValueError.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_load_performance_ecsv(tmp_path)
+
+   
+   Test loading performance data from ECSV file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_save_fits_hdu(tmp_path)
+
+   
+   Test saving FITS HDU to file.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_save_fits_hdu_overwrite(tmp_path)
+
+   
+   Test saving FITS HDU with overwrite option.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: test_save_fits_hdu_invalid_directory()
+
+   
+   Test saving FITS HDU to non-existent directory raises ValueError.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

@@ -1,0 +1,377 @@
+iact_estimator.core
+===================
+
+.. py:module:: iact_estimator.core
+
+.. autoapi-nested-parse::
+
+   Core module of the package.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.core.setup_logging
+   iact_estimator.core.get_horizon_stereo_profile
+   iact_estimator.core.check_input_configuration
+   iact_estimator.core.initialize_model
+   iact_estimator.core.observed_flux
+   iact_estimator.core.get_sed
+   iact_estimator.core.prepare_data
+   iact_estimator.core.source_detection
+   iact_estimator.core.calculate
+
+
+Module Contents
+---------------
+
+.. py:function:: setup_logging(log_level, source_name)
+
+   
+   Create a logger.
+
+   The logger will have a console and file handler,
+   saving to a file with the name of the required source.
+
+   :Parameters:
+
+       **log_level** : `str`
+           Logging level to use for the console handler.
+           The file handler always uses ``DEBUG``
+           (all calls are saved).
+
+       **source_name** : `str`
+           Name of the source provided by the user via the command
+           line interface. A log file with the source name as
+           prefix will be created at the output path.
+
+
+
+   :Returns:
+
+       **logger** : `~logging.Logger`
+           Logger instance.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_horizon_stereo_profile(M1_data, M2_data)
+
+   
+   Merge the horizon profiles into a stereo one.
+
+
+   :Parameters:
+
+       **M1_data** : :class:`~astropy.table.QTable`
+           Horizone profile seen from M1.
+           The table must have columns
+           'azimuth' and 'zenith', both in units
+           of degrees.
+
+       **M2_data** : :class:`~astropy.table.QTable`
+           Horizone profile seen from M2.
+           The table must have columns
+           'azimuth' and 'zenith', both in units
+           of degrees.
+
+
+
+   :Returns:
+
+       **az** : array-like
+           Azimuth values within the maximum
+           range of the separate measurements.
+
+       **zd** : array-like
+           Zenith angle values for the merged horizon
+           profile.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: check_input_configuration(config, performance_data)
+
+   
+   Import and initialize a spectral model.
+
+
+   :Parameters:
+
+       **config** : `dict`
+           Configuration data in form of a Python dictionary.
+
+
+
+   :Returns:
+
+       **valid** : `bool`
+           Initialized instance of a spectral model.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: initialize_model(config)
+
+   
+   Import and initialize a spectral model.
+
+
+   :Parameters:
+
+       **config** : `dict`
+           Configuration data in form of a Python dictionary.
+
+
+
+   :Returns:
+
+       **initialized_model** : `~gammapy.modeling.models.SpectralModel`
+           Initialized instance of a spectral model.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: observed_flux(energy, redshift, flux_int, ebl_file_path)
+
+   
+   Get the attenuated flux of the source.
+
+
+   :Parameters:
+
+       **energy** : `~astropy.units.Quantity`
+           Array of energy values.
+
+       **redshift** : `float`
+           Redshift of the source.
+
+       **flux_int** : `~astropy.units.Quantity`
+           TBD.
+
+
+
+   :Returns:
+
+       **valid** : `bool`
+           Initialized instance of a spectral model.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: get_sed(energy, flux)
+
+   
+   Compute the Spectral Energy Distribution (SED) from the source flux.
+
+
+   :Parameters:
+
+       **energy** : `~astropy.units.Quantity`
+           Energy values.
+
+       **flux** : `~astropy.units.Quantity`
+           Source energy flux values.
+
+
+
+   :Returns:
+
+       **sed** : `~astropy.units.Quantity`
+           Spectral Energy Distribution.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: prepare_data(config, performance_data=None)
+
+   
+   Extract the performance data.
+
+
+   :Parameters:
+
+       **config** : `dict`
+           Configuration data in form of a Python dictionary.
+
+
+
+   :Returns:
+
+       **energy_bins** : `~astropy.units.Quantity`
+           Values of the energy bin edges.
+
+       **gamma_rate** : `~astropy.units.Quantity`
+           Rate of gamma-ray events from performance data.
+
+       **background_rate** : `~astropy.units.Quantity`
+           Rate of background events from performance data.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: source_detection(sigmas, observation_time)
+
+   
+   Determine if the source can be detected.
+
+
+   :Parameters:
+
+       **sigmas** : `list` of `float`
+           Values of the significance for each energy bin.
+
+       **observation_time** : `float`
+           Observation time.
+
+
+
+   :Returns:
+
+       **combined_significance** : `float`
+           Combined significance.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: calculate(energy_bins, gamma_rate, background_rate, config, assumed_spectrum)
+
+   
+   Produce the necessary information to build an SED.
+
+
+   :Parameters:
+
+       **energy_bins** : `~astropy.units.Quantity`
+           Values of the energy bin edges.
+
+       **gamma_rate** : `~astropy.units.Quantity`
+           Rate of gamma-ray events from performance data.
+
+       **background_rate** : `~astropy.units.Quantity`
+           Rate of background events from performance data.
+
+       **config** : `dict`
+           Configuration data as a Python disctionary.
+
+       **assumed_spectrum** : `~gammapy.modeling.models.SpectralModel`
+           Assumed spectral model of the source.
+
+
+
+   :Returns:
+
+       **en** : `list` of `float`
+           Energy values.
+
+       **sed** : `list` of `float`
+           Values for the Spectral energy distribution.
+
+       **dsed** : `list` of `float`
+           Error on Spectral energy distribution.
+
+       **sigmas** : `list` of `float`
+           Significance for each energy bin.
+
+       **detected** : `list` of `bool`
+           True if source is detected in energy bin,
+           False otherwise.
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+

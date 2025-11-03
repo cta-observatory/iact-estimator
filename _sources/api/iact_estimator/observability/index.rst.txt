@@ -1,0 +1,26 @@
+iact_estimator.observability
+============================
+
+.. py:module:: iact_estimator.observability
+
+.. autoapi-nested-parse::
+
+   Module that stores all functions related to observability estimation from the given location.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.observability.define_constraints
+
+
+Module Contents
+---------------
+
+.. py:function:: define_constraints(config)
+

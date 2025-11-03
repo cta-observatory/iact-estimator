@@ -1,0 +1,82 @@
+iact_estimator.plots.observability
+==================================
+
+.. py:module:: iact_estimator.plots.observability
+
+.. autoapi-nested-parse::
+
+   Plotting functions related to source observability from a location.
+
+   ..
+       !! processed by numpydoc !!
+
+
+Functions
+---------
+
+.. autoapisummary::
+
+   iact_estimator.plots.observability.plot_transit
+   iact_estimator.plots.observability.plot_altitude_airmass
+
+
+Module Contents
+---------------
+
+.. py:function:: plot_transit(config, source_name, target_source, observer, time, merge_profiles=True, style_kwargs=None, savefig=True, output_path=None)
+
+   
+   Plot the 24h skyplot of a target source as seen by an observer.
+
+
+   :Parameters:
+
+       **config** : dict
+           Loaded configuration
+
+       **output_path** : str or `~pathlib.Path`
+           ..
+
+       **source_name** : str
+           ..
+
+       **target_source** : `astroplan.Target`
+           ..
+
+       **observer** : `astroplan.Observer`
+           ..
+
+       **time** : `~astropy.time.Time`
+           Datetime of the planned observation
+
+       **merge_profiles** : bool, default=True
+           If True plot the combined horizon profile
+           from both telescopes.
+
+       **crab** : bool, default=True
+           If True plot the Crab together with
+           the target source for comparison.
+
+       **style_kwargs** : dict, default=None
+           Dictionary of keywords passed into
+           `~matplotlib.pyplot.scatter`
+           to set plotting styles.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   ..
+       !! processed by numpydoc !!
+
+.. py:function:: plot_altitude_airmass(config, source_name, target_source, observer, time, ax=None, savefig=True, output_path=None, **kwargs)
+
