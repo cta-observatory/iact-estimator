@@ -399,6 +399,7 @@ def source_detection(sigmas, observation_time):
     time = observation_time.to("h")
 
     combined_probability = 1
+    combined_significance = 0  # Initialize to 0 for no data case
     combined_significance_text = ""
     if len(sigmas) > 0:
         combined_probability = np.prod(sigma_to_probability(sigmas))
