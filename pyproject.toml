@@ -46,7 +46,7 @@ docs = [
     "towncrier<24.7",
 ]
 dev = ["pre-commit", "ruff", "iact_estimator[docs]", "iact_estimator[tests]"]
-tests = ["pytest", "pytest-console-scripts"]
+tests = ["pytest", "pytest-console-scripts", "pytest-cov"]
 
 [project.scripts]
 iact-estimator = "iact_estimator.scripts.main:main"
@@ -69,3 +69,50 @@ checks = [
     "ES01",
     "RT02",
 ]
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+testpaths = ["src/iact_estimator/tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+]
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["src/iact_estimator"]
+omit = [
+    "*/tests/*",
+    "*/__pycache__/*",
+    "*/version.py",
+    "*/_version.py",
+    "*/_dev_version/*",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "@abstractmethod",
+]
+precision = 2
+show_missing = true
+
+[tool.coverage.html]
+directory = "htmlcov"

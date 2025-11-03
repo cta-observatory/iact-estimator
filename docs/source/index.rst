@@ -6,11 +6,15 @@
 Documentation of ``iact-estimator``
 ===================================
 
-|ci| |docs|
+|ci| |codecov| |docs|
 
 .. |ci| image:: https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml/badge.svg?branch=main
     :alt: CI
     :target: https://github.com/cta-observatory/iact-estimator/actions/workflows/ci.yml
+
+.. |codecov| image:: https://codecov.io/gh/cta-observatory/iact-estimator/branch/main/graph/badge.svg
+    :alt: Coverage
+    :target: https://codecov.io/gh/cta-observatory/iact-estimator
 
 .. |docs| image:: https://readthedocs.org/projects/iact-estimator/badge/?version=latest
     :target: https://iact-estimator.readthedocs.io/latest/?badge=latest
