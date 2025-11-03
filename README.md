@@ -41,7 +41,10 @@ The support to load your own data files will be provided.
 
 ## Documentation
 
-Documentation can be compiled locally after a
+Unitl the first stable release, the documentation for the latest development version
+can be found [here](https://iact-estimator.readthedocs.io/latest/?badge=latest).
+
+Documentation can be also be compiled locally after a
 successful installation,
 
 1. `make -C docs html`
