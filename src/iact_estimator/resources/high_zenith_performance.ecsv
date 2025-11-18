@@ -1,0 +1,42 @@
+# %ECSV 1.0
+# ---
+# datatype:
+# - {name: min_energy, unit: GeV, datatype: float64}
+# - {name: max_energy, unit: GeV, datatype: float64}
+# - {name: gamma_rate, unit: 1 / min, datatype: float64}
+# - {name: background_rate, unit: 1 / min, datatype: float64}
+# meta:
+#   __serialized_columns__:
+#     background_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: background_rate}
+#     gamma_rate:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: !astropy.units.Unit {unit: 1 / min}
+#       value: !astropy.table.SerializedColumn {name: gamma_rate}
+#     max_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: &id001 !astropy.units.Unit {unit: GeV}
+#       value: !astropy.table.SerializedColumn {name: max_energy}
+#     min_energy:
+#       __class__: astropy.units.quantity.Quantity
+#       unit: *id001
+#       value: !astropy.table.SerializedColumn {name: min_energy}
+#   comment: Crab results from 2.5 hrs of 55-62 zd data from 2016-2018. Dataset from Juliane van Scherpenberg.
+#   name: High zenith angle performance (MAGIC-only)
+# schema: astropy-2.0
+min_energy max_energy gamma_rate background_rate
+39.8 63.1 0.0 0.0
+63.0 100.0 0.0 0.0
+100.0 158.0 0.0 0.0
+158.0 251.0 0.0 0.0
+251.0 398.0 0.503462 0.750815
+398.0 631.0 1.60232 0.597588
+631.0 1000.0 2.26558 0.564753
+1000.0 1585.0 0.928094 0.089775
+1585.0 2512.0 0.698335 0.0568584
+2512.0 3981.0 0.305662 0.00954936
+3981.0 6310.0 0.173859 0.00344762
+6310.0 10000.0 0.083892 0.00147755
+10000.0 15848.9 0.069938 0.00229841

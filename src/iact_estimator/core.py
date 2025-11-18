@@ -12,8 +12,10 @@ from scipy.integrate import quad
 from . import (
     LOW_ZENITH_PERFORMANCE,
     MID_ZENITH_PERFORMANCE,
+    HIGH_ZENITH_PERFORMANCE,
     MAGIC_LST1_LOW_ZENITH_PERFORMANCE,
     MAGIC_LST1_MID_ZENITH_PERFORMANCE,
+    MAGIC_LST1_HIGH_ZENITH_PERFORMANCE,
 )
 from .io import load_ebl
 from .spectral import crab_nebula_spectrum
@@ -200,10 +202,10 @@ def check_input_configuration(config, performance_data):
             " region (n_off_regions) should be used."
         )
         is_valid = False
-    if config["sum_trigger"] and (config["zenith_range"] == "mid"):
+    if config["sum_trigger"] and (config["zenith_range"] in ["mid", "high"]):
         is_valid = False
         raise NotImplementedError(
-            "MAGIC SUM trigger at mid zenith range has not been yet implemented."
+            f"MAGIC SUM trigger at {config['zenith_range']} zenith range has not been yet implemented."
         )
     if (
         performance_metadata
@@ -343,8 +345,8 @@ def prepare_data(config, performance_data=None):
     """
 
     if not performance_data:
-        if config["sum_trigger"] and config["zenith_range"] == "mid":
-            message = "MAGIC Mid zenith performance with the SUM trigger is not currently available."
+        if config["sum_trigger"] and config["zenith_range"] in ["mid", "high"]:
+            message = f"MAGIC {config['zenith_range'].capitalize()} zenith performance with the SUM trigger is not currently available."
             logger.critical(message)
             raise NotImplementedError(message)
 
@@ -352,8 +354,10 @@ def prepare_data(config, performance_data=None):
         available_datasets = {
             "low": LOW_ZENITH_PERFORMANCE,
             "mid": MID_ZENITH_PERFORMANCE,
+            "high": HIGH_ZENITH_PERFORMANCE,
             "magic_lst1_low": MAGIC_LST1_LOW_ZENITH_PERFORMANCE,
             "magic_lst1_mid": MAGIC_LST1_MID_ZENITH_PERFORMANCE,
+            "magic_lst1_high": MAGIC_LST1_HIGH_ZENITH_PERFORMANCE,
         }
 
     if config["sum_trigger"] and config["magic_lst1"]:

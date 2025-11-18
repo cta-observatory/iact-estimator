@@ -62,7 +62,7 @@ sum_trigger: False
 # metadata of your file
 instrument: "MAGIC"
 fov: 3.5 deg
-zenith_range: "low"
+zenith_range: "low"  # Options: "low" (0-30 deg), "mid" (30-45 deg), "high" (~60 deg)
 magic_lst1: True
 # you can check visibility of your source e.g. here: http://www.magic.iac.es/scheduler/
 
