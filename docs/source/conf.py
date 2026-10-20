@@ -7,9 +7,9 @@
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
 from pathlib import Path
-import tomllib
 
 import gammapy
+import tomllib
 
 from iact_estimator.version import __version__
 
@@ -37,6 +37,7 @@ extensions = [
     "sphinx.ext.intersphinx",
     "sphinx.ext.viewcode",
     "sphinxcontrib.towncrier",
+    "sphinx_design",
 ]
 
 templates_path = ["_templates"]

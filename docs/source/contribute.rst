@@ -11,6 +11,16 @@ Requirements
 2. install the package in developer mode (see :ref:`installation-dev`)
 3. install the git hooks (``pre-commit install``)
 
+.. note::
+
+    If you prefer to use ``pixi``, the project defines convenient commands via ``pixi tasks``:
+
+    - ``pixi run docs``
+    - ``pixi run tests``
+    - ``pixi run lint``
+    - ``pixi run format``
+    - ``pixi run precommit-install``
+
 Development guidelines
 ======================
 
