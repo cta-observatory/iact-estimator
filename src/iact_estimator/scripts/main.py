@@ -268,17 +268,17 @@ def main():
                 output_path=output_path,
             )
 
-            plot_altitude_airmass(
-                config,
-                source_name,
-                target_source,
-                observer,
-                start_datetime,
-                brightness_shading=True,
-                airmass_yaxis=True,
-                savefig=True,
-                output_path=output_path,
-            )
+        plot_altitude_airmass(
+            config,
+            source_name,
+            target_source,
+            observer,
+            start_datetime,
+            brightness_shading=True,
+            airmass_yaxis=True,
+            savefig=True,
+            output_path=output_path,
+        )
 
         for survey in config["skyview"]["surveys"]:
             survey_name = survey["name"]
