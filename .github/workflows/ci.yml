@@ -17,7 +17,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.11"
+          python-version: "3.12"
       - uses: pre-commit/action@v3.0.1
         with:
           extra_args: --files $(git diff origin/main --name-only)
@@ -27,7 +27,7 @@ jobs:
         fail-fast: false
         matrix:
             os: [macos-latest, ubuntu-latest]
-            python-version: ["3.11"]
+            python-version: ["3.12"]
             install-method: ["mamba", "pip"]
     runs-on: ${{ matrix.os }}
 
@@ -99,7 +99,7 @@ jobs:
     - name: Setup Python
       uses: actions/setup-python@v5.0.0
       with:
-        python-version: '3.11'
+        python-version: '3.12'
     - name: Install dependencies
       run: |
         pip install -e .[docs]
