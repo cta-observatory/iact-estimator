@@ -10,3 +10,12 @@ docs/source/api/iact_estimator
 # ignore version cache file (generated automatically when setup.py is run)
 iact_estimator/_version_cache.py
 src/iact_estimator/_version.py
+# pixi environments
+.pixi/*
+!.pixi/config.toml
+.ruff_cache
+.pytest_cache
+.mypy_cache
+stars.bigksy.0.1.3.mag11.parquet
+ongc.0.1.2.parquet
+de440s.bsp
