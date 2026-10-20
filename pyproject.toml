@@ -22,13 +22,14 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Astronomy",
 ]
 dependencies = [
-    "astroplan @ git+https://github.com/astropy/astroplan.git", # see https://github.com/astropy/astroplan/pull/622
     "astropy",
     "matplotlib",
     "astroquery",
     "gammapy",
     "seaborn",
-    "starplot",
+    "starplot==0.22.0",
+    "astroplan @ git+https://github.com/astropy/astroplan.git",
+    "regions==0.11.0",
 ]
 dynamic = ["version"]
 
@@ -116,3 +117,34 @@ show_missing = true
 
 [tool.coverage.html]
 directory = "htmlcov"
+
+[tool.pixi.workspace]
+channels = ["conda-forge"]
+platforms = ["osx-arm64"]
+
+[tool.pixi.pypi-dependencies]
+iact_estimator = { path = ".", editable = true }
+
+[tool.pixi.environments]
+default = { solve-group = "default" }
+dev = { features = ["dev"], solve-group = "default" }
+
+[tool.pixi.environments.docs]
+features = ["docs"]
+solve-group = "default"
+
+[tool.pixi.environments.docs.tasks]
+docs = "make -C docs html"
+
+[tool.pixi.environments.tests]
+features = ["tests"]
+solve-group = "default"
+
+[tool.pixi.environments.tests.tasks]
+tests = "pytest"
+
+[tool.pixi.tasks]
+
+[tool.pixi.dependencies]
+regions = "0.11.*"
+starplot = "0.22.0.*"
