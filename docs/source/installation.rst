@@ -3,50 +3,33 @@
 Installation
 ============
 
-Requirements
-------------
+.. note::
 
-- Python >= 3.11
-- ``pip``, the Python package manager
+   The project is under development and not yet released as a package on PyPI or any other package managers.
+   The instructions refer to the development version from Github only.
 
-It is always recommended to work from a virtual environment.
+.. code::
 
-Users
------
+   git clone https://github.com/cta-observatory/iact-estimator.git
+   cd iact-estimator
 
-.. important::
 
-    This type of installation is not yet available.
-    A Python package on `PyPI <https://pypi.org/>`_ and on the
-    `conda-forge <https://conda-forge.org/>`_ channel are planned.
+.. tab-set::
 
-.. _installation-dev:
+    .. tab-item:: conda/mamba
 
-Developers
-----------
+        .. code-block:: bash
 
-1. clone the project's repository and enter it
-2. create a virtual environment
-3. install the package in development mode
+            conda env create -f environment.yml
+            conda activate iact-estimator
+            pip install .
 
-    .. code-block:: shell
+    .. tab-item:: pixi
 
-        pip install -e '.[dev]'
+        .. code-block:: bash
 
-.. tip::
+            pixi install
+            pixi workspace register --name iact-estimator --path $PWD
 
-    Any Python virtual environment can be used.
-
-    If you like to use ``conda`` or ``mamba``,
-    (the `miniforge <https://github.com/conda-forge/miniforge?tab=readme-ov-file#install>`_
-    distribution is recommended)
-    you can create a virtual environment
-    with the following environment file, which you can find also in the root
-    of the cloned repository.
-
-    .. code-block:: shell
-
-        mamba env create -f environment.yml
-
-    .. literalinclude:: /../../environment.yml
-       :language: yaml
+            # then from wherever you want
+            pixi shell -w iact-estimator
