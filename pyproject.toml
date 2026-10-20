@@ -45,6 +45,7 @@ docs = [
     "sphinx-copybutton",
     "sphinxcontrib-towncrier",
     "towncrier<24.7",
+    "sphinx-design"
 ]
 dev = ["pre-commit", "ruff", "iact_estimator[docs]", "iact_estimator[tests]"]
 tests = ["pytest", "pytest-console-scripts", "pytest-cov"]
@@ -135,12 +136,21 @@ solve-group = "default"
 [tool.pixi.environments.dev.dependencies]
 pre-commit = ">=4.7.0,<5"
 
+[tool.pixi.environments.dev.tasks]
+precommit-install = "pre-commit install"
+lint = "ruff check --fix"
+format = "ruff format"
+
 [tool.pixi.environments.docs]
 features = ["docs"]
 solve-group = "default"
 
 [tool.pixi.environments.docs.tasks]
 docs = "make -C docs html"
+
+[tool.pixi.environments.docs.dependencies]
+starplot = "0.22.0.*"
+sphinx-design = ">=0.7.0,<0.8"
 
 [tool.pixi.environments.tests]
 features = ["tests"]
