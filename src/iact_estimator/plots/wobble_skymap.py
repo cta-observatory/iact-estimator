@@ -117,7 +117,7 @@ def plot_skymap_with_wobbles(
             projection = StereoSouth()
 
     p = MapPlot(
-        projection=projection,  # specify a non-perspective projection
+        projection=projection,
         ra_min=ra_min.deg,
         ra_max=ra_max.deg,
         dec_min=dec_min.deg,
@@ -160,21 +160,20 @@ def plot_skymap_with_wobbles(
         if d.common_names:
             return d.common_names[0]
         if d.ngc:
-            return d.ngc
+            return f"NGC {d.ngc}"
         if d.ic:
-            return f"IC{d.ic}"
-        return d.name
+            return f"IC {d.ic}"
+        if d.name:
+            return d.name
+        return "Unknown object"
 
     p.stars(
         where=[(_.magnitude > DANGER_MAGNITUDE) & (_.magnitude < MAGNITUDE_LIMIT)],
-        legend_label=None,
     )
 
     p.stars(
         where=[_.magnitude < DANGER_MAGNITUDE],
         where_labels=[_.magnitude < DANGER_MAGNITUDE],
-        bayer_labels=False,
-        legend_label=None,
         label_fn=star_label_with_magnitude,
         color_fn=color_by_mag,
     )
@@ -182,15 +181,12 @@ def plot_skymap_with_wobbles(
     p.galaxies(
         where=[_.magnitude < MAGNITUDE_LIMIT],
         label_fn=dso_label,
-        true_size=False,
     )
 
     p.nebula(
         where=[
             _.magnitude < MAGNITUDE_LIMIT,
         ],
-        true_size=False,
-        labels=dso_label,
         label_fn=dso_label,
     )
 
@@ -198,7 +194,6 @@ def plot_skymap_with_wobbles(
         where=[
             _.magnitude < MAGNITUDE_LIMIT,
         ],
-        labels=dso_label,
         label_fn=dso_label,
     )
     # p.milky_way()
@@ -207,7 +202,7 @@ def plot_skymap_with_wobbles(
     p.marker(
         ra=target_coordinates.ra.deg,
         dec=target_coordinates.dec.deg,
-        label=None,
+        # label=None,
         legend_label="target source",
         style=plotting_options["target_source"],
     )
@@ -227,10 +222,10 @@ def plot_skymap_with_wobbles(
         p.circle(
             center=(wobble_ra, wobble_dec),
             style=PolygonStyle(
-                fill_color=None,
-                edge_width=1,
-                edge_color=color,
-                alpha=1,
+                stroke=color,
+                stroke_width=2,
+                dash_array="dashed",
+                fill=None,
             ),
             radius_degrees=instrument_field_of_view.to_value("deg") / 2.0,
         )
@@ -238,30 +233,23 @@ def plot_skymap_with_wobbles(
         p.marker(
             ra=wobble_ra,
             dec=wobble_dec,
-            label=None,
+            # label=None,
             legend_label=f"W{offset}+{angle}",
             style={
                 "marker": {
                     "size": 15,
-                    "symbol": "point",
-                    "fill": "full",
-                    "color": color,
-                    "alpha": 0.4,
-                },
-                "label": {
-                    "font_size": 15,
-                    "font_weight": "bold",
-                    "font_color": color,
-                    "font_alpha": 0.8,
+                    "symbol": "circle",
+                    "fill": color,
+                    "opacity": 0.4,
                 },
             },
         )
 
-    p.legend()
+    p.legend(style=config["wobble_skymap_plot_options"]["legend"])
 
     if savefig:
         output_path = output_path if output_path is not None else Path.cwd()
         p.export(
             f"{target_source.name}_skymap_with_wobbles.{config['wobble_skymap_plot_options']['export']['format']}",
-            **config["wobble_skymap_plot_options"]["export"],
+            scale=config["wobble_skymap_plot_options"]["export"]["scale"],
         )
