@@ -126,9 +126,7 @@ wobble_skymap_plot_options:
   wobbles_colormap: "tab10"
   map_color_scheme: "BLUE_LIGHT"
   legend:
-    location: "outside right upper"
-    num_columns: 1
-    background_alpha: 1
+    location: "outside_top_right"
   magnitude:
     danger: 5
     max: 30
@@ -136,11 +134,9 @@ wobble_skymap_plot_options:
     marker:
       size: 15
       symbol: "star"
-      fill: "full"
-      color: "#ed7eed"
-      edge_color: "#e0c1e0"
-      alpha: 0.4
+      fill: "steelblue"
+      opacity: 0.4
   export:
-    format: "png" # "png", "jpeg", or "svg"
-    padding: 0.3
-    transparent: True
+    # https://starplot.dev/reference-mapplot/#starplot.MapPlot.export
+    format: "png"
+    scale: 1.0
