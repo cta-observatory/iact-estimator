@@ -127,7 +127,13 @@ iact_estimator = { path = ".", editable = true }
 
 [tool.pixi.environments]
 default = { solve-group = "default" }
-dev = { features = ["dev"], solve-group = "default" }
+
+[tool.pixi.environments.dev]
+features = ["dev"]
+solve-group = "default"
+
+[tool.pixi.environments.dev.dependencies]
+pre-commit = ">=4.7.0,<5"
 
 [tool.pixi.environments.docs]
 features = ["docs"]
