@@ -1,0 +1,2 @@
+Pixi can be used to install the package and run various maintenance tasks.
+Minor changes to dependency versions.
