@@ -73,6 +73,10 @@ jobs:
         run: |
           tee -a ~/.bash_profile <<<'export PATH="$pythonLocation/bin:$PATH"'
 
+      - name: Install Cairo
+        if: matrix.install-method == 'pip' && runner.os == 'macOS'
+        run: brew install cairo
+
       - name: Install dependencies
         if: contains(github.event.pull_request.labels.*.name, 'documentation-only') == false
         env:
