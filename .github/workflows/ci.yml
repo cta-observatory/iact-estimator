@@ -57,7 +57,7 @@ jobs:
         with:
           pixi-version: v0.82.1
           cache: true
-      
+
       - name: Verify Python version
         run: |
           if [[ "${{ matrix.install-method }}" == "pixi" ]]; then
