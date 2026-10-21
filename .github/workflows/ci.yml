@@ -97,4 +97,4 @@ jobs:
 
       - name: Build documentation
         run: |
-          pixi run -e docs-py312 docs
+          pixi run -e docs docs
